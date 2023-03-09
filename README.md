@@ -1,2 +1,2 @@
-# sati
-Sistema de Almoxarifado para TI
+# SIGEC
+Sistema de Gestão para Empréstimo de Chaves
