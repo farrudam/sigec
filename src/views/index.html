@@ -1,0 +1,39 @@
+{% extends "base_new.html" %}
+
+{% block corpo %}
+
+    <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://source.unsplash.com/1BFUutVb-pA);">
+      <div class="container">        
+        <h1><strong>SIGEC - Sistema de Gestão para Empréstimo de Chaves</strong></h1>
+        <p>Praticidade no registro e monitoramento da entrega de chaves.</p>
+        <a class="btn btn-flat" href="{{ base_url() }}/blocos">Comece aqui</a>
+      </div>
+    </div>    
+ 
+<div class="row justify-content-center" style="margin-top: 15px;">
+        <div class="col-lg-3 text-center">
+          <h1><i class="fa-solid fa-key"></i></h1>      
+          <h5>Entrega de Chaves</h5>
+          <p>Gerencie os empréstimos</p>      
+        </div>
+
+        <div class="col-lg-3 text-center">
+          <h1><i class="fa-solid fa-hotel"></i></h1>
+          <h5>Blocos e Salas</h5>
+          <p>Gerencie ambientes institucionais</p>      
+        </div>
+
+        <div class="col-lg-3 text-center">
+          <h1><i class="fa-solid fa-users"></i></h1>
+          <h5>Usuários</h5>
+          <p>Gerencie permissões por solicitante</p>      
+        </div>
+
+        <div class="col-lg-3 text-center">
+          <h1><i class="fa-regular fa-file-lines"></i></h1>      
+          <h5>Relatórios</h5>
+          <p>Informações gerenciais</p>      
+        </div>
+    </div>
+
+{% endblock %}

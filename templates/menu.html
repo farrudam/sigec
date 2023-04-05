@@ -1,0 +1,71 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <!--inicio barra do governo -->
+  <div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
+    <ul id="menu-barra-temp" style="list-style:none;">
+      <li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED">
+        <a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">Portal do Governo Brasileiro</a>
+      </li>
+    </ul>
+  </div>
+  <!--fim barra do governo -->
+  <!--<script src="https://barra.brasil.gov.br/barra.js" type="text/javascript" defer async></script>-->
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand nav-img" href="{{ base }}/"><img class="img-responsive" style="max-width: 150px" src="https://biblioteca.ufc.br/wp-content/themes/sitios/images/brasao.png"></a>
+      <a class="navbar-brand" href="{{ base }}/">Keys</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        {% if current_user.logado %}
+        <li><a title="Início" href="{{ base }}/home"><i class="fas fa-home"></i> Home</a></li>
+
+        {% endif %}
+        {% if current_user.logado == false %}
+        <li ><a style="color: #337ab7" title="Entrar no sistema" href="{{ base }}/autenticacao/login"><i  class="fas fa-sign-in-alt"></i> Login</a></li>
+        {% endif %}
+        {% if current_user.logado %}
+        <li><a title="Meus Agendamentos" href="{{ base }}/usuario/meus-agendamentos"><i class="fas fa-calendar-check"></i> Meus Agendamentos</a></li>
+        {% for pai in menus_pais %}
+        <li class="nav-item dropdown">
+          <a title="{{pai.menu_hint}}" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="{{pai.menu_icon}}"></i> {{pai.menu_nome}}
+          </a>
+          <ul class="dropdown-menu">
+
+            {% for filho in pai.filhos(current_user.usuarioRol) %}
+            <li> <a title="{{filho.menu_hint}}" href="{{ base }}/{{filho.menu_url}}"><i class="{{filho.menu_icon}}"></i> {{filho.menu_nome}} </a> </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="engrenagens">
+              <div class="box"></div>
+            </div>
+            <!-- <img src="{{ base }}/assets/img/conf.png">-->
+          </a>
+          <ul class="dropdown-menu">
+            <li> <a href="{{ base }}/home/usuario/dados"><i class="far fa-id-card"></i> Meus dados</a> </li>
+            <!-- <li><a href="{{ base_url() }}/dados/edit/pwd">Alterar minha senha</a></li> -->
+            <li class="divider"></li>
+            <li><a href="{{ base }}/autenticacao/logout" class="js-security-logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+
+  </div><!-- /.container-fluid -->
+</nav>
