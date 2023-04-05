@@ -7,6 +7,7 @@ class Sala{
 
     private $id;
     private $nome;
+    private $id_bloco;
     
     public function __construct($id = null) {
         $this->id = $id;

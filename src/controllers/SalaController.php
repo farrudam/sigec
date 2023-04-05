@@ -51,8 +51,8 @@ class SalaController extends Controller{
     }
 
     public function show(Request $request, Response $response, $args){
-        $objeto = new Bloco();
-        $blocos = $objeto->getAll();
+        $objeto = new Sala();
+        $salas = $objeto->getAll();
         
         return $this->container['renderizar']->render($response, 'listar_salas.html', [
             'salas' => $salas

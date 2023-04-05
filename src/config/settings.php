@@ -9,6 +9,7 @@ return [
             'template_path' => array(
                 __DIR__ . '/../../templates/',
                 __DIR__ . '/../views/bloco',
+                __DIR__ . '/../views/sala',
                 __DIR__ . '/../views/'
             ),
         ],

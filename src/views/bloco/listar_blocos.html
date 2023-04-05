@@ -33,7 +33,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
-                            <th scope="col" class="text-center">Status</th>
+                            <th scope="col" class="text-center">Ativo</th>
                             <th scope="col" class="text-center">Ação</th>
                         </tr>
                     </thead>
@@ -43,10 +43,10 @@
                             <th>{{bloco.id}}</th>
                             <td>{{bloco.nome}}</td>
                             <td class="text-center">
-                                {% if categoria.status == 1 %}
-                                Ativo
+                                {% if bloco.id %}
+                                    <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
                                 {% else %}
-                                Inativo
+                                    <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
                                 {% endif %}
                             </td>
                             <td class="text-center">
