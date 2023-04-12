@@ -89,9 +89,9 @@ class Sala{
     }
 
     public function update($params) {
-        $sql = "UPDATE sala set nome = ? WHERE id = ?";
+        $sql = "UPDATE sala set nome = ?, id_bloco = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->id));
+        $stmt->execute(array($params['nome'], $params['id_bloco'], $this->id));
         return $stmt->errorInfo();
     }
 
