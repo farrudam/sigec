@@ -2,20 +2,43 @@
 
 namespace sigec\models;
 use sigec\database\DBSigec;
+use sigec\models\Bloco;
 
 class Sala{
 
     private $id;
     private $nome;
     private $id_bloco;
+    private $bloco;
     
     public function __construct($id = null) {
         $this->id = $id;
     }
     
     private function bundle ($row){
+        //$sala = new Sala($row['id']);
+        //$sala->setNome($row['nome']);                
+        //$sala->setBloco(new Bloco())->getById($row['id_bloco']);
+        //$sala->setBloco(Bloco::getById($row['id_bloco']));
+        //$sala->setIdBloco($row['id_bloco']);  
+        
+        // $sala = new Sala($row['id']);
+        // $bloco = new Bloco();
+        // $sala->setNome($row['nome']);                
+        // $sala->setBloco($bloco->getById($row['id_bloco']));
+        // $sala->setIdBloco($row['id_bloco']);
+
+
         $sala = new Sala($row['id']);
-        $sala->setNome($row['nome']);
+        $bloco = new Bloco($row['id_bloco']);
+
+        $sala->setNome($row['nome']);                
+        $sala->setBloco($bloco->getById('id_bloco'));
+        $sala->setIdBloco($row['id_bloco']);      
+    
+    return $sala;
+
+
         
         return $sala;
     }
@@ -28,6 +51,14 @@ class Sala{
         return $this->nome;
     }
 
+    public function getIdBloco() {
+        return $this->id_bloco;
+    }
+
+    public function getBloco() {
+        return $this->bloco;
+    }    
+
     public function setId($id): void {
         $this->id = $id;
     }
@@ -35,6 +66,14 @@ class Sala{
     public function setNome($nome): void {
         $this->nome = $nome;
     }
+
+    public function setIdBloco($bloco) {
+        $this->bloco = $bloco;
+    } 
+
+    public function setBloco($bloco) {
+        $this->bloco = $bloco;
+    }     
     
     public function getAll() {
         $sql = "select * from sala order by id ";
@@ -60,9 +99,12 @@ class Sala{
     }
 
     static function create($params) {
-        $sql = "INSERT INTO sala (nome) VALUES (?)";
+        $sql = "INSERT INTO sala (id_bloco, nome) VALUES (?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome']));        
+        $stmt->execute(array(
+            $params['id_bloco'],  
+            $params['nome']
+        ));        
         return $stmt->errorInfo(); 
         
     }
@@ -75,9 +117,9 @@ class Sala{
     }
 
     public function update($params) {
-        $sql = "UPDATE sala set nome = ? WHERE id = ?";
+        $sql = "UPDATE sala set nome = ?, id_bloco = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->id));
+        $stmt->execute(array($params['nome'], $params['id_bloco'], $this->id));
         return $stmt->errorInfo();
     }
 

@@ -31,9 +31,9 @@ $app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir');
 
 $app->get('/salas', 'sigec\controllers\SalaController:show')->setName('sala.show');
 $app->get ('/sala/nova', 'sigec\controllers\SalaController:novo')->setName('sala.nova');
-$app->post ('sala/nova', 'sigec\controllers\SalaController:create')->setName('sala.create');
-//$app->get('/bloco/{id}/sala/{id}/editar', 'sigec\controllers\SalaController:editar');
-//$app->post('/bloco/{id}/sala/update/{id}', 'sigec\controllers\SalaController:update');
+$app->post ('/sala/nova', 'sigec\controllers\SalaController:create')->setName('sala.create');
+$app->get('/bloco/{id_bloco}/sala/{id}/editar', 'sigec\controllers\SalaController:editar');
+$app->post('/bloco/{id_bloco}/sala/update/{id}', 'sigec\controllers\SalaController:update');
 //$app->get('/bloco/{id}/sala/{id}/excluir', 'sigec\controllers\SalaController:excluir');
 
 
