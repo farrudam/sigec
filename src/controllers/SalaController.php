@@ -38,7 +38,9 @@ class SalaController extends Controller{
     public function editar(Request $request, Response $response, $args){
         $objeto = new Sala();
         $sala = $objeto->getById($args['id']);
-        $bloco = Bloco::getById($args['id_bloco']);
+        //$bloco = Bloco::getById($args['id_bloco']);
+        $bloco = (new Bloco())->getById($args['id_bloco']);
+        
         return $this->container['renderizar']->render($response, 'sala_editar.html', [
             'sala' => $sala,
             'bloco' => $bloco
