@@ -47,10 +47,10 @@ class Bloco{
         return $result;
     }
 
-    public function getById($id) {
+    public function getById() {
         $sql = "select * from bloco where id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
+        $stmt->execute(array($this->id));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;

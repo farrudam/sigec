@@ -32,8 +32,8 @@ class BlocoController extends Controller{
     }
     
     public function editar(Request $request, Response $response, $args){
-        $objeto = new Bloco();
-        $bloco = $objeto->getById($args['id']);        
+        $objeto = new Bloco($args['id']);
+        $bloco = $objeto->getById();        
         return $this->container['renderizar']->render($response, 'bloco_editar.html', [
             'bloco' => $bloco
         ]);        

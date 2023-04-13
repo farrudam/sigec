@@ -12,7 +12,7 @@
         </li>
         <li class="breadcrumb-item active" aria-current="page">
             <a href="#">
-                Blocos
+                Salas
             </a>
         </li>
     </ol>
@@ -24,11 +24,13 @@
     </div>
         
     <div class="card-body">
-        <div class="panel-heading"><h4>Editar Bloco</h4></div>
-        <form name="pesquisa" action="../../bloco/update/{{bloco.id}}" method="POST">
+        <div class="panel-heading"><h4>Editar Sala</h4></div>
+        <form name="pesquisa" action="../../sala/update/{{sala.id}}" method="POST">
             <div class="mb-3">
                 <label for="bloco" class="form-label">Nome</label>
-                <input type="text" name="nome" value="{{bloco.nome}}" class="form-control" id="bloco" required>
+                <input type="text" name="nome" value="{{sala.nome}}" class="form-control" id="bloco" required>
+                <input type="hidden" name="id_bloco" value="{{sala.idbloco}}">
+
             </div>            
             
             <button  type="submit" class="btn btn-primary">
