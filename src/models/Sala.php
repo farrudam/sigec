@@ -21,25 +21,15 @@ class Sala{
         //$sala->setBloco(new Bloco())->getById($row['id_bloco']);
         //$sala->setBloco(Bloco::getById($row['id_bloco']));
         //$sala->setIdBloco($row['id_bloco']);  
-        
-        // $sala = new Sala($row['id']);
-        // $bloco = new Bloco();
-        // $sala->setNome($row['nome']);                
-        // $sala->setBloco($bloco->getById($row['id_bloco']));
-        // $sala->setIdBloco($row['id_bloco']);
-
-
+             
         $sala = new Sala($row['id']);
         $bloco = new Bloco($row['id_bloco']);
 
         $sala->setNome($row['nome']);                
         $sala->setBloco($bloco->getById('id_bloco'));
-        $sala->setIdBloco($row['id_bloco']);      
+        $sala->setIdBloco($row['id_bloco']);    
     
-    return $sala;
-
-
-        
+    
         return $sala;
     }
             
@@ -67,8 +57,8 @@ class Sala{
         $this->nome = $nome;
     }
 
-    public function setIdBloco($bloco) {
-        $this->bloco = $bloco;
+    public function setIdBloco($id_bloco) {
+        $this->id_bloco = $id_bloco;
     } 
 
     public function setBloco($bloco) {
