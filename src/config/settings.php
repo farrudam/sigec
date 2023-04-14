@@ -10,6 +10,7 @@ return [
                 __DIR__ . '/../../templates/',
                 __DIR__ . '/../views/bloco',
                 __DIR__ . '/../views/sala',
+                __DIR__ . '/../views/chave',
                 __DIR__ . '/../views/'
             ),
         ],

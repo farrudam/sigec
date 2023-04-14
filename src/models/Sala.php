@@ -15,55 +15,17 @@ class Sala{
         $this->id = $id;
     }
     
-    private function bundle ($row){
-        //$sala = new Sala($row['id']);
-        //$sala->setNome($row['nome']);                
-        //$sala->setBloco(new Bloco())->getById($row['id_bloco']);
-        //$sala->setBloco(Bloco::getById($row['id_bloco']));
-        //$sala->setIdBloco($row['id_bloco']);  
+    private function bundle ($row){        
              
         $sala = new Sala($row['id']);
         $bloco = new Bloco($row['id_bloco']);
 
         $sala->setNome($row['nome']);                
         $sala->setBloco($bloco->getById('id_bloco'));
-        $sala->setIdBloco($row['id_bloco']);    
-    
+        $sala->setIdBloco($row['id_bloco']);  
     
         return $sala;
     }
-            
-    public function getId() {
-        return $this->id;
-    }
-
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function getIdBloco() {
-        return $this->id_bloco;
-    }
-
-    public function getBloco() {
-        return $this->bloco;
-    }    
-
-    public function setId($id): void {
-        $this->id = $id;
-    }
-
-    public function setNome($nome): void {
-        $this->nome = $nome;
-    }
-
-    public function setIdBloco($id_bloco) {
-        $this->id_bloco = $id_bloco;
-    } 
-
-    public function setBloco($bloco) {
-        $this->bloco = $bloco;
-    }     
     
     public function getAll() {
         $sql = "select * from sala order by id ";
@@ -113,6 +75,36 @@ class Sala{
         return $stmt->errorInfo();
     }
 
+    public function getId() {
+        return $this->id;
+    }
 
+    public function getNome() {
+        return $this->nome;
+    }
+
+    public function getIdBloco() {
+        return $this->id_bloco;
+    }
+
+    public function getBloco() {
+        return $this->bloco;
+    }    
+
+    public function setId($id): void {
+        $this->id = $id;
+    }
+
+    public function setNome($nome): void {
+        $this->nome = $nome;
+    }
+
+    public function setIdBloco($id_bloco) {
+        $this->id_bloco = $id_bloco;
+    } 
+
+    public function setBloco($bloco) {
+        $this->bloco = $bloco;
+    }
     
 }
