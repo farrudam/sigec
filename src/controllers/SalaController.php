@@ -69,7 +69,7 @@ class SalaController extends Controller{
     
     public function excluir(Request $request, Response $response, $args){
 
-        Bloco::delete($args['id']);
+        Sala::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../salas');
 //        $msg = Produto::delete($produto_codigo);
 //        if ($msg[2]) {
