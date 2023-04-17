@@ -27,19 +27,19 @@ class Chave{
         
         $chave = new Chave($row['id']);        
         
-        $sala = new Sala($row['id']);
+        $sala = new Sala($row['id_sala']);
         $bloco = new Bloco($row['id_bloco']);
 
-        $sala->setEtiqueta($row['etiqueta']);                
-        $sala->setDescricao($row['descricao']);
-        $sala->setSituacao($row['situacao']);
-        $sala->setHabilitada($row['Habilitada']);
+        $chave->setEtiqueta($row['etiqueta']);                
+        $chave->setDescricao($row['descricao']);
+        $chave->setSituacao($row['situacao']);
+        $chave->setHabilitada($row['Habilitada']);
         
-        $sala->setBloco($bloco->getById('id_bloco'));
-        $sala->setIdBloco($row['id_bloco']); 
+        $chave->setBloco($bloco->getById('id_bloco'));
+        $chave->setIdBloco($row['id_bloco']); 
         
-        $sala->setBloco($bloco->getById('id_bloco'));
-        $sala->setIdBloco($row['id_bloco']);
+        $chave->setSala($sala->getById('id_sala'));
+        $chave->setIdSala($row['id_sala']);
     
         return $chave;
     }
