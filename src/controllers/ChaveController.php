@@ -14,7 +14,9 @@ use sigec\models\Chave;
 class ChaveController extends Controller{ 
     
     public function create(Request $request, Response $response, $args){
-         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);         
+         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+         var_dump($postParam);
+         die();         
         
         if(isset($postParam)){
             Chave::create($postParam);
