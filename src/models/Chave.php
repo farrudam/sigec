@@ -2,7 +2,7 @@
 
 namespace sigec\models;
 use sigec\database\DBSigec;
-use sigec\models\Bloco;
+//use sigec\models\Bloco;
 use sigec\models\Sala;
 
 class Chave{
@@ -13,8 +13,7 @@ class Chave{
     private $situacao;
     private $habilitada;    
 
-    private $id_bloco;
-    private $bloco;
+    private $id_bloco;    
 
     private $id_sala;
     private $sala;
@@ -28,17 +27,14 @@ class Chave{
         $chave = new Chave($row['id']);        
         
         $sala = new Sala($row['id_sala']);
-        $bloco = new Bloco($row['id_bloco']);
+        
 
         $chave->setEtiqueta($row['etiqueta']);                
         $chave->setDescricao($row['descricao']);
         $chave->setSituacao($row['situacao']);
-        $chave->setHabilitada($row['Habilitada']);
-        
-        $chave->setBloco($bloco->getById('id_bloco'));
-        $chave->setIdBloco($row['id_bloco']); 
-        
-        $chave->setSala($sala->getById('id_sala'));
+        $chave->setHabilitada($row['habilitada']);
+                        
+        $chave->setSala($sala->getById());
         $chave->setIdSala($row['id_sala']);
     
         return $chave;
@@ -68,15 +64,12 @@ class Chave{
     }
 
     static function create($params) {
-        $sql = "INSERT INTO chave (id_bloco, id_sala, etiqueta, descricao, situacao, habilitada) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO chave (id_sala, etiqueta, descricao) VALUES (?, ?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array(
-            $params['id_bloco'],  
+        $stmt->execute(array(              
             $params['id_sala'],  
             $params['etiqueta'],
-            $params['descricao'], 
-            $params['situacao'],
-            $params['habilitada']
+            $params['descricao']
         ));        
         return $stmt->errorInfo(); 
         
@@ -89,11 +82,24 @@ class Chave{
         return $stmt->errorInfo();
     }
 
-    public function update($params) {
-        //$sql = "UPDATE chave set nome = ?, id_bloco = ? WHERE id = ?";
-        $sql = "UPDATE chave set descricao = ? WHERE id = ?";
+    public function update($params) {        
+        $sql = "UPDATE chave set descricao = ?, etiqueta = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['descricao'], $this->id));
+        $stmt->execute(array($params['descricao'], $params['etiqueta'], $this->id));
+        return $stmt->errorInfo();
+    }
+
+    static function ativar($id) {
+        $sql = "UPDATE chave set habilitada = 1 WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
+
+    static function desativar($id) {
+        $sql = "UPDATE chave set habilitada = 0 WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
 
@@ -117,13 +123,13 @@ class Chave{
         return $this->habilitada;
     }
 
-    public function getIdBloco() {
-        return $this->id_bloco;
-    }
+    // public function getIdBloco() {
+    //     return $this->id_bloco;
+    // }
 
-    public function getBloco() {
-        return $this->bloco;
-    }    
+    // public function getBloco() {
+    //     return $this->bloco;
+    // }    
 
     public function getIdSala() {
         return $this->id_sala;
@@ -137,35 +143,35 @@ class Chave{
         $this->id = $id;
     }    
 
-    public function setEtiqueta() {
+    public function setEtiqueta($etiqueta) {
         $this->etiqueta = $etiqueta;
     }
 
-    public function setDescricao() {
+    public function setDescricao($descricao) {
         $this->descricao = $descricao;
     }
 
-    public function setSituacao() {
+    public function setSituacao($situacao) {
         $this->situacao = $situacao;
     }
 
-    public function setHabilitada() {
+    public function setHabilitada($habilitada) {
         $this->habilitada = $habilitada;
     }
 
-    public function setIdBloco($id_bloco) {
-        $this->id_bloco = $id_bloco;
-    } 
+    // public function setIdBloco($id_bloco) {
+    //     $this->id_bloco = $id_bloco;
+    // } 
 
-    public function setBloco($bloco) {
-        $this->bloco = $bloco;
-    } 
+    // public function setBloco($bloco) {
+    //     $this->bloco = $bloco;
+    // } 
     
-    public function setIdSala() {
+    public function setIdSala($id_sala) {
         $this->id_sala = $id_sala;
     }
 
-    public function setSala() {
+    public function setSala($sala) {
         $this->sala = $sala;
     }
     

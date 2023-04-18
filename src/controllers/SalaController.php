@@ -12,12 +12,6 @@ use sigec\models\Bloco;
 
 class SalaController extends Controller{
 
-//    public function index(Request $request, Response $response, $args){
-//        return $this->container['renderizar']->render($response, 'index.html', [
-//            'titulo' => 'teste de título',
-//            'subtitulo' => 'teste de subtitulo'
-//        ]);        
-//    } 
     
     public function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);         
@@ -36,13 +30,11 @@ class SalaController extends Controller{
     }
     
     public function editar(Request $request, Response $response, $args){
-        $objeto = new Sala();
-        $sala = $objeto->getById($args['id']);        
-        $bloco = (new Bloco())->getById($args['id_bloco']);
-        
+        $objeto = new Sala($args['id']);
+        $sala = $objeto->getById();        
+                
         return $this->container['renderizar']->render($response, 'sala_editar.html', [
-            'sala' => $sala,
-            'bloco' => $bloco
+            'sala' => $sala            
         ]);        
     }
     
@@ -52,15 +44,12 @@ class SalaController extends Controller{
         $objeto->update($params);        
 
         return $response->withStatus(301)->withHeader('Location', '../../salas'); 
-//      $rota = $this->container['renderizar']->get('router')->pathFor('bloco.show');       
-//      return $response->withStatus(301)->withHeader('Location', $rota); 
+
     }
 
     public function show(Request $request, Response $response, $args){
         $objeto = new Sala();
         $salas = $objeto->getAll();
-        //$bloco = (new Bloco())->getById($args['id_bloco']);
-        
         
         return $this->container['renderizar']->render($response, 'listar_salas.html', [
             'salas' => $salas
@@ -71,12 +60,7 @@ class SalaController extends Controller{
 
         Sala::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../salas');
-//        $msg = Produto::delete($produto_codigo);
-//        if ($msg[2]) {
-//            $this->flash->addMessage('danger', $msg[2]);
-//        } else {
-//            $this->flash->addMessage('success', 'Registro excluido com sucesso');
-//        }
+
     }
     
     

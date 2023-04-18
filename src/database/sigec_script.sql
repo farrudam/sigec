@@ -21,7 +21,7 @@ CREATE TABLE `sala` (
 
 CREATE TABLE `chave`(
     `id` int NOT NULL AUTO_INCREMENT,
-    `id_bloco` int not null,
+    /*`id_bloco` int not null,*/
     `id_sala` int not null,
     `etiqueta` varchar(20) unique not null,
     `descricao` varchar(40) not null,    
@@ -80,7 +80,7 @@ CREATE TABLE `itens_emprestimo` (
 
 ALTER TABLE sala ADD ( CONSTRAINT FOREIGN KEY (id_bloco) REFERENCES bloco(id));
 
-ALTER TABLE chave ADD ( CONSTRAINT FOREIGN KEY (id_bloco) REFERENCES bloco(id));
+/*ALTER TABLE chave ADD ( CONSTRAINT FOREIGN KEY (id_bloco) REFERENCES bloco(id));*/
 ALTER TABLE chave ADD ( CONSTRAINT FOREIGN KEY (id_sala) REFERENCES sala(id));
 
 ALTER TABLE restricao_chave ADD ( CONSTRAINT FOREIGN KEY (id_chave) REFERENCES chave(id));

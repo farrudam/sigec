@@ -28,9 +28,7 @@
         <form name="pesquisa" action="../../sala/update/{{sala.id}}" method="POST">
             <div class="mb-3">
                 <label for="bloco" class="form-label">Nome</label>
-                <input type="text" name="nome" value="{{sala.nome}}" class="form-control" id="bloco" required>
-                <input type="hidden" name="id_bloco" value="{{sala.idbloco}}">
-
+                <input type="text" name="nome" value="{{sala.nome}}" class="form-control" id="nome" required>
             </div>            
             
             <button  type="submit" class="btn btn-primary">

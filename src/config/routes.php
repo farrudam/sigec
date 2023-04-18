@@ -35,6 +35,8 @@ $app->post ('/chave/nova', 'sigec\controllers\ChaveController:create');
 $app->get('/chave/{id}/editar', 'sigec\controllers\ChaveController:editar');
 $app->post('/chave/update/{id}', 'sigec\controllers\ChaveController:update');
 $app->get('/chave/{id}/excluir', 'sigec\controllers\ChaveController:excluir');
+$app->get('/chave/{id}/ativar', 'sigec\controllers\ChaveController:ativar');
+$app->get('/chave/{id}/desativar', 'sigec\controllers\ChaveController:desativar');
 
 
 

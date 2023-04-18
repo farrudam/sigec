@@ -39,10 +39,10 @@ class Sala{
         return $result;
     }
 
-    public function getById($id) {
+    public function getById() {
         $sql = "select * from sala where id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
+        $stmt->execute(array($this->id));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;
@@ -69,9 +69,9 @@ class Sala{
     }
 
     public function update($params) {
-        $sql = "UPDATE sala set nome = ?, id_bloco = ? WHERE id = ?";
+        $sql = "UPDATE sala set nome = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $params['id_bloco'], $this->id));
+        $stmt->execute(array($params['nome'], $this->id));
         return $stmt->errorInfo();
     }
 

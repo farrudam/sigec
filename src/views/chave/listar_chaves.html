@@ -32,6 +32,7 @@
                     <thead class="thead-light">
                         <tr>                            
                             <th scope="col">Número</th>
+                            <th scope="col">Descrição</th>
                             <th scope="col">Etiqueta</th>
                             <th scope="col">Sala</th>
                             <th scope="col">Bloco</th>
@@ -42,21 +43,31 @@
                     <tbody>
                         {% for chave in chaves %}
                         <tr>
-                            <th>{{chave.id}}</th>
-                            <th>{{chave.etiqueta}}</th>
+                            <td>{{chave.id}}</td>
+                            <td>{{chave.descricao}}</td>
+                            <td>{{chave.etiqueta}}</td>
                             <td>{{chave.sala.nome}}</td>
-                            <td>{{chave.bloco.nome}}</td>
+                            <td>{{chave.sala.bloco.nome}}</td>
                             <td class="text-center">
-                                {% if chave.situacao %}
+                                {% if chave.habilitada %}
                                     <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
                                 {% else %}
                                     <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
                                 {% endif %}
                             </td>
                             <td class="text-center">
-                                <a href="http://localhost/sigec/chave/{{chave.id}}/editar" tooltip="tooltip" title="Editar">
+                                <a href="http://localhost/sigec/chave/{{chave.id}}/editar" tooltip="tooltip" title="Editar Chave">
                                     <i class="fa-solid fa-pen m-1"></i>
                                 </a>
+                                {% if chave.habilitada %}
+                                    <a href="http://localhost/sigec/chave/{{chave.id}}/desativar" tooltip="tooltip" title="Desativar Chave">
+                                        <i class="fas fa-ban"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="http://localhost/sigec/chave/{{chave.id}}/ativar" tooltip="tooltip" title="Ativar Chave">
+                                        <i class="fas fa-check-circle"></i>
+                                    </a>
+                                {% endif %}
                                 <!-- 
                                 <a href="http://localhost/sigec/sala/{{sala.id}}/excluir" tooltip="tooltip" title="Excluir">
                                     <i class="fa-solid fa-trash m-1"></i>

@@ -7,7 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 use sigec\models\Sala;
-use sigec\models\Bloco;
+//use sigec\models\Bloco;
 use sigec\models\Chave;
 
 
@@ -15,8 +15,8 @@ class ChaveController extends Controller{
     
     public function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-         var_dump($postParam);
-         die();         
+        //  var_dump($postParam);
+        //  die();         
         
         if(isset($postParam)){
             Chave::create($postParam);
@@ -27,7 +27,7 @@ class ChaveController extends Controller{
     public function novo(Request $request, Response $response, $args){
          
          return $this->container['renderizar']->render($response, 'chave_nova.html', [ 
-            'blocos' => (new Bloco())->getAll(),
+            //'blocos' => (new Bloco())->getAll(),
             'salas' => (new Sala())->getAll()
          ]);                
     }
@@ -36,12 +36,12 @@ class ChaveController extends Controller{
         $objeto = new Chave();
         $chave = $objeto->getById($args['id']);     
         $sala = (new Sala())->getById($args['id_sala']);   
-        $bloco = (new Bloco())->getById($args['id_bloco']);
+        //$bloco = (new Bloco())->getById($args['id_bloco']);
         
         return $this->container['renderizar']->render($response, 'chave_editar.html', [
             'chave' => $chave,
             'sala' => $sala,
-            'bloco' => $bloco
+            //'bloco' => $bloco
         ]);        
     }
     
@@ -58,10 +58,8 @@ class ChaveController extends Controller{
     public function show(Request $request, Response $response, $args){
         $objeto = new Chave();
         $chaves = $objeto->getAll();
-        //$bloco = (new Bloco())->getById($args['id_bloco']);
         
-        
-        return $this->container['renderizar']->render($response, 'listar_chaves.html', [
+        return $this->container['renderizar']->render($response, 'listar_chaves.html', [            
             'chaves' => $chaves
         ]);
     }
@@ -69,6 +67,20 @@ class ChaveController extends Controller{
     public function excluir(Request $request, Response $response, $args){
 
         Chave::delete($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../chaves');
+
+    }
+
+    public function ativar(Request $request, Response $response, $args){
+
+        Chave::ativar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../chaves');
+
+    }
+
+    public function desativar(Request $request, Response $response, $args){
+
+        Chave::desativar($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 
     }
