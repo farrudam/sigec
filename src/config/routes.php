@@ -7,10 +7,13 @@ $app->group('/admin', function() use ($app){
 });
 
 $app->get('/', 'sigec\controllers\HomeController:index');
-$app->get('/user/update/{id}', 'sigec\controllers\UserController:update');
+
 $app->get('/user/show', 'sigec\controllers\UserController:show');
-$app->get('/user/exibir', 'sigec\controllers\UserController:exibir');
-$app->get('/user/{id}', 'sigec\controllers\UserController:find');
+$app->get('/user/novo', 'sigec\controllers\UserController:novo');
+$app->post('/user/novo', 'sigec\controllers\UserController:create');
+$app->get('/user/{id}/editar', 'sigec\controllers\UserController:editar');
+$app->get('/user/update/{id}', 'sigec\controllers\UserController:update');
+$app->get('/user/detalhar', 'sigec\controllers\UserController:detalhar');
 
 
 $app->get('/blocos', 'sigec\controllers\BlocoController:show');
