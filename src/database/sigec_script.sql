@@ -41,7 +41,7 @@ CREATE TABLE `usuario` (
   `habilitado` tinyint(1) DEFAULT '1',
   `doc_autorizacao` varchar(255) DEFAULT NULL,
   `tipo` enum('bolsista','servidor') NOT NULL,
-  `permissao` enum('administrador','solicitante') NOT NULL DEFAULT 'solicitante',
+  `permissao` enum('administrador', 'portaria', 'solicitante') NOT NULL DEFAULT 'solicitante',
   PRIMARY KEY (`matricula`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
