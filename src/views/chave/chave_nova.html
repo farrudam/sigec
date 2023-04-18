@@ -29,18 +29,36 @@
         <div class="panel-heading"><h4>Cadastrar Chave</h4></div>
         <form action="" method="post">
             <div class="mb-3">
-                <label for="titulo" class="form-label">Nome</label>
-                <input type="text" name="nome" id="nome" class="form-control">
-            </div>  
+                <label for="descricao" class="form-label">Descrição</label>
+                <input type="text" name="descricao" id="descricao" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="etiqueta" class="form-label">Etiqueta</label>
+                <input type="text" name="etiqueta" id="etiqueta" class="form-control">
+            </div>
             
+            <div class="mb-3">
+                <label for="id_sala" class="form-label">Sala</label>                
+                <select class="form-select" name="id_sala" id="id_sala">
+                    <option value="">🔍 Escolha uma opção...<i class="fas fa-search"></i></option>
+                    {% for sala in salas %}                        
+                        <option value="{{sala.id}}">{{sala.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!--
             <div class="mb-3">
                 <label for="id_bloco" class="form-label">Bloco</label>                
                 <select class="form-select" name="id_bloco" id="id_bloco">
-                    {% for bloco in blocos %}
+                    <option value="">🔍 Escolha uma opção...</option>
+                    {% for bloco in blocos %}                        
                         <option value="{{bloco.id}}">{{bloco.nome}}</option>
                     {% endfor %}
                 </select>
             </div>
+            -->
             
             <button  type="submit" class="btn btn-primary">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar

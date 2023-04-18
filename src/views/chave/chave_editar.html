@@ -24,14 +24,16 @@
     </div>
         
     <div class="card-body">
-        <div class="panel-heading"><h4>Editar Sala</h4></div>
-        <form name="pesquisa" action="../../sala/update/{{sala.id}}" method="POST">
+        <div class="panel-heading"><h4>Editar Chave</h4></div>
+        <form name="pesquisa" action="../../chave/update/{{chave.id}}" method="POST">
             <div class="mb-3">
-                <label for="bloco" class="form-label">Nome</label>
-                <input type="text" name="nome" value="{{sala.nome}}" class="form-control" id="bloco" required>
-                <input type="hidden" name="id_bloco" value="{{sala.idbloco}}">
-
-            </div>            
+                <label for="descricao" class="form-label">Descricao</label>
+                <input type="text" name="descricao" value="{{chave.descricao}}" class="form-control" id="descricao" required>                
+            </div>    
+            <div class="mb-3">
+                <label for="etiqueta" class="form-label">Etiqueta</label>
+                <input type="text" name="etiqueta" value="{{chave.etiqueta}}" class="form-control" id="etiqueta" required>                
+            </div>         
             
             <button  type="submit" class="btn btn-primary">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar
