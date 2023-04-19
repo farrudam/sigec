@@ -11,6 +11,7 @@ return [
                 __DIR__ . '/../views/bloco',
                 __DIR__ . '/../views/sala',
                 __DIR__ . '/../views/chave',
+                __DIR__ . '/../views/usuario',
                 __DIR__ . '/../views/'
             ),
         ],
