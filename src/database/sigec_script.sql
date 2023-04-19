@@ -25,7 +25,7 @@ CREATE TABLE `chave`(
     `id_sala` int not null,
     `etiqueta` varchar(20) unique not null,
     `descricao` varchar(40) not null,    
-    `situacao` ENUM('disponivel', 'emprestada') DEFAULT 'disponivel',
+    `situacao` ENUM('disponivel', 'emprestada', 'manutenção') DEFAULT 'disponivel',
     `habilitada` boolean DEFAULT true,
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

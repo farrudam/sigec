@@ -8,12 +8,12 @@ $app->group('/admin', function() use ($app){
 
 $app->get('/', 'sigec\controllers\HomeController:index');
 
-$app->get('/user/show', 'sigec\controllers\UserController:show');
-$app->get('/user/novo', 'sigec\controllers\UserController:novo');
-$app->post('/user/novo', 'sigec\controllers\UserController:create');
-$app->get('/user/{id}/editar', 'sigec\controllers\UserController:editar');
-$app->get('/user/update/{id}', 'sigec\controllers\UserController:update');
-$app->get('/user/detalhar', 'sigec\controllers\UserController:detalhar');
+$app->get('/usuario/show', 'sigec\controllers\UsuarioController:show');
+$app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo');
+$app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
+$app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar');
+$app->get('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');
+$app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar');
 
 
 $app->get('/blocos', 'sigec\controllers\BlocoController:show');
