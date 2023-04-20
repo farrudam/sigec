@@ -10,8 +10,8 @@
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                <a href="http://localhost/sigec/blocos">
-                    Blocos
+                <a href="http://localhost/sigec/usuarios">
+                    Usuários
                 </a>
             </li>
         </ol>
@@ -21,9 +21,9 @@
     <div class="card border-0 shadow-sm">
         
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-            <h3 class="card-title"><b>Blocos</b></h3>
+            <h3 class="card-title"><b>Usuários</b></h3>
         
-            <a href="http://localhost/sigec/bloco/novo" class="btn btn-primary">Novo Bloco</a>
+            <a href="http://localhost/sigec/usuario/novo" class="btn btn-primary">Novo Usuario</a>
         </div>
         
         <div class="card-body">
@@ -31,29 +31,33 @@
                 <table class="table table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col" class="text-center">Ativo</th>
+                            
+                            <th scope="col">Nome</th>                            
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Permissao</th>
+                            <th scope="col" class="text-center">Habilitado</th>
                             <th scope="col" class="text-center">Ação</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for bloco in blocos %}
+                        {% for usuario in usuarios %}
                         <tr>
-                            <th>{{bloco.id}}</th>
-                            <td>{{bloco.nome}}</td>
+                            
+                            <td>{{usuario.nome}}</td>
+                            <td>{{usuario.tipo}}</td>
+                            <td>{{usuario.permissao}}</td>
                             <td class="text-center">
-                                {% if bloco.id %}
-                                    <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
+                                {% if usuario.habilitado %}
+                                    <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Habilitado"></i>
                                 {% else %}
                                     <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
                                 {% endif %}
                             </td>
                             <td class="text-center">
-                                <a href="http://localhost/sigec/bloco/{{bloco.id}}/editar" tooltip="tooltip" title="Editar">
+                                <a href="http://localhost/sigec/usuario/{{usuario.matricula}}/editar" tooltip="tooltip" title="Editar">
                                     <i class="fa-solid fa-pen m-1"></i>
                                 </a>
-                                <a href="http://localhost/sigec/bloco/{{bloco.id}}/excluir" tooltip="tooltip" title="Excluir">
+                                <a href="http://localhost/sigec/usuario/{{usuario.matricula}}/excluir" tooltip="tooltip" title="Excluir">
                                     <i id class="fa-solid fa-trash m-1"></i>
                                 </a>
                             </td>

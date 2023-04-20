@@ -13,7 +13,7 @@
         </li>
         <li class="breadcrumb-item active" aria-current="page">
             <a href="#">
-                Blocos
+                Usuários
             </a>
         </li>
     </ol>
@@ -26,12 +26,32 @@
     </div>
     
     <div class="card-body">
-        <div class="panel-heading"><h4>Cadastrar Bloco</h4></div>
+        <div class="panel-heading"><h4>Cadastrar Usuário</h4></div>
         <form action="#" method="post">
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Matrícula</label>
+                <input type="text" name="matricula" id="matricula" class="form-control">
+            </div>
+            
             <div class="mb-3">
                 <label for="titulo" class="form-label">Nome</label>
                 <input type="text" name="nome" id="nome" class="form-control">
-            </div>            
+            </div> 
+            
+            <div class="mb-3">
+                <label for="titulo" class="form-label">E-mail</label>
+                <input type="text" name="email" id="email" class="form-control">
+            </div> 
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Tipo</label>
+                <input type="text" name="tipo" id="tipo" class="form-control">
+            </div> 
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Permissão</label>
+                <input type="text" name="permissao" id="permissao" class="form-control">
+            </div>
             
             <button  type="submit" class="btn btn-primary">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar

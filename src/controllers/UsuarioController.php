@@ -55,6 +55,18 @@ class UsuarioController extends Controller{
         Usuario::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');        
     }
-    
+
+    public function ativar(Request $request, Response $response, $args){
+
+        Usuario::ativar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../usuarios');
+
+    }
+
+    public function desativar(Request $request, Response $response, $args){
+
+        Usuario::desativar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../usuarios');
+    }
 }
 
