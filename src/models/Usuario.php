@@ -58,10 +58,19 @@ class Usuario{
         return self::bundle($row);
     }
 
-    static function create($params) {
-        $sql = "INSERT INTO usuario (nome) VALUES (?)";
+    static function create($params) {        
+        $sql = "INSERT INTO usuario (matricula, nome, telefone, email, tipo, permissao) 
+                            VALUES (?, ?, ?, ?, ?, ?)";
+
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome']));        
+        $stmt->execute(array(
+            $params['matricula'],
+            $params['nome'],
+            $params['telefone'],
+            $params['email'],
+            $params['tipo'],
+            $params['permissao']
+        ));        
         return $stmt->errorInfo(); 
         
     }
@@ -74,9 +83,20 @@ class Usuario{
     }
 
     public function update($params) {
-        $sql = "UPDATE usuario set nome = ? WHERE matricula = ?";
+        $sql = "UPDATE usuario set (nome = ?, email = ?, telefone = ?, senha = ?, tipo = ?, permissao = ?, 
+                       doc_autorizacao = ?, url_foto = ?)
+                 WHERE matricula = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->matricula));
+        $stmt->execute(array(
+            $params['nome'],
+            $params['email'],
+            $params['telefone'],
+            $params['senha'],
+            $params['tipo'],
+            $params['permissao'],            
+            $params['doc_autorizacao'],
+            $params['url_foto'],
+             $this->matricula));
         return $stmt->errorInfo();
     }
 

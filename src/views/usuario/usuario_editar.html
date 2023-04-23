@@ -3,33 +3,83 @@
 
 {% block conteudo %}
 
+
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="#">
-                Home
-            </a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            <a href="#">
-                Blocos
-            </a>
-        </li>
-    </ol>
-</nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="http://localhost/sigec">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="http://localhost/sigec/usuarios">
+                    Usuários
+                </a>
+            </li>
+        </ol>
+    </nav>
+
 
 <div class="card border-0 shadow-sm">    
     <div class="col-md-10 col-md-offset-1">
             {{ msg.messagem(classe, texto)}}
     </div>
-        
+    
     <div class="card-body">
-        <div class="panel-heading"><h4>Editar Bloco</h4></div>
-        <form name="pesquisa" action="../../bloco/update/{{bloco.id}}" method="POST">
+        <div class="panel-heading"><h4>Editar Usuário</h4></div>
+        <form action="../../usuario/update/{{usuario.matricula}}" method="post">
+            
             <div class="mb-3">
-                <label for="bloco" class="form-label">Nome</label>
-                <input type="text" name="nome" value="{{bloco.nome}}" class="form-control" id="bloco" required>
-            </div>            
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" value="{{usuario.nome}}" name="nome" id="nome" class="form-control">
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="text" value="{{usuario.email}}" name="email" id="email" class="form-control">
+            </div> 
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="matricula" class="form-label">Matrícula</label>
+                        <input type="text" value="{{usuario.matricula}}" name="matricula" id="matricula" class="form-control">
+                    </div>
+                </div>                
+            
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input type="text" value="{{usuario.telefone}}" name="telefone" id="telefone" class="form-control">
+                    </div> 
+                </div>                
+            </div>
+                        
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" name="tipo" id="tipo">
+                            <option value="">Selecione...</option>
+                            <option value="Servidor">Servidor</option>
+                            <option value="Terceirizado">Terceirizado</option>
+                            <option value="Aluno">Aluno</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="permissao" class="form-label">Permissão</label>
+                        <select class="form-select" name="permissao" id="permissao">
+                            <option value="">Selecione...</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Portaria">Portaria</option>
+                            <option value="Solicitante">Solicitante</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             
             <button  type="submit" class="btn btn-primary">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar
@@ -37,5 +87,7 @@
         </form>
     </div>    
 </div>
+
+
 
 {% endblock %}

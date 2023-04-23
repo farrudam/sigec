@@ -7,12 +7,12 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="#">
+            <a href="http://localhost/sigec">
                 Home
             </a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            <a href="#">
+            <a href="http://localhost/sigec/usuarios">
                 Usuários
             </a>
         </li>
@@ -28,29 +28,57 @@
     <div class="card-body">
         <div class="panel-heading"><h4>Cadastrar Usuário</h4></div>
         <form action="#" method="post">
+            
             <div class="mb-3">
-                <label for="titulo" class="form-label">Matrícula</label>
-                <input type="text" name="matricula" id="matricula" class="form-control">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" name="nome" id="nome" class="form-control">
             </div>
             
             <div class="mb-3">
-                <label for="titulo" class="form-label">Nome</label>
-                <input type="text" name="nome" id="nome" class="form-control">
-            </div> 
-            
-            <div class="mb-3">
-                <label for="titulo" class="form-label">E-mail</label>
+                <label for="email" class="form-label">E-mail</label>
                 <input type="text" name="email" id="email" class="form-control">
             </div> 
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="matricula" class="form-label">Matrícula</label>
+                        <input type="text" name="matricula" id="matricula" class="form-control">
+                    </div>
+                </div>                
+            
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input type="text" name="telefone" id="telefone" class="form-control">
+                    </div> 
+                </div>                
+            </div>
+                        
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" name="tipo" id="tipo">
+                            <option value="">Selecione...</option>
+                            <option value="Servidor">Servidor</option>
+                            <option value="Terceirizado">Terceirizado</option>
+                            <option value="Aluno">Aluno</option>
+                        </select>
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Tipo</label>
-                <input type="text" name="tipo" id="tipo" class="form-control">
-            </div> 
-
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Permissão</label>
-                <input type="text" name="permissao" id="permissao" class="form-control">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="permissao" class="form-label">Permissão</label>
+                        <select class="form-select" name="permissao" id="permissao">
+                            <option value="">Selecione...</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Portaria">Portaria</option>
+                            <option value="Solicitante">Solicitante</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             
             <button  type="submit" class="btn btn-primary">
@@ -59,6 +87,7 @@
         </form>
     </div>    
 </div>
+
 
 
 {% endblock %}

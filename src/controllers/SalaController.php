@@ -30,7 +30,7 @@ class SalaController extends Controller{
     }
     
     public function editar(Request $request, Response $response, $args){
-        $objeto = new Sala($args['id']);
+        $objeto = new Sala($args['id']);            
         $sala = $objeto->getById();        
                 
         return $this->container['renderizar']->render($response, 'sala_editar.html', [
