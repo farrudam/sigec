@@ -54,22 +54,22 @@
                                 {% endif %}
                             </td>
                             <td class="text-center">
-                                <a href="http://localhost/sigec/usuario/{{usuario.matricula}}/editar" tooltip="tooltip" title="Editar Usuário">
+                                <a href="http://localhost/sigec/usuario/{{usuario.id}}/editar" tooltip="tooltip" title="Editar Usuário">
                                     <i class="fa-solid fa-pen m-1"></i>
                                 </a>
                                 {% if usuario.habilitado %}
-                                    <a href="http://localhost/sigec/usuario/{{usuario.matricula}}/desativar" tooltip="tooltip" title="Desativar Usuário">
+                                    <a href="http://localhost/sigec/usuario/{{usuario.id}}/desativar" tooltip="tooltip" title="Desativar Usuário">
                                         <i class="fas fa-ban"></i>
                                     </a>
                                 {% else %}
-                                    <a href="http://localhost/sigec/usuario/{{usuario.matricula}}/ativar" tooltip="tooltip" title="Ativar Usuário">
+                                    <a href="http://localhost/sigec/usuario/{{usuario.id}}/ativar" tooltip="tooltip" title="Ativar Usuário">
                                         <i class="fas fa-check-circle"></i>
                                     </a>
                                 {% endif %}
                                  
-                                <a href="http://localhost/sigec/usuario/{{usuario.matricula}}/excluir" tooltip="tooltip" title="Excluir">
+                                <!--<a href="http://localhost/sigec/usuario/{{usuario.id}}/excluir" tooltip="tooltip" title="Excluir">
                                     <i class="fa-solid fa-trash m-1"></i>
-                                </a>
+                                </a>-->
                                 
                             </td>
                         </tr>

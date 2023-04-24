@@ -5,6 +5,7 @@ use sigec\database\DBSigec;
 
 class Usuario{
     
+    private $id;
     private $matricula;
     private $nome;
     private $senha;
@@ -16,12 +17,13 @@ class Usuario{
     private $tipo;
     private $permissao;
     
-    public function __construct($matricula = null) {
-        $this->matricula = $matricula;
+    public function __construct($id = null) {
+        $this->id = $id;
     }
     
     private function bundle ($row){
-        $usuario = new Usuario($row['matricula']);
+        $usuario = new Usuario($row['id']);
+        $usuario->setMatricula($row['matricula']);
         $usuario->setNome($row['nome']);
         $usuario->setSenha($row['senha']);
         $usuario->setTelefone($row['telefone']);
@@ -48,9 +50,9 @@ class Usuario{
     }
 
     public function getById() {
-        $sql = "select * from usuario where matricula = ?";
+        $sql = "select * from usuario where id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($this->matricula));
+        $stmt->execute(array($this->id));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;
@@ -75,45 +77,49 @@ class Usuario{
         
     }
 
-    static function delete($matricula) {
-        $sql = 'DELETE FROM usuario WHERE matricula = ?';
+    static function delete($id) {
+        $sql = 'DELETE FROM usuario WHERE id = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($matricula));
+        $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
 
     public function update($params) {
-        $sql = "UPDATE usuario set (nome = ?, email = ?, telefone = ?, senha = ?, tipo = ?, permissao = ?, 
-                       doc_autorizacao = ?, url_foto = ?)
-                 WHERE matricula = ?";
+        $sql = "UPDATE usuario set nome = ?, email = ?, matricula = ?, telefone = ?, senha = ?, tipo = ?, permissao = ?, 
+                       doc_autorizacao = ?, url_foto = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['nome'],
             $params['email'],
+            $params['matricula'],
             $params['telefone'],
             $params['senha'],
             $params['tipo'],
             $params['permissao'],            
             $params['doc_autorizacao'],
             $params['url_foto'],
-             $this->matricula));
+             $this->id));
         return $stmt->errorInfo();
     }
 
-    static function ativar($matricula) {
-        $sql = "UPDATE usuario set habilitado = 1 WHERE matricula = ?";
+    static function ativar($id) {
+        $sql = "UPDATE usuario set habilitado = 1 WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($matricula));
+        $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
 
-    static function desativar($matricula) {
-        $sql = "UPDATE usuario set habilitado = 0 WHERE matricula = ?";
+    static function desativar($id) {
+        $sql = "UPDATE usuario set habilitado = 0 WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($matricula));
+        $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
     
+    public function getId() {
+        return $this->id;
+    }
+
     public function getMatricula() {
         return $this->matricula;
     }

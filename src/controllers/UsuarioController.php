@@ -25,16 +25,17 @@ class UsuarioController extends Controller{
     }
     
     public function editar(Request $request, Response $response, $args){
-        $objeto = new Usuario($args['matricula']);        
+        $objeto = new Usuario($args['id']);        
         $usuario = $objeto->getById();
+        
 //        
         return $this->container['renderizar']->render($response, 'usuario_editar.html', [
-            'usuario' => $usuario
+            'usuario' => $usuario            
         ]);        
     }
     
     public function update(Request $request, Response $response, $args){
-        $objeto = new Usuario($args['matricula']);       
+        $objeto = new Usuario($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
 
@@ -52,20 +53,20 @@ class UsuarioController extends Controller{
     
     public function excluir(Request $request, Response $response, $args){
 
-        Usuario::delete($args['matricula']);
+        Usuario::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');        
     }
 
     public function ativar(Request $request, Response $response, $args){
 
-        Usuario::ativar($args['matricula']);
+        Usuario::ativar($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');
 
     }
 
     public function desativar(Request $request, Response $response, $args){
 
-        Usuario::desativar($args['matricula']);
+        Usuario::desativar($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');
     }
 }
