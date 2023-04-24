@@ -24,23 +24,23 @@ CREATE TABLE `chave`(
     /*`id_bloco` int not null,*/
     `id_sala` int not null,
     `etiqueta` varchar(20) unique not null,
-    `descricao` varchar(40) not null,    
+    `descricao` varchar(255) not null,    
     `situacao` ENUM('disponivel', 'emprestada', 'manutenção') DEFAULT 'disponivel',
     `habilitada` boolean DEFAULT true,
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-CREATE TABLE `usuario` (
+CREATE TABLE `usuario` (  
   `matricula` int NOT NULL,
-  `nome` varchar(100) NOT NULL,
+  `nome` varchar(255) NOT NULL,
   `senha` varchar(255) DEFAULT NULL,
   `telefone` varchar(50) NOT NULL,
-  `email` varchar(50) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `url_foto` varchar(255) DEFAULT NULL,
   `habilitado` tinyint(1) DEFAULT '1',
   `doc_autorizacao` varchar(255) DEFAULT NULL,
-  `tipo` enum('bolsista','servidor') NOT NULL,
+  `tipo` enum('aluno','servidor', 'terceirizado') NOT NULL,
   `permissao` enum('administrador', 'portaria', 'solicitante') NOT NULL DEFAULT 'solicitante',
   PRIMARY KEY (`matricula`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

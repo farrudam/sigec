@@ -4,39 +4,39 @@ namespace sigec\models;
 use sigec\database\DBSigec;
 
 class Usuario{
-
-    private $id;
-    private $nome;
     
-    public function __construct($id = null) {
-        $this->id = $id;
+    private $matricula;
+    private $nome;
+    private $senha;
+    private $telefone;
+    private $email;
+    private $url_foto;
+    private $habilitado;
+    private $doc_autorizacao;
+    private $tipo;
+    private $permissao;
+    
+    public function __construct($matricula = null) {
+        $this->matricula = $matricula;
     }
     
     private function bundle ($row){
-        $usuario = new Usuario($row['id']);
+        $usuario = new Usuario($row['matricula']);
         $usuario->setNome($row['nome']);
+        $usuario->setSenha($row['senha']);
+        $usuario->setTelefone($row['telefone']);
+        $usuario->setEmail($row['email']);
+        $usuario->setUrl_foto($row['url_foto']);
+        $usuario->setHabilitado($row['habilitado']);
+        $usuario->setDoc_autorizacao($row['doc_autorizacao']);
+        $usuario->setTipo($row['tipo']);
+        $usuario->setPermissao($row['permissao']);        
         
         return $usuario;
-    }
-            
-    public function getId() {
-        return $this->id;
-    }
-
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function setId($id): void {
-        $this->id = $id;
-    }
-
-    public function setNome($nome): void {
-        $this->nome = $nome;
-    }
+    }           
     
     public function getAll() {
-        $sql = "select * from usuario order by id ";
+        $sql = "select * from usuario order by nome ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -48,9 +48,9 @@ class Usuario{
     }
 
     public function getById() {
-        $sql = "select * from usuario where id = ?";
+        $sql = "select * from usuario where matricula = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($this->id));
+        $stmt->execute(array($this->matricula));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;
@@ -58,28 +58,144 @@ class Usuario{
         return self::bundle($row);
     }
 
-    static function create($params) {
-        $sql = "INSERT INTO usuario (nome) VALUES (?)";
+    static function create($params) {        
+        $sql = "INSERT INTO usuario (matricula, nome, telefone, email, tipo, permissao) 
+                            VALUES (?, ?, ?, ?, ?, ?)";
+
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome']));        
+        $stmt->execute(array(
+            $params['matricula'],
+            $params['nome'],
+            $params['telefone'],
+            $params['email'],
+            $params['tipo'],
+            $params['permissao']
+        ));        
         return $stmt->errorInfo(); 
         
     }
 
-    static function delete($id) {
-        $sql = 'DELETE FROM usuario WHERE id = ?';
+    static function delete($matricula) {
+        $sql = 'DELETE FROM usuario WHERE matricula = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
+        $stmt->execute(array($matricula));
         return $stmt->errorInfo();
     }
 
     public function update($params) {
-        $sql = "UPDATE usuario set nome = ? WHERE id = ?";
+        $sql = "UPDATE usuario set (nome = ?, email = ?, telefone = ?, senha = ?, tipo = ?, permissao = ?, 
+                       doc_autorizacao = ?, url_foto = ?)
+                 WHERE matricula = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->id));
+        $stmt->execute(array(
+            $params['nome'],
+            $params['email'],
+            $params['telefone'],
+            $params['senha'],
+            $params['tipo'],
+            $params['permissao'],            
+            $params['doc_autorizacao'],
+            $params['url_foto'],
+             $this->matricula));
         return $stmt->errorInfo();
     }
 
+    static function ativar($matricula) {
+        $sql = "UPDATE usuario set habilitado = 1 WHERE matricula = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($matricula));
+        return $stmt->errorInfo();
+    }
 
+    static function desativar($matricula) {
+        $sql = "UPDATE usuario set habilitado = 0 WHERE matricula = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($matricula));
+        return $stmt->errorInfo();
+    }
+    
+    public function getMatricula() {
+        return $this->matricula;
+    }
+
+    public function getNome() {
+        return $this->nome;
+    }
+
+    public function getSenha() {
+        return $this->senha;
+    }
+
+    public function getTelefone() {
+        return $this->telefone;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function getUrl_foto() {
+        return $this->url_foto;
+    }
+
+    public function getHabilitado() {
+        return $this->habilitado;
+    }
+
+    public function getDoc_autorizacao() {
+        return $this->doc_autorizacao;
+    }
+
+    public function getTipo() {
+        return $this->tipo;
+    }
+
+    public function getPermissao() {
+        return $this->permissao;
+    }   
+
+    public function setId($id): void {
+        $this->id = $id;
+    }
+
+    public function setMatricula($matricula): void {
+        $this->matricula = $matricula;
+    }
+
+    public function setNome($nome): void {
+        $this->nome = $nome;
+    }
+
+    public function setSenha($senha): void {
+        $this->senha = $senha;
+    }
+    
+    public function setTelefone($telefone): void {
+        $this->telefone = $telefone;
+    }
+
+    public function setEmail($email): void {
+        $this->email = $email;
+    }
+
+    public function setUrl_foto($url_foto): void {
+        $this->url_foto = $url_foto;
+    }
+
+    public function setHabilitado($habilitado): void {
+        $this->habilitado = $habilitado;
+    }
+
+    public function setDoc_autorizacao($doc_autorizacao): void {
+        $this->doc_autorizacao = $doc_autorizacao;
+    }
+
+    public function setTipo($tipo): void {
+        $this->tipo = $tipo;
+    }
+
+    public function setPermissao($permissao): void {
+        $this->permissao = $permissao;
+    }
     
 }
