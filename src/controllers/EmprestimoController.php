@@ -9,13 +9,6 @@ use sigec\models\Bloco;
 
 
 class BlocoController extends Controller{
-
-//    public function index(Request $request, Response $response, $args){
-//        return $this->container['renderizar']->render($response, 'index.html', [
-//            'titulo' => 'teste de título',
-//            'subtitulo' => 'teste de subtitulo'
-//        ]);        
-//    } 
     
     public function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);

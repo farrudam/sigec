@@ -12,7 +12,7 @@ $app->get('/usuarios', 'sigec\controllers\UsuarioController:show');
 $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo');
 $app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
 $app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar');
-$app->get('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');
+$app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');
 $app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar');
 $app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar');
 $app->get('/usuario/{id}/desativar', 'sigec\controllers\UsuarioController:desativar');
@@ -44,4 +44,9 @@ $app->get('/chave/{id}/ativar', 'sigec\controllers\ChaveController:ativar');
 $app->get('/chave/{id}/desativar', 'sigec\controllers\ChaveController:desativar');
 
 
+$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show');
+$app->get ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:novo');
+$app->post ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:create');
+$app->get('/emprestimo/{id}/editar', 'sigec\controllers\EmprestimoController:editar');
+$app->post('/emprestimo/update/{id}', 'sigec\controllers\EmprestimoController:update');
 

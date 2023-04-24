@@ -27,7 +27,7 @@
     
     <div class="card-body">
         <div class="panel-heading"><h4>Editar Usuário</h4></div>
-        <form action="../../usuario/update/{{usuario.matricula}}" method="post">
+        <form action="../../usuario/update/{{usuario.id}}" method="post">
             
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
@@ -60,22 +60,23 @@
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo</label>
                         <select class="form-select" name="tipo" id="tipo">
-                            <option value="">Selecione...</option>
-                            <option value="Servidor">Servidor</option>
-                            <option value="Terceirizado">Terceirizado</option>
-                            <option value="Aluno">Aluno</option>
+                            <!--<option value="{{usuario.id}}">{{usuario.tipo}}</option>-->                            
+                            <option value="Servidor" {% if usuario.tipo == 'servidor' %}selected{%endif%}>Servidor</option>
+                            <option value="Terceirizado" {% if usuario.tipo == 'terceirizado' %}selected{%endif%}>Terceirizado</option>
+                            <option value="Aluno" {% if usuario.tipo == 'aluno' %}selected{%endif%}>Aluno</option>                            
                         </select>
                     </div>
                 </div>
 
+                <!--{% set permissoes = ['Administrador', 'Portaria', 'Solicitante'] %}-->
+
                 <div class="col-md-6">
-                    <div class="mb-3">
+                    <div class="mb-3">                        
                         <label for="permissao" class="form-label">Permissão</label>
                         <select class="form-select" name="permissao" id="permissao">
-                            <option value="">Selecione...</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Portaria">Portaria</option>
-                            <option value="Solicitante">Solicitante</option>
+                            <option value="Administrador" {% if usuario.permissao == 'administrador' %}selected{%endif%}>Administrador</option>
+                            <option value="Portaria" {% if usuario.permissao == 'portaria' %}selected{%endif%}>Portaria</option>
+                            <option value="Solicitante" {% if usuario.permissao == 'solicitante' %}selected{%endif%}>Solicitante</option>                            
                         </select>
                     </div>
                 </div>
