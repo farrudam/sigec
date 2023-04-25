@@ -20,8 +20,7 @@ CREATE TABLE `sala` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `chave`(
-    `id` int NOT NULL AUTO_INCREMENT,
-    /*`id_bloco` int not null,*/
+    `id` int NOT NULL AUTO_INCREMENT,    
     `id_sala` int not null,
     `etiqueta` varchar(20) unique not null,
     `descricao` varchar(255) not null,    
@@ -68,7 +67,7 @@ CREATE TABLE `emprestimo` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-CREATE TABLE `itens_emprestimo` (    
+CREATE TABLE `item_emprestimo` (    
   `id_emprestimo` int NOT NULL,
   `id_chave` int NOT NULL,
   `retirada_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
