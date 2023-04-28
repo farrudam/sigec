@@ -60,11 +60,11 @@ CREATE TABLE `emprestimo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `mat_solic` INT NOT NULL,
   `mat_user_abertura` INT NOT NULL,
-  `mat_user_encerramento` INT NULL,  
-  `data_emprestimo` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `mat_user_devolucao` INT NULL,  
+  `data_abertura` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_devolucao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(255) DEFAULT NULL,
-  `situacao` enum('Ativo','Encerrado') NOT NULL DEFAULT 'Ativo',
+  `situacao` enum('Aberto','Devolvido', 'Atrasado') NOT NULL DEFAULT 'Aberto',
     PRIMARY KEY (`id`)    
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -87,13 +87,13 @@ ALTER TABLE restricao_chave ADD ( CONSTRAINT FOREIGN KEY (mat_solic) REFERENCES 
 
 ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_solic) REFERENCES usuario(matricula));
 ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_user_abertura) REFERENCES usuario(matricula));
-ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_user_encerramento) REFERENCES usuario(matricula));
+ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_user_devolucao) REFERENCES usuario(matricula));
 
 ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (id_emprestimo) REFERENCES emprestimo(id));
 ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (id_chave) REFERENCES chave(id));
 
 
-
+/* Inserção de dados*/
 
 /* Blocos */
 
