@@ -16,7 +16,7 @@ CREATE TABLE `sala` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_bloco` INT NOT NULL,
   `nome` VARCHAR(80) NOT NULL,
-  `situacao` ENUM('ativa', 'inativa', 'manutencao') DEFAULT 'ativa',
+  `situacao` ENUM('Ativa', 'Inativa', 'Manutencao') DEFAULT 'Ativa',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -25,7 +25,7 @@ CREATE TABLE `chave`(
     `id_sala` INT NOT NULL,
     `etiqueta` VARCHAR(30) UNIQUE NOT NULL,
     `descricao` VARCHAR(80) NOT NULL,    
-    `situacao` ENUM('disponivel', 'emprestada', 'extraviada') DEFAULT 'disponivel',
+    `situacao` ENUM('Disponivel', 'Emprestada', 'Extraviada') DEFAULT 'Disponivel',
     `habilitada` TINYINT(1) DEFAULT '1',
     `restrita` TINYINT(1) DEFAULT '0',
     PRIMARY KEY (`id`)
@@ -36,14 +36,14 @@ CREATE TABLE `usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `matricula` INT NOT NULL UNIQUE,
   `nome` VARCHAR(255) NOT NULL,
-  `senha` VARCHAR(255) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL DEFAULT '123456',
   `celular` VARCHAR(50) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `url_foto` VARCHAR(255) DEFAULT NULL,
   `habilitado` TINYINT(1) DEFAULT '1',
   `doc_autorizacao` VARCHAR(255) DEFAULT NULL,
-  `tipo` enum('aluno','servidor', 'terceirizado') NOT NULL,
-  `perfil` enum('administrador', 'portaria', 'solicitante') NOT NULL DEFAULT 'solicitante',
+  `tipo` enum('Aluno','Servidor', 'Terceirizado') NOT NULL,
+  `perfil` enum('Administrador', 'Portaria', 'Solicitante') NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -64,7 +64,7 @@ CREATE TABLE `emprestimo` (
   `data_emprestimo` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_devolucao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(255) DEFAULT NULL,
-  `situacao` enum('ativo','encerrado') NOT NULL DEFAULT 'ativo',
+  `situacao` enum('Ativo','Encerrado') NOT NULL DEFAULT 'Ativo',
     PRIMARY KEY (`id`)    
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

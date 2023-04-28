@@ -9,13 +9,13 @@ class Usuario{
     private $matricula;
     private $nome;
     private $senha;
-    private $telefone;
+    private $celular;
     private $email;
     private $url_foto;
     private $habilitado;
     private $doc_autorizacao;
     private $tipo;
-    private $permissao;
+    private $perfil;
     
     public function __construct($id = null) {
         $this->id = $id;
@@ -26,13 +26,13 @@ class Usuario{
         $usuario->setMatricula($row['matricula']);
         $usuario->setNome($row['nome']);
         $usuario->setSenha($row['senha']);
-        $usuario->setTelefone($row['telefone']);
+        $usuario->setCelular($row['celular']);
         $usuario->setEmail($row['email']);
         $usuario->setUrl_foto($row['url_foto']);
         $usuario->setHabilitado($row['habilitado']);
         $usuario->setDoc_autorizacao($row['doc_autorizacao']);
         $usuario->setTipo($row['tipo']);
-        $usuario->setPermissao($row['permissao']);        
+        $usuario->setPerfil($row['perfil']);        
         
         return $usuario;
     }           
@@ -61,17 +61,17 @@ class Usuario{
     }
 
     static function create($params) {        
-        $sql = "INSERT INTO usuario (matricula, nome, telefone, email, tipo, permissao) 
+        $sql = "INSERT INTO usuario (matricula, nome, celular, email, tipo, perfil) 
                             VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['matricula'],
             $params['nome'],
-            $params['telefone'],
+            $params['celular'],
             $params['email'],
             $params['tipo'],
-            $params['permissao']
+            $params['perfil']
         ));        
         return $stmt->errorInfo(); 
         
@@ -85,17 +85,16 @@ class Usuario{
     }
 
     public function update($params) {
-        $sql = "UPDATE usuario set nome = ?, email = ?, matricula = ?, telefone = ?, senha = ?, tipo = ?, permissao = ?, 
+        $sql = "UPDATE usuario set nome = ?, email = ?, matricula = ?, celular = ?, tipo = ?, perfil = ?, 
                        doc_autorizacao = ?, url_foto = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['nome'],
             $params['email'],
             $params['matricula'],
-            $params['telefone'],
-            $params['senha'],
+            $params['celular'],
             $params['tipo'],
-            $params['permissao'],            
+            $params['perfil'],            
             $params['doc_autorizacao'],
             $params['url_foto'],
              $this->id));
@@ -132,8 +131,8 @@ class Usuario{
         return $this->senha;
     }
 
-    public function getTelefone() {
-        return $this->telefone;
+    public function getCelular() {
+        return $this->celular;
     }
 
     public function getEmail() {
@@ -156,8 +155,8 @@ class Usuario{
         return $this->tipo;
     }
 
-    public function getPermissao() {
-        return $this->permissao;
+    public function getPerfil() {
+        return $this->perfil;
     }   
 
     public function setId($id): void {
@@ -176,8 +175,8 @@ class Usuario{
         $this->senha = $senha;
     }
     
-    public function setTelefone($telefone): void {
-        $this->telefone = $telefone;
+    public function setCelular($celular): void {
+        $this->celular = $celular;
     }
 
     public function setEmail($email): void {
@@ -200,8 +199,8 @@ class Usuario{
         $this->tipo = $tipo;
     }
 
-    public function setPermissao($permissao): void {
-        $this->permissao = $permissao;
+    public function setPerfil($perfil): void {
+        $this->perfil = $perfil;
     }
     
 }
