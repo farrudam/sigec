@@ -9,6 +9,8 @@ class Sala{
     private $id;
     private $nome;
     private $id_bloco;
+    private $situacao;
+    
     private $bloco;
     
     public function __construct($id = null) {
@@ -22,6 +24,7 @@ class Sala{
 
         $sala->setNome($row['nome']);                
         $sala->setBloco($bloco->getById('id_bloco'));
+        $sala->setSituacao($row['situacao']);
         $sala->setIdBloco($row['id_bloco']);  
     
         return $sala;
@@ -75,12 +78,37 @@ class Sala{
         return $stmt->errorInfo();
     }
 
+    static function ativar($id) {
+        $sql = "UPDATE sala set situacao = 'ativa' WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
+
+    static function desativar($id) {
+        $sql = "UPDATE sala set situacao = 'inativa' WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
+
+    static function reparar($id) {
+        $sql = "UPDATE sala set situacao = 'manutencao' WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
+
     public function getId() {
         return $this->id;
     }
 
     public function getNome() {
         return $this->nome;
+    }
+
+    public function getSituacao() {
+        return $this->situacao;
     }
 
     public function getIdBloco() {
@@ -97,6 +125,10 @@ class Sala{
 
     public function setNome($nome): void {
         $this->nome = $nome;
+    }
+
+    public function setSituacao($situacao): void {
+        $this->situacao = $situacao;
     }
 
     public function setIdBloco($id_bloco) {

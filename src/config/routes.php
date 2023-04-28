@@ -32,6 +32,9 @@ $app->post ('/sala/nova', 'sigec\controllers\SalaController:create');
 $app->get('/sala/{id}/editar', 'sigec\controllers\SalaController:editar');
 $app->post('/sala/update/{id}', 'sigec\controllers\SalaController:update');
 $app->get('/sala/{id}/excluir', 'sigec\controllers\SalaController:excluir');
+$app->get('/sala/{id}/ativar', 'sigec\controllers\SalaController:ativar');
+$app->get('/sala/{id}/desativar', 'sigec\controllers\SalaController:desativar');
+$app->get('/sala/{id}/reparar', 'sigec\controllers\SalaController:reparar');
 
 
 $app->get('/chaves', 'sigec\controllers\ChaveController:show');
@@ -40,8 +43,8 @@ $app->post ('/chave/nova', 'sigec\controllers\ChaveController:create');
 $app->get('/chave/{id}/editar', 'sigec\controllers\ChaveController:editar');
 $app->post('/chave/update/{id}', 'sigec\controllers\ChaveController:update');
 $app->get('/chave/{id}/excluir', 'sigec\controllers\ChaveController:excluir');
-$app->get('/chave/{id}/ativar', 'sigec\controllers\ChaveController:ativar');
-$app->get('/chave/{id}/desativar', 'sigec\controllers\ChaveController:desativar');
+$app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar');
+$app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar');
 
 
 $app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show');
