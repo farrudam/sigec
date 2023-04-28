@@ -93,7 +93,7 @@ ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (id_emprestimo) REFEREN
 ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (id_chave) REFERENCES chave(id));
 
 
-
+/* Inserção de dados*/
 
 /* Blocos */
 

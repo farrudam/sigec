@@ -10,8 +10,8 @@
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                <a href="http://localhost/sigec/salas">
-                    Salas
+                <a href="http://localhost/sigec/emprestimos">
+                    Empréstimos
                 </a>
             </li>
         </ol>
@@ -23,7 +23,7 @@
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
             <h3 class="card-title"><b>Salas</b></h3>
         
-            <a href="http://localhost/sigec/sala/nova" class="btn btn-primary">Nova Sala</a>
+            <a href="http://localhost/sigec/emprestimo/novo" class="btn btn-primary">Nova Empréstimo</a>
         </div>
         
         <div class="card-body">
@@ -32,9 +32,9 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Localização</th>
-                            <th scope="col" class="text-center">Situação</th>
+                            <th scope="col">#</th>
+                            <th scope="col">#</th>
+                            <th scope="col" class="text-center">#</th>
                             <th scope="col" class="text-center">Opções</th>
                         </tr>
                     </thead>
@@ -45,6 +45,7 @@
                             <td>{{sala.nome}}</td>
                             <td>{{sala.bloco.nome}}</td>
                             <td class="text-center">
+                                <!--
                                 {% if sala.situacao == 'Ativa' %}
                                     <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativa"></i>
                                 {% endif %}
@@ -54,11 +55,13 @@
                                 {% if sala.situacao == 'Inativa' %}                                    
                                     <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativa"></i>                                    
                                 {% endif %}
+                                -->
                             </td>
                             <td class="text-center">
-                                <a href="http://localhost/sigec/sala/{{sala.id}}/editar" tooltip="tooltip" title="Editar">
+                                <a href="http://localhost/sigec/emprestimo/{{emprestimo.id}}/editar" tooltip="tooltip" title="Editar">
                                     <i class="fa-solid fa-pen m-1"></i>
                                 </a>
+                                <!--
                                 {% if sala.situacao == 'Ativa' %}
                                     <a href="http://localhost/sigec/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
                                         <i class="fas fa-ban"></i>
@@ -79,9 +82,9 @@
                                     </a>
                                 {% endif %}
                                 
-                                <!--<a href="http://localhost/sigec/sala/{{sala.id}}/excluir" tooltip="tooltip" title="Excluir">
+                                <a href="http://localhost/sigec/sala/{{sala.id}}/excluir" tooltip="tooltip" title="Excluir">
                                     <i class="fa-solid fa-trash m-1"></i>
-                                </a>-->
+                                </a>-->                                
                             </td>
                         </tr>
                         {% endfor%}
