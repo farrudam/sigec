@@ -34,9 +34,9 @@
                             
                             <th scope="col">Nome</th>                            
                             <th scope="col">Tipo</th>
-                            <th scope="col">Permissao</th>
+                            <th scope="col">Perfil</th>
                             <th scope="col" class="text-center">Habilitado</th>
-                            <th scope="col" class="text-center">Ação</th>
+                            <th scope="col" class="text-center">Opções</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
                             
                             <td>{{usuario.nome}}</td>
                             <td>{{usuario.tipo}}</td>
-                            <td>{{usuario.permissao}}</td>
+                            <td>{{usuario.perfil}}</td>
                             <td class="text-center">
                                 {% if usuario.habilitado %}
                                     <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Habilitado"></i>

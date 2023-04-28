@@ -41,7 +41,7 @@
             <div class="mb-3">
                 <label for="id_sala" class="form-label">Sala</label>                
                 <select class="form-select" name="id_sala" id="id_sala">
-                    <option value="">🔍 Escolha uma opção...<i class="fas fa-search"></i></option>
+                    <option value="">Selecione...<i class="fas fa-search"></i></option>
                     {% for sala in salas %}                        
                         <option value="{{sala.id}}">{{sala.nome}}</option>
                     {% endfor %}

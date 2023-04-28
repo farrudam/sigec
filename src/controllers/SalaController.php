@@ -63,8 +63,26 @@ class SalaController extends Controller{
 
     }
     
-    
+    public function ativar(Request $request, Response $response, $args){
 
+        Sala::ativar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../salas');
+
+    }
+
+    public function desativar(Request $request, Response $response, $args){
+
+        Sala::desativar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../salas');
+
+    }
+
+    public function reparar(Request $request, Response $response, $args){
+
+        Sala::reparar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../salas');
+
+    }
 
 }
 

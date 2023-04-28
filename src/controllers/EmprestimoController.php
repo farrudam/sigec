@@ -8,60 +8,53 @@ use Slim\Http\Response;
 use sigec\models\Bloco;
 
 
-class BlocoController extends Controller{
+class EmprestimoController extends Controller{
     
     public function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
-            Bloco::create($postParam);
-            return $response->withStatus(301)->withHeader('Location', '../blocos'); 
+            Emprestimo::create($postParam);
+            return $response->withStatus(301)->withHeader('Location', '../emprestimos'); 
         }                
     }
     
     public function novo(Request $request, Response $response, $args){
          
-         return $this->container['renderizar']->render($response, 'bloco_novo.html', [ ]);                
+         return $this->container['renderizar']->render($response, 'emprestimo_novo.html', [ ]);                
     }
     
     public function editar(Request $request, Response $response, $args){
-        $objeto = new Bloco();
-        $bloco = $objeto->getById($args['id']);
-//        $bloco = Bloco::getById($args['id']);
-        return $this->container['renderizar']->render($response, 'bloco_editar.html', [
-            'bloco' => $bloco
+        $objeto = new Emprestimo();
+        $emprestimo = $objeto->getById($args['id']);
+//        
+        return $this->container['renderizar']->render($response, 'emprestimo_editar.html', [
+            'emprestimo' => $emprestimo
         ]);        
     }
     
     public function update(Request $request, Response $response, $args){
-        $objeto = new Bloco($args['id']);       
+        $objeto = new Emprestimo($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
 
-        return $response->withStatus(301)->withHeader('Location', '../../blocos'); 
-//      $rota = $this->container['renderizar']->get('router')->pathFor('bloco.show');       
-//      return $response->withStatus(301)->withHeader('Location', $rota); 
+        return $response->withStatus(301)->withHeader('Location', '../../emprestimos'); 
     }
 
     public function show(Request $request, Response $response, $args){
-        $objeto = new Bloco();
-        $blocos = $objeto->getAll();
+        $objeto = new Emprestimo();
+        $emprestimo = $objeto->getAll();
         
-        return $this->container['renderizar']->render($response, 'listar_blocos.html', [
-            'blocos' => $blocos
+        return $this->container['renderizar']->render($response, 'listar_emprestimos.html', [
+            'emprestimos' => $emprestimo
         ]);
     }
     
     public function excluir(Request $request, Response $response, $args){
 
-        Bloco::delete($args['id']);
-        return $response->withStatus(301)->withHeader('Location', '../../blocos');
-//        $msg = Produto::delete($produto_codigo);
-//        if ($msg[2]) {
-//            $this->flash->addMessage('danger', $msg[2]);
-//        } else {
-//            $this->flash->addMessage('success', 'Registro excluido com sucesso');
-//        }
+        Emprestimo::delete($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
+
     }
     
     
