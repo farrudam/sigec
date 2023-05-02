@@ -117,31 +117,71 @@ class Emprestimo{
         return $this->id;
     }
 
-    public function getNome() {
-        return $this->nome;
+    public function getMatSolic() {
+        return $this->mat_solic;
+    }
+
+    public function getMatUserAbertura() {
+        return $this->mat_user_abertura;
+    }
+
+    public function getMatUserDevolucao() {
+        return $this->mat_user_devolucao;
+    }
+
+    public function getDataAbertura() {
+        return $this->data_abertura;
+    }
+
+    public function getDataDevolucao() {
+        return $this->data_devolucao;
+    }
+
+    public function getObservacao() {
+        return $this->observacao;
     }
 
     public function getSituacao() {
         return $this->situacao;
     }
 
-    public function getIdusuario() {
+    public function getIdUsuario() {
         return $this->id_usuario;
     }
 
-    public function getusuario() {
+    public function getUsuario() {
         return $this->usuario;
     }    
 
-    public function setId($id): void {
+    public function setId($id) {
         $this->id = $id;
     }
-
-    public function setNome($nome): void {
-        $this->nome = $nome;
+    
+    public function setMatSolic($mat_solic) {
+        $this->mat_solic = $mat_solic;
     }
 
-    public function setSituacao($situacao): void {
+    public function setMatUserAbertura($mat_user_abertura) {
+        $this->mat_user_abertura = $mat_user_abertura;
+    }
+
+    public function setMatUserDevolucao($mat_user_devolucao) {
+        $this->mat_user_devolucao = $mat_user_devolucao;
+    }
+
+    public function setDataAbertura($data_abertura) {
+        $this->data_abertura = $data_abertura;
+    }
+
+    public function setDataDevolucao($data_devolucao) {
+        $this->data_devolucao = $data_devolucao;
+    }
+
+    public function setObservacao($observacao) {
+        $this->observacao = $observacao;
+    }
+
+    public function setSituacao($situacao) {
         $this->situacao = $situacao;
     }
 
