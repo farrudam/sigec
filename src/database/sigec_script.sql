@@ -163,3 +163,24 @@ INSERT INTO `sala` (`id_bloco`, `nome`) VALUES ('3', 'Sala de Aula 14');
 INSERT INTO `sala` (`id_bloco`, `nome`) VALUES ('1', 'Vestiário Feminino');
 INSERT INTO `sala` (`id_bloco`, `nome`) VALUES ('1', 'Vestiário Masculino');
 
+
+/* Chaves */
+
+/* Emprestimos*/
+
+INSERT INTO `emprestimo` (`id`, `mat_solic`, `mat_user_abertura`, `mat_user_devolucao`, 
+             `data_abertura`, `data_devolucao`, `observacao`, `situacao`) 
+      VALUES (NULL, '111111', '111111', NULL, CURRENT_TIMESTAMP, NULL, NULL, 'Aberto');
+
+INSERT INTO `emprestimo` (`id`, `mat_solic`, `mat_user_abertura`, `mat_user_devolucao`, 
+             `data_abertura`, `data_devolucao`, `observacao`, `situacao`) 
+VALUES (NULL, '111111', '22222', '111111', CURRENT_TIMESTAMP, NULL, 'Um teste qualquer', 'Aberto');
+
+
+/*Item Emprestimo*/
+
+INSERT INTO `item_emprestimo` (`id_emprestimo`, `id_chave`, `devolvido_em`) 
+            VALUES ('2', '4', NULL);
+
+INSERT INTO `item_emprestimo` (`id_emprestimo`, `id_chave`, `devolvido_em`) 
+            VALUES ('3', '3', NULL);
