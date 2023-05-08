@@ -17,18 +17,110 @@
         </ol>
     </nav>
 
+    <div class="card border-0 shadow-sm"></div>
+        
     
-    <div class="card border-0 shadow-sm">
-        
-        <div class="card-header bg-white border-0">
-            <h3 class="card-title"><b>Empréstimos</b></h3>
+
+        <div class="card border-0 shadow-sm ">
+            
+            <div class="card-header bg-white border-0 mx-auto">
+                <h3 class="card-title"><b>Bloco Administrativo</b></h3>            
+            </div>    
+            
+            <div class="row mx-2">                
+                {% for i in 0..33 %}
+                    <div class="col-md-2 mb-4">
+                        <div class="card">
+                            <div class="card-body shadow-sm">
+                                <a href="#" tooltip="tooltip" title="{{post.titulo}}">
+                                    <h4 class="card-title">Titulo {{i}}</h4>
+                                <p class="card-text">Texto....</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>  
+                {% endfor %}
+            </div> 
+
         </div>
+
+    
         
-               
-       
+      
+
+          
+            
+    <div class="row">
+        <div class="col-xl-6 col-xxl-5 mb-2 d-flex">
+            <div class="w-100">
+                <div class="row">
+
+                    <!--INICIO POSTS-->
+
+                    <div class="col-sm-6">
+                        <div class="card border-1 shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h6 class="fw-bold text-secondary">Posts</h6>
+                                    </div>
+
+                                    <div class="col-auto text-secondary">
+                                        <a href="#" tooltip="tooltip" title="Cadastrar Post">
+                                            <i class="fa-solid fa-file-pen"></i>
+                                        </a>                                            
+                                    </div>
+                                </div>
+                                <h1 class="mt-1 mb-3">{{posts.total}}</h1>
+
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-success bg-opacity-10"> <span class="text-success fw-bold">{{posts.ativo}}</span> <span class="badge text-secondary">Ativo</span> </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{posts.inativo}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>                                   
+                    </div>
+                    <!--FIM POSTS-->
+                </div>
+            </div>
+        </div>    
     </div>
+    
+
+
+    <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Success card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>
+      <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Danger card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Warning card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
 
 {% endblock %}
+
+
+
+
 
 
 
