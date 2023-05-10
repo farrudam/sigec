@@ -17,39 +17,59 @@
         </ol>
     </nav>
 
-    <div class="card border-0 shadow-sm"></div>
-        
     
-
-        <div class="card border-0 shadow-sm ">
-            
-            <div class="card-header bg-white border-0 mx-auto">
-                <h3 class="card-title"><b>Bloco Administrativo</b></h3>            
-            </div>    
-            
-            <div class="row mx-2">                
-                {% for i in 0..33 %}
-                    <div class="col-md-2 mb-4">
-                        <div class="card">
-                            <div class="card-body shadow-sm">
-                                <a href="#" tooltip="tooltip" title="{{post.titulo}}">
-                                    <h4 class="card-title">Titulo {{i}}</h4>
-                                <p class="card-text">Texto....</p>
-                                </a>
+    <div class="card border-0 shadow-sm ">
+        
+        <div class="card-header bg-white border-0 mx-auto">
+            <h3 class="card-title"><b>Bloco Administrativo</b></h3>            
+        </div>    
+        
+        <div class="row mx-2">                               
+            {% for i in 0..10 %}
+                <div class="col-md-2 mb-4">
+                    <div class="card bg-light">                            
+                        <div class="card-body shadow-sm">
+                            <a href="#" tooltip="tooltip" title="{{post.titulo}}">
+                                <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                                                                         
+                            </a>
+                            <div class="card-header bg-opacity-30">Descrição da Chave</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col" style="display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;">
+                                        <span class="badge text-bg-success "><span class="text-success fw-bold">{{posts.ativo}}</span> <span class="badge ">Disponível</span> </span>
+                                        <i class="fas fa-user"> 123465 </i>
+                                        
+                                    </div>
+                                    
+                                    
+                                    <!--
+                                    <div class="col-auto">
+                                        <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{posts.inativo}}</span> <span class="badge text-secondary">Inativo</span> </span>  
+                                    </div>
+                                    <div class="flat-card-actions">
+                                        <a href="#">More info</a>
+                                        <a class="ms-3 text-warning" href="#">Edit</a>
+                                        <a data-turbo-method="delete" data-turbo-confirm="Are you sure?" class="ms-3 text-danger" href="#">Remove</a>
+                                    </div>-->
+                                </div>
+                            
                             </div>
-                        </div>
-                    </div>  
-                {% endfor %}
-            </div> 
+                        </div>                            
+                    </div>                         
+                </div>  
+            {% endfor %}
+        </div> 
 
-        </div>
+    </div>
 
     
-        
-      
 
-          
-            
+    
+
+
+
     <div class="row">
         <div class="col-xl-6 col-xxl-5 mb-2 d-flex">
             <div class="w-100">
@@ -91,31 +111,6 @@
         </div>    
     </div>
     
-
-
-    <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-        <div class="card-header">Header</div>
-        <div class="card-body">
-          <h5 class="card-title">Success card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-      <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-        <div class="card-header">Header</div>
-        <div class="card-body">
-          <h5 class="card-title">Danger card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-      <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
-        <div class="card-header">Header</div>
-        <div class="card-body">
-          <h5 class="card-title">Warning card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-
 {% endblock %}
 
 
