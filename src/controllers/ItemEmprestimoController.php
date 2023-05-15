@@ -5,30 +5,25 @@ namespace sigec\controllers;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use sigec\models\Bloco;
+use sigec\models\ItemEmprestimo;
 
 
-class BlocoController extends Controller{
-
-//    public function index(Request $request, Response $response, $args){
-//        return $this->container['renderizar']->render($response, 'index.html', [
-//            'titulo' => 'teste de título',
-//            'subtitulo' => 'teste de subtitulo'
-//        ]);        
-//    } 
+class ItemEmprestimoController extends Controller{
     
     public function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+         var_dump($postParam);
+         die();
         
         if(isset($postParam)){
-            Bloco::create($postParam);
-            return $response->withStatus(301)->withHeader('Location', '../blocos'); 
+            ItemEmprestimo::create($postParam);
+            return $response->withStatus(301)->withHeader('Location', '../emprestimos'); 
         }                
     }
     
     public function novo(Request $request, Response $response, $args){
          
-         return $this->container['renderizar']->render($response, 'bloco_novo.html', [ ]);                
+         return $this->container['renderizar']->render($response, 'emprestimo_itens.html', [ ]);                
     }
     
     public function editar(Request $request, Response $response, $args){

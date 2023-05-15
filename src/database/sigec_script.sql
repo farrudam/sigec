@@ -184,3 +184,9 @@ INSERT INTO `item_emprestimo` (`id_emprestimo`, `id_chave`, `devolvido_em`)
 
 INSERT INTO `item_emprestimo` (`id_emprestimo`, `id_chave`, `devolvido_em`) 
             VALUES ('3', '3', NULL);
+
+
+/*Usuários*/
+
+INSERT INTO `usuario` (`id`, `matricula`, `nome`, `senha`, `celular`, `email`, `url_foto`, `habilitado`, `doc_autorizacao`, `tipo`, `perfil`) 
+      VALUES (NULL, '4444444', 'FULANO DA SILVA PEREIRA', '123456', '55999999999', 'fulano.pereira@ifce.edu.br', NULL, '1', NULL, 'Servidor', 'Solicitante');

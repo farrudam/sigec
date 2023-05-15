@@ -12,13 +12,12 @@
             </a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            <a href="http://localhost/sigec/salas">
-                Salas
+            <a href="http://localhost/sigec/emprestimos">
+                Empréstimos
             </a>
         </li>
     </ol>
 </nav>
-
 
 <div class="card border-0 shadow-sm">    
     <div class="col-md-10 col-md-offset-1">
@@ -26,20 +25,24 @@
     </div>
     
     <div class="card-body">
-        <div class="panel-heading"><h4>Cadastrar Sala</h4></div>
-        <form action="" method="post">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Nome</label>
-                <input type="text" name="nome" id="nome" class="form-control">
-            </div>  
+        <div class="panel-heading"><h4>Cadastrar Empréstimo</h4></div>
+        <form action="" method="post">             
             
             <div class="mb-3">
-                <label for="id_bloco" class="form-label">Bloco</label>                
-                <select class="form-select" name="id_bloco" id="id_bloco">
-                    {% for bloco in blocos %}
-                        <option value="{{bloco.id}}">{{bloco.nome}}</option>
+                <label for="mat_solic" class="form-label">Solicitante</label>                
+                <select class="form-select" name="mat_solic" id="mat_solic">
+                    {% for usuario in usuarios %}
+                        <option value="{{usuario.id}}">{{usuario.nome}}</option>
                     {% endfor %}
                 </select>
+            </div>
+
+
+            <!-- Inserir checkboxes para as chaves a serem emprestadas -->
+
+            <div class="mb-3">
+                <label for="observacao" class="form-label">Observação</label>
+                <textarea name="observacao" id="observacao" class="form-control" rows="2">{{post.texto}}</textarea>
             </div>
             
             <button  type="submit" class="btn btn-primary">

@@ -48,8 +48,8 @@ $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabili
 
 
 $app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show');
-$app->get ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:novo');
-$app->post ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:create');
-$app->get('/emprestimo/{id}/editar', 'sigec\controllers\EmprestimoController:editar');
-$app->post('/emprestimo/update/{id}', 'sigec\controllers\EmprestimoController:update');
+$app->get ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:novo');
+$app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:create');
+//$app->get('/emprestimo/{id}/editar', 'sigec\controllers\EmprestimoController:editar');
+//$app->post('/emprestimo/update/{id}', 'sigec\controllers\EmprestimoController:update');
 
