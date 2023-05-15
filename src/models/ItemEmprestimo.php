@@ -36,7 +36,7 @@ class ItemEmprestimo{
     }
     
     public function getAll() {
-        $sql = "select * from item_emprestimo order by id ";
+        $sql = "select * from item_emprestimo order by id_emprestimo";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -48,9 +48,9 @@ class ItemEmprestimo{
     }
 
     public function getById() {
-        $sql = "select * from item_emprestimo where id = ?";
+        $sql = "SELECT * from item_emprestimo WHERE id_emprestimo = ? and id_chave = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($this->id));
+        $stmt->execute(array($this->id_emprestimo, $this->id_chave));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;
@@ -59,27 +59,27 @@ class ItemEmprestimo{
     }
 
     static function create($params) {
-        $sql = "INSERT INTO emprestimo (id_usuario, nome) VALUES (?, ?)";
+        $sql = "INSERT INTO item_emprestimo (id_emprestimo, id_chave) VALUES (?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
-            $params['id_usuario'],  
-            $params['nome']
+            $params['id_emprestimo'],  
+            $params['id_chave']
         ));        
         return $stmt->errorInfo(); 
         
     }
 
     static function delete($id) {
-        $sql = 'DELETE FROM emprestimo WHERE id = ?';
+        $sql = 'DELETE FROM item_emprestimo WHERE id_emprestimo = ? and id_chave = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
 
     public function update($params) {
-        $sql = "UPDATE emprestimo set nome = ? WHERE id = ?";
+        $sql = "UPDATE item_emprestimo set devolvido_em = ? WHERE id_emprestimo = ? and id_chave = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->id));
+        $stmt->execute($params['devolvido_em'], $this->id_emprestimo, $this->id_chave);
         return $stmt->errorInfo();
     }   
     

@@ -2,7 +2,7 @@
 
 namespace sigec\models;
 use sigec\database\DBSigec;
-use sigec\models\Emprestimo;
+//use sigec\models\ItemEmprestimo;
 use sigec\models\Usuario;
 
 class Emprestimo{

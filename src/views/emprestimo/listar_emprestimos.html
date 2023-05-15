@@ -17,7 +17,16 @@
         </ol>
     </nav>
 
+    <div class="card border-0 shadow-sm">
+        
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><b></b></h3>        
+            <a href="http://localhost/sigec/emprestimo/novo" class="btn btn-primary">Novo Empréstimo</a>
+        </div>
     
+    </div>
+
+
     <div class="card border-0 shadow-sm ">
         
         <div class="card-header bg-white border-0 mx-auto">
@@ -35,16 +44,19 @@
                             <div class="card-header bg-opacity-30">Descrição da Chave</div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col" style="display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;">
-                                        <span class="badge text-bg-success "><span class="text-success fw-bold">{{posts.ativo}}</span> <span class="badge ">Disponível</span> </span>
-                                        <i class="fas fa-user"> 123465 </i>
-                                        
+                                    <div class="col" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="badge text-bg-success "><span class="text-success fw-bold">{{posts.ativo}}</span> <span class="badge ">Disponível</span> </span>                                        
+                                        <a href="#" tooltip="tooltip" title="Adicionar Chave"><i class="fa-solid fa-hand-holding-medical"></i></a>                                        
                                     </div>
                                     
                                     
                                     <!--
+                                    <div class="col" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span class="badge text-bg-success "><span class="text-success fw-bold">{{posts.ativo}}</span> <span class="badge ">Disponível</span> </span>                                        
+                                        <a href="#" tooltip="tooltip" title="usuario.nome"><i class="fas fa-user"></i></a>                                        
+                                    </div>            
+
+
                                     <div class="col-auto">
                                         <span class="badge text-bg-danger bg-opacity-10"> <span class="text-danger fw-bold">{{posts.inativo}}</span> <span class="badge text-secondary">Inativo</span> </span>  
                                     </div>
@@ -68,14 +80,14 @@
 
     
 
-
+<!-- POSTS
 
     <div class="row">
         <div class="col-xl-6 col-xxl-5 mb-2 d-flex">
             <div class="w-100">
                 <div class="row">
 
-                    <!--INICIO POSTS-->
+                    
 
                     <div class="col-sm-6">
                         <div class="card border-1 shadow-sm mb-3">
@@ -105,11 +117,12 @@
                             </div>
                         </div>                                   
                     </div>
-                    <!--FIM POSTS-->
+                    
                 </div>
             </div>
         </div>    
     </div>
+    -->
     
 {% endblock %}
 
