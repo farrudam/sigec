@@ -49,7 +49,7 @@ class Usuario{
         return $result;
     }
 
-    public function getById() {
+    static function getById() {
         $sql = "select * from usuario where id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($this->id));
@@ -85,13 +85,12 @@ class Usuario{
     }
 
     public function update($params) {
-        $sql = "UPDATE usuario set nome = ?, email = ?, matricula = ?, celular = ?, tipo = ?, perfil = ?, 
+        $sql = "UPDATE usuario set nome = ?, email = ?, celular = ?, tipo = ?, perfil = ?, 
                        doc_autorizacao = ?, url_foto = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['nome'],
-            $params['email'],
-            $params['matricula'],
+            $params['email'],            
             $params['celular'],
             $params['tipo'],
             $params['perfil'],            
@@ -112,6 +111,21 @@ class Usuario{
         $sql = "UPDATE usuario set habilitado = 0 WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
+
+    static function loginCriarOuAtualizar($login, $nome, $senha, $telefone, $setor, $privilegio, $ativo) {
+        $user = self::getByLogin($login);
+        #Se tiver usuário cadastrado então é uma atualização se não é um novo usuário
+        if ($user) {
+            #Verifica se o usuário ta atualizando a senha.
+            $senha = ($senha == null or $senha == '') ? $user->getSenha() : $senha;
+            $sql = 'UPDATE usuario SET nome = ?, senha = ?, telefone = ?, setor_id = ?, nivel_acesso_id = ?, ativo = ? WHERE login = ?';
+        } else {
+            $sql = 'INSERT INTO usuario (nome, senha, telefone, setor_id, nivel_acesso_id, ativo, login) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        }
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($nome, $senha, $telefone, $setor, $privilegio, $ativo, $login));
         return $stmt->errorInfo();
     }
     
