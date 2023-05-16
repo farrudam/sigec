@@ -9,8 +9,8 @@ use Slim\Http\Response;
 
 class HomeController extends Controller{
 
-    public function index(Request $request, Response $response, $args){
-        return $this->container['renderizar']->render($response, 'index.html', [ ]);        
+    public function home(Request $request, Response $response, $args){
+        return $this->container['renderizar']->render($response, 'home.html', [ ]);        
     }
 
 

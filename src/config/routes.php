@@ -1,12 +1,17 @@
 <?php
 
-$app->group('/admin', function() use ($app){
-  $app->get('/login', function(){
-      echo 'login';
-  });
-});
+// $app->group('/admin', function() use ($app){
+//   $app->get('/login', function(){
+//       echo 'login';
+//   });
+// });
 
-$app->get('/', 'sigec\controllers\HomeController:index');
+$app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
+
+$app->get('/login', 'sigec\controllers\AutenticadorController:login')->setName('login');
+$app->post('/login', 'sigec\controllers\AutenticadorController:login')->setName('login');
+
+$app->get('/logout', 'sigec\controllers\AutenticadorController:logout')->setName('logout');
 
 $app->get('/usuarios', 'sigec\controllers\UsuarioController:show');
 $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo');

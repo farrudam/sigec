@@ -43,7 +43,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="matricula" class="form-label">Matrícula</label>
-                        <input type="text" value="{{usuario.matricula}}" name="matricula" id="matricula" class="form-control">
+                        <input type="text" value="{{usuario.matricula}}" name="matricula" id="matricula" class="form-control" disabled>
                     </div>
                 </div>                
             
@@ -59,12 +59,15 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo</label>
+                        <input type="text" value="{{usuario.tipo}}" name="tipo" id="tipo" class="form-control" disabled>
+                        <!--
                         <select class="form-select" name="tipo" id="tipo">
-                            <!--<option value="{{usuario.id}}">{{usuario.tipo}}</option>-->                            
+                            <option value="{{usuario.id}}">{{usuario.tipo}}</option>                            
                             <option value="Servidor" {% if usuario.tipo == 'servidor' %}selected{%endif%}>Servidor</option>
                             <option value="Terceirizado" {% if usuario.tipo == 'terceirizado' %}selected{%endif%}>Terceirizado</option>
                             <option value="Aluno" {% if usuario.tipo == 'aluno' %}selected{%endif%}>Aluno</option>                            
                         </select>
+                        -->
                     </div>
                 </div>
 
