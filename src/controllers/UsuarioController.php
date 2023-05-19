@@ -15,6 +15,7 @@ class UsuarioController extends Controller{
         
         if(isset($postParam)){
             Usuario::create($postParam);
+            $this->container['flash']->addMessage('success', 'Usuário adicionado com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../usuarios'); 
         }                
     }
@@ -38,7 +39,7 @@ class UsuarioController extends Controller{
         $objeto = new Usuario($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
-
+        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');  
     }
 
