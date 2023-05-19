@@ -18,6 +18,7 @@ class ChaveController extends Controller{
         
         if(isset($postParam)){
             Chave::create($postParam);
+            $this->container['flash']->addMessage('success', 'Chave adicionada com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../chaves'); 
         }                
     }
@@ -32,8 +33,7 @@ class ChaveController extends Controller{
     public function editar(Request $request, Response $response, $args){
         $objeto = new Chave();
         $chave = $objeto->getById($args['id']);     
-        $sala = (new Sala())->getById($args['id_sala']);   
-                
+        $sala = (new Sala())->getById($args['id_sala']);
         return $this->container['renderizar']->render($response, 'chave_editar.html', [
             'chave' => $chave,
             'sala' => $sala
@@ -43,8 +43,8 @@ class ChaveController extends Controller{
     public function update(Request $request, Response $response, $args){
         $objeto = new Chave($args['id']);        
         $params = $request->getParams();        
-        $objeto->update($params);        
-
+        $objeto->update($params);
+        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../chaves'); 
     }
 

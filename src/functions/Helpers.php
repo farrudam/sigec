@@ -2,31 +2,23 @@
 
 namespace sigec\functions;
 
-class Helpers 
-{
-    
-    
-    public static function url(string $url = null): string
-    {
-        $servidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
-        $ambiente = ($servidor == 'localhost' ? URL_DESENVOLVIMENTO : URL_PRODUCAO);
+use sigec\functions\Sessao;
 
-        if (str_starts_with($url, '/')) {
-            return $ambiente . $url;
-        }
-        return $ambiente . '/' . $url;
-    }
-    
-    public static function redirecionar(string $url = null): void
+
+class Helpers
+{
+
+    /*Instancia e retorna as mensagens flash por sessão*/
+    public static function flash(): ?string
     {
-        header('HTTP/1.1 302 Found');
-        
-        $local = ($url ? self::url($url) : self::url());
-        
-        header("Location: {$local} ");
-        exit();
+        $sessao = new Sessao();
+
+        if ($flash = $sessao->flash()) {
+            echo $flash;
+        }
+        return null;
     }
+
     
-       
-    
+
 }

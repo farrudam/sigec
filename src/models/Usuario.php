@@ -49,7 +49,7 @@ class Usuario{
         return $result;
     }
 
-    static function getById() {
+    public function getById() {
         $sql = "select * from usuario where id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($this->id));
@@ -85,14 +85,13 @@ class Usuario{
     }
 
     public function update($params) {
-        $sql = "UPDATE usuario set nome = ?, email = ?, celular = ?, tipo = ?, perfil = ?, 
+        $sql = "UPDATE usuario set nome = ?, email = ?, celular = ?, perfil = ?, 
                        doc_autorizacao = ?, url_foto = ? WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['nome'],
             $params['email'],            
-            $params['celular'],
-            $params['tipo'],
+            $params['celular'],            
             $params['perfil'],            
             $params['doc_autorizacao'],
             $params['url_foto'],

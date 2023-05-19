@@ -14,10 +14,11 @@ class SalaController extends Controller{
 
     
     public function create(Request $request, Response $response, $args){
-         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);         
+        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);         
         
         if(isset($postParam)){
             Sala::create($postParam);
+            $this->container['flash']->addMessage('success', 'Sala adicionada com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../salas'); 
         }                
     }
@@ -42,7 +43,7 @@ class SalaController extends Controller{
         $objeto = new Sala($args['id']);        
         $params = $request->getParams();        
         $objeto->update($params);        
-
+        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../salas'); 
 
     }

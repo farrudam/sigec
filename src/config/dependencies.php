@@ -13,6 +13,13 @@ $container['renderizar'] = function ($c) {
 		$c->router,
 		$c->request->getUri()
     ));
+    
+    //INclusão de 3 linhas antes do return em 18/05/2023
+    $env = $view->getEnvironment();
+    $env->addGlobal('messages', $c->get('flash')->getMessages());
+    $env->addGlobal('session', $_SESSION);
+    
+    
     return $view;
 };
 
@@ -28,10 +35,11 @@ $container['logger'] = function ($c) {
 // Register provider
 $container['flash'] = function () {
   //session_start();
-  if ( session_status() !== PHP_SESSION_ACTIVE )
+  /*if ( session_status() !== PHP_SESSION_ACTIVE )
   {
     session_start();
   }
+  */
   return new \Slim\Flash\Messages();
 };
 

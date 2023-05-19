@@ -9,19 +9,14 @@ use sigec\models\Bloco;
 
 
 class BlocoController extends Controller{
-
-//    public function index(Request $request, Response $response, $args){
-//        return $this->container['renderizar']->render($response, 'index.html', [
-//            'titulo' => 'teste de título',
-//            'subtitulo' => 'teste de subtitulo'
-//        ]);        
-//    } 
+ 
     
     public function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
             Bloco::create($postParam);
+            $this->container['flash']->addMessage('success', 'Bloco adicionado com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../blocos'); 
         }                
     }
@@ -43,10 +38,9 @@ class BlocoController extends Controller{
         $objeto = new Bloco($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
+        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
+        return $response->withStatus(301)->withHeader('Location', '../../blocos');
 
-        return $response->withStatus(301)->withHeader('Location', '../../blocos'); 
-//      $rota = $this->container['renderizar']->get('router')->pathFor('bloco.show');       
-//      return $response->withStatus(301)->withHeader('Location', $rota); 
     }
 
     public function show(Request $request, Response $response, $args){
