@@ -39,13 +39,17 @@ class Usuario{
     
     public function validarLogin($params) {
 
-            if( ($params['matricula'] != $this->matricula) && ($params['senha'] != $this->senha) ){
-                $this->container['flash']->addMessage('error', 'Usuário ou senha inválidos!');
-                return false;
-            }
-            else{                
-                return true;
-            }        
+//            if( ($params['matricula'] != $this->matricula) && ($params['senha'] != $this->senha) ){
+//                $this->container['flash']->addMessage('error', 'Usuário ou senha inválidos!');
+//                return false;
+//            }
+//            else{                
+//                return true;
+//            } 
+        
+        $user = self::getById($params['id']);
+        
+        
     }
     
     public function getByMatricula() {
