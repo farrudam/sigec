@@ -10,6 +10,31 @@ use sigec\models\Usuario;
 
 class UsuarioController extends Controller{
     
+    public function login(Request $request, Response $response, $args) {
+        
+        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        
+        if(isset($postParam)){            
+            if (empty($postParam['matricula']) || empty($postParam['senha'])) {                
+                $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                
+                return $response->withStatus(301)->withHeader('Location', '/sigec/login');         
+            } else {
+                echo 'teste';
+//              $usuario = new Usuario($args['id']);
+//              $loginValido = $usuario->validarLogin($args['matricula'], $args['senha']);
+//              
+//              if ($loginValido) {//                  
+//                  return $this->container['renderizar']->render($response, 'home.html', ['usuario' => $usuario]);         
+//              } else {
+//                  Exibe uma mensagem de erro na página de login.
+//              }
+                
+            } 
+        }      
+        
+    }
+    
+    
     public function create(Request $request, Response $response, $args){
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
