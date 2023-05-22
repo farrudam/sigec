@@ -3,12 +3,12 @@
 
 $app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
 
-$app->get('/admin', 'sigec\controllers\HomeController:admin')->setName('admin');
-
-$app->get('/login', 'sigec\controllers\LoginController:login')->setName('login');
-$app->post('/login', 'sigec\controllers\LoginController:checkin')->setName('checkin');
-
-$app->get('/logout', 'sigec\controllers\LoginController:logout')->setName('logout');
+//$app->get('/admin', 'sigec\controllers\HomeController:admin')->setName('admin');
+//
+//$app->get('/login', 'sigec\controllers\LoginController:login')->setName('login');
+//$app->post('/login', 'sigec\controllers\LoginController:checkin')->setName('checkin');
+//
+//$app->get('/logout', 'sigec\controllers\LoginController:logout')->setName('logout');
 
 $app->get('/usuarios', 'sigec\controllers\UsuarioController:show');
 $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo');
@@ -18,6 +18,9 @@ $app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update')
 $app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar');
 $app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar');
 $app->get('/usuario/{id}/desativar', 'sigec\controllers\UsuarioController:desativar');
+$app->get('/login', 'sigec\controllers\UsuarioController:login')->setName('login');
+$app->post('/login', 'sigec\controllers\UsuarioController:checkin')->setName('checkin');
+$app->get('/logout', 'sigec\controllers\UsuarioController:logout')->setName('logout');
 
 
 $app->get('/blocos', 'sigec\controllers\BlocoController:show');

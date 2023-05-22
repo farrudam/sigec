@@ -10,31 +10,56 @@ use sigec\models\Usuario;
 
 class UsuarioController extends Controller{
     
-    public function login(Request $request, Response $response, $args) {
+    public function login(Request $request, Response $response, $args)
+    {
+        if ($request->isGet()){
+            return $this->container['renderizar']->render($response, 'login.html', []);            
+        }        
+    }
+        
+    public function checkin(Request $request, Response $response, $args) {       
         
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
+        $matricula = $postParam['matricula'];
+        $senha = $postParam['senha'];
+
         if(isset($postParam)){            
-            if (empty($postParam['matricula']) || empty($postParam['senha'])) {                
+
+            if (in_array('', $postParam)) {                
                 $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                
                 return $response->withStatus(301)->withHeader('Location', '/sigec/login');         
-            } else {
-                echo 'teste';
-//              $usuario = new Usuario($args['id']);
-//              $loginValido = $usuario->validarLogin($args['matricula'], $args['senha']);
-//              
-//              if ($loginValido) {//                  
-//                  return $this->container['renderizar']->render($response, 'home.html', ['usuario' => $usuario]);         
-//              } else {
-//                  Exibe uma mensagem de erro na página de login.
-//              }
-                
             } 
-        }      
-        
+                  
+            $objeto = new Usuario($args['id']);
+            $usuario = $objeto->getById();
+            
+            var_dump($objeto);
+            
+            //$loginValido = $usuario->validarLogin($matricula, $senha);                               
+            
+                       
+
+//            if (!$usuario) {
+//                $this->container['flash']->addMessage('error', 'Matrícula ou senha inválidos!');                
+//                return $response->withStatus(301)->withHeader('Location', '/sigec/login');                
+//                         
+//            } 
+//            
+//            if($postParam['senha'] != $objeto->getSenha()){
+//                $this->container['flash']->addMessage('success', "{$usuario->getNome()}, seja bem vindo(a)!");
+//                return $this->container['renderizar']->render($response, 'home.html', ['usuario' => $usuario]);     
+//            }
+
+             
+        }  
     }
     
-    
+    public function logout($request, $response, $args) {
+        session_destroy();
+        return $this->container['renderizar']->render($response, 'login.html', [ ]);
+    }
+        
     public function create(Request $request, Response $response, $args){
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         

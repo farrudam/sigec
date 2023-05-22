@@ -13,8 +13,8 @@ class HomeController extends Controller{
         return $this->container['renderizar']->render($response, 'home.html', [ ]);        
     }
         
-    public function admin(Request $request, Response $response, $args){       
-        $this->container['flash']->addMessage('error', 'Você deve estar logado');
-        return $response->withStatus(302)->withHeader('Location', '/sigec/login');         
-    }
+//    public function admin(Request $request, Response $response, $args){       
+//        $this->container['flash']->addMessage('error', 'Você deve estar logado');
+//        return $response->withStatus(302)->withHeader('Location', '/sigec/login');         
+//    }
 }

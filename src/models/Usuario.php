@@ -37,14 +37,27 @@ class Usuario{
         return $usuario;
     }
     
-//    public function validarLogin($params['matricula'], $params['senha']) {
-//        // Lógica de validação de login
-//            if($params['senha'] != $usuario->senha){
-//                $this->mensagem->alerta("Senha incorreta")->flash();
-//                return false;
-//            }
-//        // Retorna true se o login for válido, caso contrário, retorna false
-//    }
+    public function validarLogin($params) {
+
+            if( ($params['matricula'] != $this->matricula) && ($params['senha'] != $this->senha) ){
+                $this->container['flash']->addMessage('error', 'Usuário ou senha inválidos!');
+                return false;
+            }
+            else{                
+                return true;
+            }        
+    }
+    
+    public function getByMatricula() {
+        $sql = "select * from usuario where id = ? and matricula = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($this->id, $this->matricula));
+        $row = $stmt->fetch();
+        if ($row == null) {
+            return null;
+        }
+        return self::bundle($row);
+    }
     
     public function getAll() {
         $sql = "select * from usuario order by nome ";
@@ -69,16 +82,7 @@ class Usuario{
         return self::bundle($row);
     }
     
-    public function getByMatricula() {
-        $sql = "select * from usuario where id = ? and matricula = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($this->id, $this->matricula));
-        $row = $stmt->fetch();
-        if ($row == null) {
-            return null;
-        }
-        return self::bundle($row);
-    }
+    
 
     static function create($params) {        
         $sql = "INSERT INTO usuario (matricula, nome, celular, email, tipo, perfil) 
