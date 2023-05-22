@@ -18,7 +18,7 @@ class Usuario{
     private $perfil;
     
     public function __construct($id = null) {
-        $this->id = $id;
+        $this->id = $id;        
     }
     
     private function bundle ($row){
@@ -35,7 +35,16 @@ class Usuario{
         $usuario->setPerfil($row['perfil']);        
         
         return $usuario;
-    }           
+    }
+    
+//    public function validarLogin($params['matricula'], $params['senha']) {
+//        // Lógica de validação de login
+//            if($params['senha'] != $usuario->senha){
+//                $this->mensagem->alerta("Senha incorreta")->flash();
+//                return false;
+//            }
+//        // Retorna true se o login for válido, caso contrário, retorna false
+//    }
     
     public function getAll() {
         $sql = "select * from usuario order by nome ";
@@ -53,6 +62,17 @@ class Usuario{
         $sql = "select * from usuario where id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($this->id));
+        $row = $stmt->fetch();
+        if ($row == null) {
+            return null;
+        }
+        return self::bundle($row);
+    }
+    
+    public function getByMatricula() {
+        $sql = "select * from usuario where id = ? and matricula = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($this->id, $this->matricula));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;
@@ -113,20 +133,20 @@ class Usuario{
         return $stmt->errorInfo();
     }
 
-    static function loginCriarOuAtualizar($login, $nome, $senha, $telefone, $setor, $privilegio, $ativo) {
-        $user = self::getByLogin($login);
-        #Se tiver usuário cadastrado então é uma atualização se não é um novo usuário
-        if ($user) {
-            #Verifica se o usuário ta atualizando a senha.
-            $senha = ($senha == null or $senha == '') ? $user->getSenha() : $senha;
-            $sql = 'UPDATE usuario SET nome = ?, senha = ?, telefone = ?, setor_id = ?, nivel_acesso_id = ?, ativo = ? WHERE login = ?';
-        } else {
-            $sql = 'INSERT INTO usuario (nome, senha, telefone, setor_id, nivel_acesso_id, ativo, login) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        }
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($nome, $senha, $telefone, $setor, $privilegio, $ativo, $login));
-        return $stmt->errorInfo();
-    }
+//    static function loginCriarOuAtualizar($login, $nome, $senha, $telefone, $setor, $privilegio, $ativo) {
+//        $user = self::getByLogin($login);
+//        #Se tiver usuário cadastrado então é uma atualização se não é um novo usuário
+//        if ($user) {
+//            #Verifica se o usuário ta atualizando a senha.
+//            $senha = ($senha == null or $senha == '') ? $user->getSenha() : $senha;
+//            $sql = 'UPDATE usuario SET nome = ?, senha = ?, telefone = ?, setor_id = ?, nivel_acesso_id = ?, ativo = ? WHERE login = ?';
+//        } else {
+//            $sql = 'INSERT INTO usuario (nome, senha, telefone, setor_id, nivel_acesso_id, ativo, login) VALUES (?, ?, ?, ?, ?, ?, ?)';
+//        }
+//        $stmt = DBSigec::getKeys()->prepare($sql);
+//        $stmt->execute(array($nome, $senha, $telefone, $setor, $privilegio, $ativo, $login));
+//        return $stmt->errorInfo();
+//    }
     
     public function getId() {
         return $this->id;

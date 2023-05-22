@@ -26,7 +26,7 @@ class LoginController extends Controller{
                 return $response->withStatus(301)->withHeader('Location', '/sigec/login');         
             } else {
                 $this->container['flash']->addMessage('success', 'Dados válidos');
-                return $response->withStatus(301)->withHeader('Location', '/sigec/login');
+                return $response->withStatus(301)->withHeader('Location', '/sigec');
             } 
         }
          
@@ -36,21 +36,5 @@ class LoginController extends Controller{
         session_destroy();
         return $this->container['renderizar']->render($response, 'home.html', [ ]);
     }
-
-//    private function checarDados(array $postParams): bool
-//    {
-//        if(empty($postParams['matricula'])){
-//            $this->container['flash']->addMessage('error', 'Matrícula é obrigatório!');
-//            return false;
-//        }
-//        if(empty($postParams['senha'])){
-//            $this->container['flash']->addMessage('error', 'Senha é obrigatório!');
-//            return false;
-//        }
-//        
-//        return true;
-//    }
-
-        
 
 }
