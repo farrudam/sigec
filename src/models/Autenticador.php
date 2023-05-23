@@ -40,7 +40,7 @@ abstract class Autenticador {
 
     public abstract function pegar_privilegio();
 
-    public abstract function getUsuario();
+    public abstract function getMatricula();
 
     public abstract function getUsuarioRol();
 
@@ -80,7 +80,7 @@ class AutenticadorEmMemoria extends Autenticador {
             }
         }else{
             $user = $login;
-            $usuario_cad = Usuario::getByLogin($user);
+            $usuario_cad = (new Usuario())->getByMatricula($user);
             if (!$usuario_cad){
                 return false;
             }
@@ -88,12 +88,10 @@ class AutenticadorEmMemoria extends Autenticador {
             if ($crypt_pass != $usuario_cad->getSenha())
                 return false;
         }
-
-
         
         $sess->set('nome', $usuario_cad->getNome());
-        $sess->set('privilegio', $usuario_cad->getNivelAcesso());
-        $sess->set('user', $user);
+        $sess->set('perfil', $usuario_cad->getPerfil());
+        $sess->set('matricula', $user);
         $sess->set('pwd', '');
         return true;
         
@@ -140,11 +138,11 @@ class AutenticadorEmMemoria extends Autenticador {
         }
     }
 
-    function getUsuario() {
+    function getMatricula() {
         $sess = new Sessao();
 
         if ($this->logado()) {
-            $usuario = $sess->get('user');
+            $usuario = $sess->get('matricula');
             return $usuario;
         } else {
             return false;
