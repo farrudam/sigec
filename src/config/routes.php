@@ -1,7 +1,7 @@
 <?php
 
 
-$app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
+$app->get('/', 'sigec\controllers\HomeController:home')->setName('home')->add($auth);
 
 //$app->get('/admin', 'sigec\controllers\HomeController:admin')->setName('admin');
 //
