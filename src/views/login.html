@@ -31,6 +31,13 @@
                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>
                 {% endfor %}
+                
+                {% for item in messages.info %}
+                    <div class="alert alert-info alert-dismissible fade show">
+                        {{item}}
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                {% endfor %}
                                 
                 <form action="{{ base_url() }}/login" method="post" class="d-flex flex-column align-items-center">      
                     <div class="form-floating mb-3">

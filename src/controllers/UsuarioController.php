@@ -35,7 +35,7 @@ class UsuarioController extends Controller{
             if ($objeto->logar($postParam['matricula'], $postParam['senha'], $tp = 'LOCALHOST')){
                 return $response->withStatus(301)->withHeader('Location', '/sigec');         
             } else{
-                $this->container['flash']->addMessage('error', 'Matrícula ou senha inválidos!');                
+                $this->container['flash']->addMessage('error', 'Matrícula ou senha inválida!');                
                 return $response->withStatus(301)->withHeader('Location', '/sigec/login');         
             }
             
@@ -43,9 +43,9 @@ class UsuarioController extends Controller{
     }
     
         
-    public function logout($request, $response, $args) {
+    public function logout(Request $request, Response $response, $args) {
         session_destroy();
-        return $response->withStatus(301)->withHeader('Location', '/sigec/login');
+        return $response->withStatus(301)->withHeader('Location', '/sigec/login');        
     }
         
     public function create(Request $request, Response $response, $args){
