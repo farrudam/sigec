@@ -6,8 +6,12 @@
             <file>file:/C:/laragon/www/sigec/src/controllers/UsuarioController.php</file>
             <file>file:/C:/laragon/www/sigec/src/models/Usuario.php</file>
             <file>file:/C:/laragon/www/sigec/src/views/bloco/listar_blocos.html</file>
+            <file>file:/C:/laragon/www/sigec/src/config/dependencies.php</file>
+            <file>file:/C:/laragon/www/sigec/src/controllers/SalaController.php</file>
             <file>file:/C:/laragon/www/sigec/src/views/topo.html</file>
             <file>file:/C:/laragon/www/sigec/src/config/routes.php</file>
+            <file>file:/C:/laragon/www/sigec/src/views/login.html</file>
+            <file>file:/C:/laragon/www/sigec/src/views/home.html</file>
         </group>
     </open-files>
 </project-private>
