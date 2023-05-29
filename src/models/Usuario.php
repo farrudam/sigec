@@ -37,20 +37,6 @@ class Usuario{
         return $usuario;
     }
     
-    public function validarLogin($params) {
-        
-        $usuario = (new Usuario())->getByMatricula($params['matricula']);
-               
-        if(!$usuario){
-            $this->container['flash']->addMessage('error', 'Usuário ou senha inválidos!');
-            return false;
-        }
-       
-        $this->container['flash']->addMessage('success', 'Bem vindo(a)!');
-        return true;
-
-    }
-    
     public function getByMatricula($matricula) {
         $sql = "select * from usuario where matricula = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
@@ -87,13 +73,14 @@ class Usuario{
     
 
     static function create($params) {        
-        $sql = "INSERT INTO usuario (matricula, nome, celular, email, tipo, perfil) 
-                            VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO usuario (matricula, nome, senha, celular, email, tipo, perfil) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['matricula'],
             $params['nome'],
+            $params['senha'],
             $params['celular'],
             $params['email'],
             $params['tipo'],
