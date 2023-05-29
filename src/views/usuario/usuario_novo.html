@@ -33,12 +33,23 @@
                 <label for="nome" class="form-label">Nome</label>
                 <input type="text" name="nome" id="nome" class="form-control">
             </div>
-            
-            <div class="mb-3">
-                <label for="email" class="form-label">E-mail</label>
-                <input type="text" name="email" id="email" class="form-control">
-            </div> 
-            
+            <div class="row">                
+                <div class="col-md-6 ">
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" name="senha" id="senha" class="form-control">
+                    </div> 
+                </div>
+                
+                
+                <div class="col-md-6"> 
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="text" name="email" id="email" class="form-control">
+                    </div> 
+                </div>
+                    
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -88,6 +99,24 @@
     </div>    
 </div>
 
-
+<script>
+    // Change the type of input to password or text
+        function ocultarSenha() {
+            let container = document.querySelector('div');
+            let input = document.querySelector('input');
+            let icon = document.querySelector('img');
+            
+            icon.addEventListener('click', function(){
+                container.classList.toggle('visible');
+                if (container.classList.contains('visible')){
+                    icon.src = '{{ base_url() }}/src/assets/img/eye-off.svg';
+                    input.type = 'text';
+                }else{
+                    icon.src = '{{ base_url() }}/src/assets/img/eye.svg';
+                    input.type = 'password'
+                }
+            });
+        }
+</script>
 
 {% endblock %}

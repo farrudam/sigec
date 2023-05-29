@@ -85,6 +85,7 @@ class AutenticadorEmMemoria extends Autenticador {
                 return false;
             }
             $crypt_pass = md5($senha);
+            //$crypt_pass = password_hash($senha, PASSWORD_DEFAULT);
             if ($crypt_pass != $usuario_cad->getSenha())
                 return false;
         }
@@ -122,6 +123,7 @@ class AutenticadorEmMemoria extends Autenticador {
 
         if ($this->logado()) {
             return $sess->get('pwd') == md5($senha);
+            //return password_verify($senha, $sess->get('pwd'));
         } else {
             return false;
         }

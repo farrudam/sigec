@@ -33,7 +33,13 @@ class UsuarioController extends Controller{
             $objeto = Autenticador::instanciar();
             
             if ($objeto->logar($postParam['matricula'], $postParam['senha'], $tp = 'LOCALHOST')){
-                return $response->withStatus(301)->withHeader('Location', '/sigec');         
+//                $_SESSION['nome'] = $objeto->getUsuarioNome();
+//                $nome = $_SESSION['nome'];
+//                                
+//                return $this->container['renderizar']->render($response, 'home.html', [ 
+//                    'nome' => $nome 
+//                   ]);
+                return $response->withStatus(301)->withHeader('Location', '/sigec/emprestimos');         
             } else{
                 $this->container['flash']->addMessage('error', 'Matrícula ou senha inválida!');                
                 return $response->withStatus(301)->withHeader('Location', '/sigec/login');         
@@ -45,13 +51,16 @@ class UsuarioController extends Controller{
         
     public function logout(Request $request, Response $response, $args) {
         session_destroy();
-        return $response->withStatus(301)->withHeader('Location', '/sigec/login');        
+        return $response->withStatus(301)->withHeader('Location', '/sigec');        
     }
         
     public function create(Request $request, Response $response, $args){
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
+            $postParam['senha'] = md5($postParam['senha']);
+            //$postParam['senha'] = password_hash($postParam['senha'], PASSWORD_DEFAULT);
+            
             Usuario::create($postParam);
             $this->container['flash']->addMessage('success', 'Usuário adicionado com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../usuarios'); 
@@ -78,7 +87,7 @@ class UsuarioController extends Controller{
         $params = $request->getParams();        
         $objeto->update($params);        
         $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
-        return $response->withStatus(301)->withHeader('Location', '../../usuarios');  
+        return $response->withStatus(301)->withHeader('Location', '../../usuarios');        
     }
 
     public function show(Request $request, Response $response, $args){
