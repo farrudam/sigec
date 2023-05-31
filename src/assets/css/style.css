@@ -62,10 +62,21 @@ body {
 .sidebarLogo a {
     color: #fff !important;
 }
+
 .logo {
     max-width: 100px;
     margin: auto !important
 }
+
+.logohorizontal {
+    width: 45%;
+                height: 45%;
+                object-fit: contain;
+    display: block;
+    margin: 0 auto 40px;
+    
+}
+
 .sidebarTitulo {
     color: var(--cor12);
     font-size: .75rem;

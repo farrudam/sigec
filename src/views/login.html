@@ -9,7 +9,12 @@
     <div class="col-md-6 col-sm-6 col-lg-4">
         <div class="card">
             <div class="card-body">
-                <h1 class="h3 mb-3 text-center"><strong>Sigec</strong></h1>
+
+                <div class="logohorizontal">
+                    <img src="{{ base_url() }}/src/assets/img/IFCE_LogoHorizontal.png" alt="logo_campus_tiangua"/>
+                </div>
+
+                <h1 class="h5 mb-3 text-center"><strong>Sistema de Gestão para Empréstimo de Chaves</strong></h1>
                 
                 {% for item in messages.success %}
                     <div class="alert alert-success alert-dismissible fade show">
@@ -54,7 +59,7 @@
                     </div>
                     
                     <div class="text-center">
-                        <small class="text-muted">&copy; {{ "now"|date("Y") }}. CTI - Campus Tianguá.</small>
+                        <small class="text-muted">&copy; {{ "now"|date("Y") }}. Coordenadoria de Tecnologia da Informação - Campus Tianguá.</small>
                     </div>
                 </form>
             </div>
