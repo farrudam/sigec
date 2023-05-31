@@ -33,12 +33,7 @@ class UsuarioController extends Controller{
             $objeto = Autenticador::instanciar();
             
             if ($objeto->logar($postParam['matricula'], $postParam['senha'], $tp = 'LOCALHOST')){
-//                $_SESSION['nome'] = $objeto->getUsuarioNome();
-//                $nome = $_SESSION['nome'];
-//                                
-//                return $this->container['renderizar']->render($response, 'home.html', [ 
-//                    'nome' => $nome 
-//                   ]);
+//                
                 return $response->withStatus(301)->withHeader('Location', '/sigec/emprestimos');         
             } else{
                 $this->container['flash']->addMessage('error', 'Matrícula ou senha inválida!');                
