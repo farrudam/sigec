@@ -14,7 +14,7 @@ $container['renderizar'] = function ($c) {
 		$c->request->getUri()
     ));
     
-    //Inclusão 3 linhas em 18/05/2023
+    
     $env = $view->getEnvironment();
     $env->addGlobal('messages', $c->get('flash')->getMessages());
     $env->addGlobal('session', $_SESSION);

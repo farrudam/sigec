@@ -11,11 +11,10 @@ $auth = function ($request, $response, $next) {
         return $response->withRedirect($url);
     }
     
-    $twig = $this->get('renderer')->getEnvironment();
-      
-    //$twig->addGlobal('current_user', $aut);
-          
-    $response = $next($request, $response);
+    $twig = $this->get('renderizar')->getEnvironment();
+    
+    $response = $next($request, $response);   
+    
     return $response;
 };
 
