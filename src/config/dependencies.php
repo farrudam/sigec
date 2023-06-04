@@ -14,7 +14,7 @@ $container['renderizar'] = function ($c) {
 		$c->request->getUri()
     ));
     
-    //INclusão de 3 linhas antes do return em 18/05/2023
+    //Inclusão 3 linhas em 18/05/2023
     $env = $view->getEnvironment();
     $env->addGlobal('messages', $c->get('flash')->getMessages());
     $env->addGlobal('session', $_SESSION);
@@ -40,6 +40,7 @@ $container['flash'] = function () {
     session_start();
   }
   */
+  
   return new \Slim\Flash\Messages();
 };
 

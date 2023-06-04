@@ -6,14 +6,16 @@ $auth = function ($request, $response, $next) {
     $aut = Autenticador::instanciar();
   
     if (!$aut->logado())
-    {        
-        return $response->withRedirect('login');
+    {
+        $url = $this->router->pathFor('login');
+        return $response->withRedirect($url);
     }
     
-    $twig = $this->get('renderizar')->getEnvironment();
+    $twig = $this->get('renderer')->getEnvironment();
       
-    $twig->addGlobal('current_user', $aut);
-    
-    return $next($request, $response);
+    //$twig->addGlobal('current_user', $aut);
+          
+    $response = $next($request, $response);
+    return $response;
 };
 

@@ -10,6 +10,7 @@ $app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update')
 $app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar')->setName('user_detalhar')->add($auth);
 $app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar')->setName('user_ativar')->add($auth);
 $app->get('/usuario/{id}/desativar', 'sigec\controllers\UsuarioController:desativar')->setName('user_desativar')->add($auth);
+
 $app->get('/login', 'sigec\controllers\UsuarioController:login')->setName('login');
 $app->post('/login', 'sigec\controllers\UsuarioController:checkin')->setName('checkin');
 $app->get('/logout', 'sigec\controllers\UsuarioController:logout')->setName('logout');
@@ -46,7 +47,7 @@ $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabili
 
 $app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
 $app->get ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:novo')->setName('emprestimo_novo')->add($auth);
-$app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:create')->add($auth);
+$app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:create');
 
 
 
@@ -72,8 +73,8 @@ $app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:crea
 //$app->post ('/bloco/novo', 'sigec\controllers\BlocoController:create');
 //$app->get('/bloco/{id}/editar', 'sigec\controllers\BlocoController:editar')->setName('bloco_editar')->add($auth);
 //$app->post('/bloco/update/{id}', 'sigec\controllers\BlocoController:update');
-//$app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir')->setName('bloco_excluir')->add($auth);;
-//
+//$app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir')->setName('bloco_excluir')->add($auth);
+////
 //
 //$app->get('/salas', 'sigec\controllers\SalaController:show')->setName('salas')->add($auth);
 //$app->get ('/sala/nova', 'sigec\controllers\SalaController:novo')->setName('sala_nova')->add($auth);
