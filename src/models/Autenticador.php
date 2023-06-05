@@ -183,6 +183,7 @@ class AutenticadorEmMemoria extends Autenticador {
         }
 
         // Por último, destrói a sessão
+        
         session_destroy();
     }
 
