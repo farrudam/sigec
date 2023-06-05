@@ -2,7 +2,7 @@
 
 $app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
 
-$app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios');
+$app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios')->add($auth);
 $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo');
 $app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
 $app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar')->setName('user_editar');
@@ -16,12 +16,12 @@ $app->post('/login', 'sigec\controllers\UsuarioController:checkin')->setName('ch
 $app->get('/logout', 'sigec\controllers\UsuarioController:logout')->setName('logout');
 
 
-//$app->get('/blocos', 'sigec\controllers\BlocoController:show')->setName('blocos');
-//$app->get ('/bloco/novo', 'sigec\controllers\BlocoController:novo')->setName('bloco_novo');
-//$app->post ('/bloco/novo', 'sigec\controllers\BlocoController:create');
-//$app->get('/bloco/{id}/editar', 'sigec\controllers\BlocoController:editar')->setName('bloco_editar');
-//$app->post('/bloco/update/{id}', 'sigec\controllers\BlocoController:update');
-//$app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir')->setName('bloco_excluir');
+$app->get('/blocos', 'sigec\controllers\BlocoController:show')->setName('blocos');
+$app->get ('/bloco/novo', 'sigec\controllers\BlocoController:novo')->setName('bloco_novo');
+$app->post ('/bloco/novo', 'sigec\controllers\BlocoController:create');
+$app->get('/bloco/{id}/editar', 'sigec\controllers\BlocoController:editar')->setName('bloco_editar');
+$app->post('/bloco/update/{id}', 'sigec\controllers\BlocoController:update');
+$app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir')->setName('bloco_excluir');
 
 
 $app->get('/salas', 'sigec\controllers\SalaController:show')->setName('salas');
@@ -45,7 +45,7 @@ $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar'
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar');
 
 
-$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
+$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos');
 $app->get ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:novo')->setName('emprestimo_novo')->add($auth);
 $app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:create');
 
@@ -68,12 +68,12 @@ $app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:crea
 //$app->get('/logout', 'sigec\controllers\UsuarioController:logout')->setName('logout');
 //
 //
-$app->get('/blocos', 'sigec\controllers\BlocoController:show')->setName('blocos')->add($auth);
-$app->get ('/bloco/novo', 'sigec\controllers\BlocoController:novo')->setName('bloco_novo')->add($auth);
-$app->post ('/bloco/novo', 'sigec\controllers\BlocoController:create');
-$app->get('/bloco/{id}/editar', 'sigec\controllers\BlocoController:editar')->setName('bloco_editar')->add($auth);
-$app->post('/bloco/update/{id}', 'sigec\controllers\BlocoController:update');
-$app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir')->setName('bloco_excluir')->add($auth);
+//$app->get('/blocos', 'sigec\controllers\BlocoController:show')->setName('blocos')->add($auth);
+//$app->get ('/bloco/novo', 'sigec\controllers\BlocoController:novo')->setName('bloco_novo')->add($auth);
+//$app->post ('/bloco/novo', 'sigec\controllers\BlocoController:create');
+//$app->get('/bloco/{id}/editar', 'sigec\controllers\BlocoController:editar')->setName('bloco_editar')->add($auth);
+//$app->post('/bloco/update/{id}', 'sigec\controllers\BlocoController:update');
+//$app->get('/bloco/{id}/excluir', 'sigec\controllers\BlocoController:excluir')->setName('bloco_excluir')->add($auth);
 //
 //
 //$app->get('/salas', 'sigec\controllers\SalaController:show')->setName('salas')->add($auth);

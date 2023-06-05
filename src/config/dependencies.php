@@ -32,7 +32,7 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
-// Register provider
+
 $container['flash'] = function () {
   //session_start();
   /*if ( session_status() !== PHP_SESSION_ACTIVE )
