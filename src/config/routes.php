@@ -3,13 +3,13 @@
 $app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
 
 $app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios')->add($auth);
-$app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo');
+$app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo')->add($auth);
 $app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
-$app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar')->setName('user_editar');
+$app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar')->setName('user_editar')->add($auth);
 $app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');
-$app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar')->setName('user_detalhar');
-$app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar')->setName('user_ativar');
-$app->get('/usuario/{id}/desativar', 'sigec\controllers\UsuarioController:desativar')->setName('user_desativar');
+$app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar')->setName('user_detalhar')->add($auth);
+$app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar')->setName('user_ativar')->add($auth);
+$app->get('/usuario/{id}/desativar', 'sigec\controllers\UsuarioController:desativar')->setName('user_desativar')->add($auth);
 
 $app->get('/login', 'sigec\controllers\UsuarioController:login')->setName('login');
 $app->post('/login', 'sigec\controllers\UsuarioController:checkin')->setName('checkin');
@@ -45,7 +45,7 @@ $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar'
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar');
 
 
-$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos');
+$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
 $app->get ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:novo')->setName('emprestimo_novo')->add($auth);
 $app->post ('/emprestimo/novo', 'sigec\controllers\ItemEmprestimoController:create');
 
