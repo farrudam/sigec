@@ -11,7 +11,8 @@ $auth = function ($request, $response, $next) {
         return $response->withRedirect($url);
     }
     
-    $twig = $this->get('renderizar')->getEnvironment();
+   // $twig = $this->get('renderizar')->getEnvironment();
+    //$twig->addGlobal('current_user', $aut);
     
     $response = $next($request, $response);   
     

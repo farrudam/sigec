@@ -9,7 +9,7 @@ CREATE TABLE `bloco` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(80) NOT NULL,
     PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `sala` (
@@ -18,7 +18,7 @@ CREATE TABLE `sala` (
   `nome` VARCHAR(80) NOT NULL,
   `situacao` ENUM('Ativa', 'Inativa', 'Manutencao') DEFAULT 'Ativa',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `chave`(
     `id` INT NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE `chave`(
     `habilitada` TINYINT(1) DEFAULT '1',
     `restrita` TINYINT(1) DEFAULT '0',
     PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `usuario` (  
@@ -45,7 +45,7 @@ CREATE TABLE `usuario` (
   `tipo` enum('Aluno','Servidor', 'Terceirizado') NOT NULL,
   `perfil` enum('Administrador', 'Portaria', 'Solicitante') NOT NULL,
   PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `restricao_chave` (
@@ -53,7 +53,7 @@ CREATE TABLE `restricao_chave` (
   `mat_solic` INT NOT NULL,
   `restricao` TINYINT(1) DEFAULT '0',
   PRIMARY KEY (`id_chave`, `mat_solic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `emprestimo` (
@@ -62,11 +62,11 @@ CREATE TABLE `emprestimo` (
   `mat_user_abertura` INT NOT NULL,
   `mat_user_devolucao` INT NULL,  
   `data_abertura` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `data_devolucao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `data_devolucao` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(255) DEFAULT NULL,
   `situacao` enum('Aberto','Devolvido', 'Atrasado') NOT NULL DEFAULT 'Aberto',
     PRIMARY KEY (`id`)    
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `item_emprestimo` (    
@@ -74,7 +74,7 @@ CREATE TABLE `item_emprestimo` (
   `id_chave` INT NOT NULL,  
   `devolvido_em` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_emprestimo`, `id_chave`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 

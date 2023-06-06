@@ -28,10 +28,10 @@ class DBSigec {
     
      
     public static function getKeys() {
-        $username = 'root';
-        $password = '';
+        $username = 'sati';
+        $password = '3czs91ADVuDJBqTW';
         $host = 'localhost';
-        $dbname = 'sigec';
+        $dbname = 'sati_sigec';
         if(self::$keys == null) {
             self::$keys = new \PDO('mysql:host='.$host.';dbname='.$dbname, $username, $password, [\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
             self::$keys->setAttribute(\PDO::ATTR_STATEMENT_CLASS, ['sigec\database\DBStatement', [self::$keys]]);

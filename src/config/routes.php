@@ -2,8 +2,8 @@
 
 $app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
 
-$app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios')->add($auth);
-$app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo')->add($auth);
+$app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios');
+$app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo');
 $app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
 $app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar')->setName('user_editar')->add($auth);
 $app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');

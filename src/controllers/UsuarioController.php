@@ -89,8 +89,7 @@ class UsuarioController extends Controller{
         $objeto = new Usuario();
         $usuarios = $objeto->getAll();
         
-        
-        
+                
         return $this->container['renderizar']->render($response, 'listar_usuarios.html', [
             'usuarios' => $usuarios
         ]);
