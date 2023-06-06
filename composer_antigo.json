@@ -21,6 +21,7 @@
         "slim/twig-view": "^2.4",
         "slim/flash": "^0.4.0",
         "slim/csrf": "^0.8.2",
+        "zguillez/slim-mobile-detect": "^1.0",
         "dompdf/dompdf": "^0.8.3"
     },
     "require-dev": {
@@ -28,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "sigec\\": "src/"
         }
     },
     "autoload": {
@@ -42,8 +43,12 @@
             "kylekatarnls/update-helper": true
         }
     },
+    "files":[
+        "sigec/src/functions/helpers.php",
+        "sigec/src/config/configuracao.php"
+    ],
     "scripts": {
-        "start": "php -S localhost:8080 -t public",
+        "start": "php -S localhost:8080 -t",
         "test": "phpunit"
     }
 
