@@ -2,20 +2,25 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim\Interfaces;
 
+use RuntimeException;
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
-use RuntimeException;
 
+/**
+ * Router Interface
+ *
+ * @package Slim
+ * @since   3.0.0
+ */
 interface RouterInterface
 {
-    /**
-     * Route result constants
-     */
+    // array keys from route result
     const DISPATCH_STATUS = 0;
     const ALLOWED_METHODS = 1;
 
@@ -63,16 +68,16 @@ interface RouterInterface
      *
      * @param string $name        Route name
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      *
      * @throws RuntimeException   If named route does not exist
      */
     public function getNamedRoute($name);
 
     /**
-     * @param string $identifier
+     * @param $identifier
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function lookupRoute($identifier);
 

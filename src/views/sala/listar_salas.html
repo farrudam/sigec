@@ -5,17 +5,17 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="http://localhost/sigec">
+                <a href="{{ base_url }}">
                     Home
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                <a href="http://localhost/sigec/salas">
+                <a href="{{ base_url }}/salas">
                     Salas
                 </a>
             </li>
         </ol>
-    </nav>
+    </nav>  
 
     {% for item in messages.success %}
         <div class="alert alert-success alert-dismissible fade show">
@@ -36,7 +36,7 @@
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
             <h3 class="card-title"><b>Salas</b></h3>
         
-            <a href="http://localhost/sigec/sala/nova" class="btn btn-primary">Nova Sala</a>
+            <a href="{{ base_url }}/sala/nova" class="btn btn-primary">Nova Sala</a>
         </div>
         
         <div class="card-body">

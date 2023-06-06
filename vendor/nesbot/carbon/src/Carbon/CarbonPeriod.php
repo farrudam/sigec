@@ -212,7 +212,7 @@ class CarbonPeriod implements Iterator, Countable
     /**
      * The cached validation result for current date.
      *
-     * @var bool|string|null
+     * @var bool|static::END_ITERATION
      */
     protected $validationResult;
 
@@ -237,10 +237,8 @@ class CarbonPeriod implements Iterator, Countable
     {
         // PHP 5.3 equivalent of new static(...$params).
         $reflection = new ReflectionClass(get_class());
-        /** @var static $instance */
-        $instance = $reflection->newInstanceArgs($params);
 
-        return $instance;
+        return $reflection->newInstanceArgs($params);
     }
 
     /**
@@ -378,14 +376,6 @@ class CarbonPeriod implements Iterator, Countable
     public static function macro($name, $macro)
     {
         static::$macros[$name] = $macro;
-    }
-
-    /**
-     * Remove all macros.
-     */
-    public static function resetMacros()
-    {
-        static::$macros = array();
     }
 
     /**
@@ -888,7 +878,7 @@ class CarbonPeriod implements Iterator, Countable
      * @param \Carbon\Carbon $current
      * @param int            $key
      *
-     * @return bool|string
+     * @return bool|static::END_ITERATION
      */
     protected function filterRecurrences($current, $key)
     {
@@ -964,7 +954,7 @@ class CarbonPeriod implements Iterator, Countable
      *
      * @param \Carbon\Carbon $current
      *
-     * @return bool|string
+     * @return bool|static::END_ITERATION
      */
     protected function filterEndDate($current)
     {
@@ -982,7 +972,7 @@ class CarbonPeriod implements Iterator, Countable
     /**
      * End iteration filter callback.
      *
-     * @return string
+     * @return static::END_ITERATION
      */
     protected function endIteration()
     {
@@ -991,6 +981,8 @@ class CarbonPeriod implements Iterator, Countable
 
     /**
      * Handle change of the parameters.
+     *
+     * @return void
      */
     protected function handleChangedParameters()
     {
@@ -1003,7 +995,7 @@ class CarbonPeriod implements Iterator, Countable
      * Returns true when current date is valid, false if it is not, or static::END_ITERATION
      * when iteration should be stopped.
      *
-     * @return bool|string
+     * @return bool|static::END_ITERATION
      */
     protected function validateCurrentDate()
     {
@@ -1022,7 +1014,7 @@ class CarbonPeriod implements Iterator, Countable
     /**
      * Check whether current value and key pass all the filters.
      *
-     * @return bool|string
+     * @return bool|static::END_ITERATION
      */
     protected function checkFilters()
     {
@@ -1145,22 +1137,6 @@ class CarbonPeriod implements Iterator, Countable
         if ($this->isStartExcluded() || $this->validateCurrentDate() === false) {
             $this->incrementCurrentDateUntilValid();
         }
-    }
-
-    /**
-     * Skip iterations and returns iteration state (false if ended, true if still valid).
-     *
-     * @param int $count steps number to skip (1 by default)
-     *
-     * @return bool
-     */
-    public function skip($count = 1)
-    {
-        for ($i = $count; $this->valid() && $i > 0; $i--) {
-            $this->next();
-        }
-
-        return $this->valid();
     }
 
     /**
