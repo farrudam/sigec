@@ -50,6 +50,7 @@ class SalaController extends Controller{
     }
 
     public function show(Request $request, Response $response, $args){
+        unset($_SESSION['slimflash']);
         $objeto = new Sala();
         $salas = $objeto->getAll();
         

@@ -49,6 +49,7 @@ class ChaveController extends Controller{
     }
 
     public function show(Request $request, Response $response, $args){
+        unset($_SESSION['slimflash']);
         $objeto = new Chave();
         $chaves = $objeto->getAll();
         

@@ -63,7 +63,7 @@ class UsuarioController extends Controller{
     }
     
     public function novo(Request $request, Response $response, $args){
-         
+       
          return $this->container['renderizar']->render($response, 'usuario_novo.html', [ ]);                
     }
     
@@ -81,15 +81,15 @@ class UsuarioController extends Controller{
         $objeto = new Usuario($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
-        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
+        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');          
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');        
     }
 
-    public function show(Request $request, Response $response, $args){
-        $objeto = new Usuario();
-        $usuarios = $objeto->getAll();
+    public function show(Request $request, Response $response, $args){        
         
-                
+        $objeto = new Usuario();
+        $usuarios = $objeto->getAll();        
+                                        
         return $this->container['renderizar']->render($response, 'listar_usuarios.html', [
             'usuarios' => $usuarios
         ]);
