@@ -42,7 +42,7 @@ $container['flash'] = function () {
     session_start();
   }
   */
-  
+  session_start();
   return new \Slim\Flash\Messages();
 };
 
