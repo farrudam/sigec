@@ -2,12 +2,8 @@
 
 /* --- Import Components stylesheets --- 
 @import url("components/icon.css");
-
-/*
-@import url("components/avatar.css");
-@import url("components/container.css");
-
 */
+
 @import url("components/button.css");
 @import url("components/banner.css");
 @import url("components/card.css");
@@ -265,10 +261,6 @@ main {
 @media (min-width: 1200px) {
    
 }
-
-
-
-
 
 
 @media screen and (max-width: 1200px) {

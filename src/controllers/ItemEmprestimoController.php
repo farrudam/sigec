@@ -10,7 +10,7 @@ use sigec\models\ItemEmprestimo;
 
 class ItemEmprestimoController extends Controller{
     
-    public function create(Request $request, Response $response, $args){
+    static function create(Request $request, Response $response, $args){
          $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
          var_dump($postParam);
          die();
@@ -57,7 +57,7 @@ class ItemEmprestimoController extends Controller{
     public function excluir(Request $request, Response $response, $args){
 
         Bloco::delete($args['id']);
-        return $response->withStatus(301)->withHeader('Location', '../../blocos');
+        return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
 //        $msg = Produto::delete($produto_codigo);
 //        if ($msg[2]) {
 //            $this->flash->addMessage('danger', $msg[2]);
