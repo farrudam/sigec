@@ -20,19 +20,21 @@ class ItemEmprestimo{
         $this->id_chave = $id_chave;
     }
     
-    private function bundle ($row){        
-             
+    private function bundle ($row){      
+        
         $emprestimo = new Emprestimo($row['id_emprestimo']);
-        $chave = new Chave($row['id_chave']);
-
-        $item_emprestimo = new ItemEmprestimo($row['id_emprestimo'], $row['id_chave']);        
         
-        $item_emprestimo->setDevolvidoEm($row['devolvido_em']);       
+        $chave =  new Chave($row['id_chave']);
         
-        $item_emprestimo->setIdEmprestimo($row['id_emprestimo']);  
-        $item_emprestimo->setEmprestimo($emprestimo->getById('id_emprestimo'));
-    
-        return $emprestimo;
+        $item_emprestimo = new ItemEmprestimo($row['id_emprestimo'], $row['id_chave']);  
+        $item_emprestimo->setEmprestimo($emprestimo->getById());
+        $item_emprestimo->setDevolvidoEm($row['devolvido_em']);  
+        
+        $item_emprestimo->setChave($chave->getById($row['id_chave']));
+        
+        
+        
+        return $item_emprestimo;
     }
     
     public function getAll() {
@@ -43,6 +45,18 @@ class ItemEmprestimo{
         $result = array();
         foreach ($rows as $row) {
             array_push($result, self::bundle($row));
+        }
+        return $result;
+    }
+    
+    static function getByEmprestimo($id_emprestimo) {
+        $sql = "select * from item_emprestimo where id_emprestimo = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id_emprestimo));
+        $rows = $stmt->fetchAll();
+        $result = [];
+        foreach ($rows as $row) {
+            $result[] = self::bundle($row);
         }
         return $result;
     }
@@ -69,10 +83,10 @@ class ItemEmprestimo{
         
     }
 
-    static function delete($id) {
+    static function delete($id_emprestimo, $id_chave) {
         $sql = 'DELETE FROM item_emprestimo WHERE id_emprestimo = ? and id_chave = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
+        $stmt->execute(array($this->id_emprestimo, $this->id_chave));
         return $stmt->errorInfo();
     }
 

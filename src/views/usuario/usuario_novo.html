@@ -7,12 +7,12 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="http://localhost/sigec">
+            <a href="{{ base_url }}">
                 Home
             </a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">
-            <a href="http://localhost/sigec/usuarios">
+            <a href="{{ base_url }}/usuarios">
                 Usuários
             </a>
         </li>
@@ -61,7 +61,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="celular" class="form-label">Celular</label>
-                        <input type="text" name="celular" id="celular" class="form-control">
+                        <input type="text" name="celular" id="celular" maxlength="15" class="form-control">
                     </div> 
                 </div>                
             </div>
@@ -100,23 +100,27 @@
 </div>
 
 <script>
-    // Change the type of input to password or text
-        function ocultarSenha() {
-            let container = document.querySelector('div');
-            let input = document.querySelector('input');
-            let icon = document.querySelector('img');
-            
-            icon.addEventListener('click', function(){
-                container.classList.toggle('visible');
-                if (container.classList.contains('visible')){
-                    icon.src = '{{ base_url() }}/src/assets/img/eye-off.svg';
-                    input.type = 'text';
-                }else{
-                    icon.src = '{{ base_url() }}/src/assets/img/eye.svg';
-                    input.type = 'password'
-                }
-            });
-        }
+    function mascara(o,f){
+    v_obj=o
+    v_fun=f
+    setTimeout("execmascara()",1)
+}
+function execmascara(){
+    v_obj.value=v_fun(v_obj.value)
+}
+function mtel(v){
+    v=v.replace(/\D/g,""); //Remove tudo o que não é dígito
+    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+    v=v.replace(/(\d)(\d{4})$/,"$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+    return v;
+}
+function id( el ){
+	return document.getElementById( el );
+}
+window.onload = function(){
+	id('celular').onkeyup = function(){
+		mascara( this, mtel );
+	}
+}
 </script>
-
 {% endblock %}

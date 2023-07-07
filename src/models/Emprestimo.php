@@ -2,8 +2,8 @@
 
 namespace sigec\models;
 use sigec\database\DBSigec;
-//use sigec\models\ItemEmprestimo;
 use sigec\models\Usuario;
+use sigec\models\ItemEmprestimo;
 
 class Emprestimo{
 
@@ -15,32 +15,37 @@ class Emprestimo{
     private $data_devolucao;
     private $observacao;
     private $situacao;    
+        
+    private $solicitante;
+    private $user_abertura;
+    private $user_devolucao;
     
-    private $id_usuario;
-    private $usuario;
+    private $chaves = [];
     
     public function __construct($id = null) {
         $this->id = $id;
     }
     
-    private function bundle ($row){        
-             
-        $usuario = new Usuario($row['id_usuario']);
-        $emprestimo = new Emprestimo($row['id']);        
+    private function bundle ($row){
 
+        #Usuários
+        $solicitante = (new Usuario())->getByMatricula($row['mat_solic']);
+        $user_abertura = (new Usuario())->getByMatricula($row['mat_user_abertura']);
+        $user_devolucao = (new Usuario())->getByMatricula($row['mat_user_devolucao']);
+        
+        #Emprestimo     
+        $emprestimo = new Emprestimo($row['id']);               
+                 
         $emprestimo->setMatSolic($row['mat_solic']);
         $emprestimo->setMatUserAbertura($row['mat_user_abertura']);
-        $emprestimo->setMatUserDevolucao($row['mat_user_devolucao']);
-
         $emprestimo->setDataAbertura($row['data_abertura']);
-        $emprestimo->setDataDevolucao($row['data_devolucao']);
-
         $emprestimo->setObservacao($row['observacao']);
-        $emprestimo->setSituacao($row['situacao']);       
+        $emprestimo->setSituacao($row['situacao']); 
         
-        $emprestimo->setIdUsuario($row['id_usuario']);  
-        $emprestimo->setUsuario($usuario->getById('id_usuario'));
-    
+        $emprestimo->setSolicitante($solicitante);
+        $emprestimo->setUser_abertura($user_abertura);
+        $emprestimo->setUser_devolucao($user_devolucao);
+         
         return $emprestimo;
     }
     
@@ -85,38 +90,49 @@ class Emprestimo{
         return $stmt->errorInfo();
     }
 
-    public function update($params) {
-        $sql = "UPDATE emprestimo set nome = ? WHERE id = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->id));
-        return $stmt->errorInfo();
-    }
+//    public function update($params) {
+//        $sql = "UPDATE emprestimo set nome = ? WHERE id = ?";
+//        $stmt = DBSigec::getKeys()->prepare($sql);
+//        $stmt->execute(array($params['nome'], $this->id));
+//        return $stmt->errorInfo();
+//    }
 
-    static function ativar($id) {
-        $sql = "UPDATE emprestimo set situacao = 'ativa' WHERE id = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
-        return $stmt->errorInfo();
+//    public function adicionarItemEmprestimo(ItemEmprestimo $item) {
+//        $this->itensEmprestimo[] = $item;
+//    }
+//
+//    public function removerItemEmprestimo(ItemEmprestimo $item) {
+//        $index = array_search($item, $this->itensEmprestimo);
+//        if ($index !== false) {
+//            unset($this->itensEmprestimo[$index]);
+//        }
+//    }
+//    
+//    public function limparItensEmprestimo() {
+//        $this->itensEmprestimo = array();
+//    }
+    
+    public function detalhar() {
+        
     }
-
-    static function desativar($id) {
-        $sql = "UPDATE emprestimo set situacao = 'inativa' WHERE id = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
-        return $stmt->errorInfo();
-    }
-
-    static function reparar($id) {
-        $sql = "UPDATE emprestimo set situacao = 'manutencao' WHERE id = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
-        return $stmt->errorInfo();
-    }
-
+    
     public function getId() {
         return $this->id;
     }
-
+    
+    public function getUserName() {
+        $sql = "select nome "
+                . "from usuario u"
+                . "INNER JOIN emprestimo e on e.id = u.id";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($this->id));
+        $row = $stmt->fetch();
+        if ($row == null) {
+            return null;
+        }
+        return self::bundle($row);
+    }
+    
     public function getMatSolic() {
         return $this->mat_solic;
     }
@@ -151,7 +167,14 @@ class Emprestimo{
 
     public function getUsuario() {
         return $this->usuario;
-    }    
+    }  
+    
+    public function getChaves() {
+        if (empty($this->chaves)){
+            $this->chaves = ItemEmprestimo::getByEmprestimo($this->id);
+        }
+        return $this->chaves;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -160,7 +183,8 @@ class Emprestimo{
     public function setMatSolic($mat_solic) {
         $this->mat_solic = $mat_solic;
     }
-
+    
+    
     public function setMatUserAbertura($mat_user_abertura) {
         $this->mat_user_abertura = $mat_user_abertura;
     }
@@ -184,13 +208,36 @@ class Emprestimo{
     public function setSituacao($situacao) {
         $this->situacao = $situacao;
     }
-
-    public function setIdUsuario($id_usuario) {
-        $this->id_usuario = $id_usuario;
-    } 
-
+    
     public function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
+    
+    
+    public function getSolicitante() {
+        return $this->solicitante;
+    }
+
+    public function getUser_abertura() {
+        return $this->user_abertura;
+    }
+
+    public function getUser_devolucao() {
+        return $this->user_devolucao;
+    }
+
+    public function setSolicitante($solicitante): void {
+        $this->solicitante = $solicitante;
+    }
+
+    public function setUser_abertura($user_abertura): void {
+        $this->user_abertura = $user_abertura;
+    }
+
+    public function setUser_devolucao($user_devolucao): void {
+        $this->user_devolucao = $user_devolucao;
+    }
+
+
     
 }

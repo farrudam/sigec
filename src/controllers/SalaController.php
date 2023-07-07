@@ -18,7 +18,8 @@ class SalaController extends Controller{
         
         if(isset($postParam)){
             Sala::create($postParam);
-            $this->container['flash']->addMessage('success', 'Sala adicionada com sucesso!');
+            //$this->container['flash']->addMessage('success', 'Sala adicionada com sucesso!');
+            $this->flash->addMessage('success', 'Sala adicionada com sucesso. This is a message');
             return $response->withStatus(301)->withHeader('Location', '../salas'); 
         }                
     }
@@ -49,9 +50,13 @@ class SalaController extends Controller{
     }
 
     public function show(Request $request, Response $response, $args){
-        $objeto = new Sala();
-        $salas = $objeto->getAll();
         
+        $objeto = new Sala();
+        $salas = $objeto->getAll(); 
+        
+        var_dump($salas);
+        die();
+                
         return $this->container['renderizar']->render($response, 'listar_salas.html', [
             'salas' => $salas
         ]);

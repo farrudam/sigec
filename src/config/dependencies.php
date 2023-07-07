@@ -1,8 +1,9 @@
 <?php
 
 use Dompdf\Dompdf;
-
+use sigec\models\Autenticador;
 $container = $app->getContainer();
+
 
 // view renderer
 $container['renderizar'] = function ($c) {
@@ -11,13 +12,14 @@ $container['renderizar'] = function ($c) {
     
     $view->addExtension(new \Slim\Views\TwigExtension(
 		$c->router,
-		$c->request->getUri()
+		'https://sistemas.tiangua.ifce.edu.br/sigec'//$c->request->getUri()
     ));
     
     
     $env = $view->getEnvironment();
     $env->addGlobal('messages', $c->get('flash')->getMessages());
-    $env->addGlobal('session', $_SESSION);
+    $env->addGlobal('session', Autenticador::instanciar());
+    $env->addGlobal('base_url', 'https://sistemas.tiangua.ifce.edu.br/sigec');
     
     
     return $view;
@@ -40,7 +42,7 @@ $container['flash'] = function () {
     session_start();
   }
   */
-  
+  session_start();
   return new \Slim\Flash\Messages();
 };
 

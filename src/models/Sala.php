@@ -7,10 +7,10 @@ use sigec\models\Bloco;
 class Sala{
 
     private $id;
-    private $nome;
-    private $id_bloco;
+    private $nome;    
     private $situacao;
     
+    private $id_bloco;
     private $bloco;
     
     public function __construct($id = null) {

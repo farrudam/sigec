@@ -2,36 +2,47 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @license https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
+ * @link      https://github.com/slimphp/Slim
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-
 namespace Slim;
 
-use BadMethodCallException;
-use Closure;
 use Exception;
-use FastRoute\Dispatcher;
-use Psr\Container\ContainerExceptionInterface as ContainerException;
-use InvalidArgumentException;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
-use RuntimeException;
 use Slim\Exception\InvalidMethodException;
+use Slim\Http\Response;
+use Throwable;
+use Closure;
+use InvalidArgumentException;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Container\ContainerInterface;
+use FastRoute\Dispatcher;
+use Slim\Exception\SlimException;
 use Slim\Exception\MethodNotAllowedException;
 use Slim\Exception\NotFoundException;
-use Slim\Exception\SlimException;
-use Slim\Http\Body;
-use Slim\Http\Headers;
-use Slim\Http\Request;
 use Slim\Http\Uri;
+use Slim\Http\Headers;
+use Slim\Http\Body;
+use Slim\Http\Request;
+use Slim\Interfaces\Http\EnvironmentInterface;
 use Slim\Interfaces\RouteGroupInterface;
 use Slim\Interfaces\RouteInterface;
 use Slim\Interfaces\RouterInterface;
-use Throwable;
 
+/**
+ * App
+ *
+ * This is the primary class with which you instantiate,
+ * configure, and run a Slim Framework application.
+ * The \Slim\App class also accepts Slim Framework middleware.
+ *
+ * @property-read callable $errorHandler
+ * @property-read callable $phpErrorHandler
+ * @property-read callable $notFoundHandler function($request, $response)
+ * @property-read callable $notAllowedHandler function($request, $response, $allowedHttpMethods)
+ */
 class App
 {
     use MiddlewareAwareTrait;
@@ -41,33 +52,38 @@ class App
      *
      * @var string
      */
-    const VERSION = '3.12.3';
+    const VERSION = '3.10.0';
 
     /**
+     * Container
+     *
      * @var ContainerInterface
      */
     private $container;
 
+    /********************************************************************************
+     * Constructor
+     *******************************************************************************/
+
     /**
-     * @param ContainerInterface|array $container
+     * Create new application
      *
-     * @throws InvalidArgumentException When no container is provided that implements ContainerInterface
+     * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
+     * @throws InvalidArgumentException when no container is provided that implements ContainerInterface
      */
     public function __construct($container = [])
     {
         if (is_array($container)) {
             $container = new Container($container);
         }
-
         if (!$container instanceof ContainerInterface) {
             throw new InvalidArgumentException('Expected a ContainerInterface');
         }
-
         $this->container = $container;
     }
 
     /**
-     * Get container
+     * Enable access to the DI container by consumers of $app
      *
      * @return ContainerInterface
      */
@@ -81,7 +97,7 @@ class App
      *
      * This method prepends new middleware to the app's middleware stack.
      *
-     * @param  callable|string $callable The callback routine
+     * @param  callable|string    $callable The callback routine
      *
      * @return static
      */
@@ -91,15 +107,12 @@ class App
     }
 
     /**
-     * Calling a non-existent method on App checks to see if there's an item
+     * Calling a non-existant method on App checks to see if there's an item
      * in the container that is callable and if so, calls it.
      *
      * @param  string $method
-     * @param  array  $args
-     *
+     * @param  array $args
      * @return mixed
-     *
-     * @throws BadMethodCallException
      */
     public function __call($method, $args)
     {
@@ -110,16 +123,20 @@ class App
             }
         }
 
-        throw new BadMethodCallException("Method $method is not a valid method");
+        throw new \BadMethodCallException("Method $method is not a valid method");
     }
+
+    /********************************************************************************
+     * Router proxy methods
+     *******************************************************************************/
 
     /**
      * Add GET route
      *
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function get($pattern, $callable)
     {
@@ -129,10 +146,10 @@ class App
     /**
      * Add POST route
      *
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function post($pattern, $callable)
     {
@@ -142,10 +159,10 @@ class App
     /**
      * Add PUT route
      *
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function put($pattern, $callable)
     {
@@ -155,10 +172,10 @@ class App
     /**
      * Add PATCH route
      *
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function patch($pattern, $callable)
     {
@@ -168,10 +185,10 @@ class App
     /**
      * Add DELETE route
      *
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function delete($pattern, $callable)
     {
@@ -181,10 +198,10 @@ class App
     /**
      * Add OPTIONS route
      *
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function options($pattern, $callable)
     {
@@ -194,10 +211,10 @@ class App
     /**
      * Add route for any HTTP method
      *
-     * @param  string $pattern The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string $pattern  The route URI pattern
+     * @param  callable|string  $callable The route callback routine
      *
-     * @return RouteInterface
+     * @return \Slim\Interfaces\RouteInterface
      */
     public function any($pattern, $callable)
     {
@@ -207,9 +224,9 @@ class App
     /**
      * Add route with multiple methods
      *
-     * @param  string[]        $methods  Numeric array of HTTP method names
-     * @param  string          $pattern  The route URI pattern
-     * @param  callable|string $callable The route callback routine
+     * @param  string[] $methods  Numeric array of HTTP method names
+     * @param  string   $pattern  The route URI pattern
+     * @param  callable|string    $callable The route callback routine
      *
      * @return RouteInterface
      */
@@ -250,30 +267,30 @@ class App
     }
 
     /**
-     * Add a route group
+     * Route Groups
      *
      * This method accepts a route pattern and a callback. All route
      * declarations in the callback will be prepended by the group(s)
      * that it is in.
      *
-     * @param string           $pattern
-     * @param callable|Closure $callable
+     * @param string   $pattern
+     * @param callable $callable
      *
      * @return RouteGroupInterface
      */
     public function group($pattern, $callable)
     {
-        /** @var RouterInterface $router */
-        $router = $this->container->get('router');
-
         /** @var RouteGroup $group */
-        $group = $router->pushGroup($pattern, $callable);
+        $group = $this->container->get('router')->pushGroup($pattern, $callable);
         $group->setContainer($this->container);
         $group($this);
-
-        $router->popGroup();
+        $this->container->get('router')->popGroup();
         return $group;
     }
+
+    /********************************************************************************
+     * Runner
+     *******************************************************************************/
 
     /**
      * Run application
@@ -282,11 +299,11 @@ class App
      * resultant Response object to the HTTP client.
      *
      * @param bool|false $silent
-     *
      * @return ResponseInterface
      *
      * @throws Exception
-     * @throws Throwable
+     * @throws MethodNotAllowedException
+     * @throws NotFoundException
      */
     public function run($silent = false)
     {
@@ -333,10 +350,7 @@ class App
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     *
      * @return ResponseInterface
-     *
-     * @throws ContainerException
      */
     protected function processInvalidMethod(ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -367,11 +381,11 @@ class App
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     *
      * @return ResponseInterface
      *
      * @throws Exception
-     * @throws Throwable
+     * @throws MethodNotAllowedException
+     * @throws NotFoundException
      */
     public function process(ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -410,10 +424,8 @@ class App
         if (!headers_sent()) {
             // Headers
             foreach ($response->getHeaders() as $name => $values) {
-                $first = stripos($name, 'Set-Cookie') === 0 ? false : true;
                 foreach ($values as $value) {
-                    header(sprintf('%s: %s', $name, $value), $first);
-                    $first = false;
+                    header(sprintf('%s: %s', $name, $value), false);
                 }
             }
 
@@ -426,20 +438,19 @@ class App
                 $response->getProtocolVersion(),
                 $response->getStatusCode(),
                 $response->getReasonPhrase()
-            ), true, $response->getStatusCode());
+            ));
         }
 
         // Body
-        $request = $this->container->get('request');
-        if (!$this->isEmptyResponse($response) && !$this->isHeadRequest($request)) {
+        if (!$this->isEmptyResponse($response)) {
             $body = $response->getBody();
             if ($body->isSeekable()) {
                 $body->rewind();
             }
-            $settings = $this->container->get('settings');
-            $chunkSize = $settings['responseChunkSize'];
+            $settings       = $this->container->get('settings');
+            $chunkSize      = $settings['responseChunkSize'];
 
-            $contentLength = $response->getHeaderLine('Content-Length');
+            $contentLength  = $response->getHeaderLine('Content-Length');
             if (!$contentLength) {
                 $contentLength = $body->getSize();
             }
@@ -448,7 +459,7 @@ class App
             if (isset($contentLength)) {
                 $amountToRead = $contentLength;
                 while ($amountToRead > 0 && !$body->eof()) {
-                    $data = $body->read(min((int)$chunkSize, (int)$amountToRead));
+                    $data = $body->read(min($chunkSize, $amountToRead));
                     echo $data;
 
                     $amountToRead -= strlen($data);
@@ -459,7 +470,7 @@ class App
                 }
             } else {
                 while (!$body->eof()) {
-                    echo $body->read((int)$chunkSize);
+                    echo $body->read($chunkSize);
                     if (connection_status() != CONNECTION_NORMAL) {
                         break;
                     }
@@ -480,7 +491,6 @@ class App
      * @param  ResponseInterface      $response The most recent Response object
      *
      * @return ResponseInterface
-     *
      * @throws MethodNotAllowedException
      * @throws NotFoundException
      */
@@ -489,7 +499,7 @@ class App
         // Get the route info
         $routeInfo = $request->getAttribute('routeInfo');
 
-        /** @var RouterInterface $router */
+        /** @var \Slim\Interfaces\RouterInterface $router */
         $router = $this->container->get('router');
 
         // If router hasn't been dispatched or the URI changed then dispatch
@@ -534,11 +544,7 @@ class App
      * @param  array             $cookies     The request cookies (key-value array)
      * @param  string            $bodyContent The request body
      * @param  ResponseInterface $response     The response object (optional)
-     *
      * @return ResponseInterface
-     *
-     * @throws MethodNotAllowedException
-     * @throws NotFoundException
      */
     public function subRequest(
         $method,
@@ -570,7 +576,6 @@ class App
      *
      * @param ServerRequestInterface $request
      * @param RouterInterface        $router
-     *
      * @return ServerRequestInterface
      */
     protected function dispatchRouterAndPrepareRoute(ServerRequestInterface $request, RouterInterface $router)
@@ -599,18 +604,14 @@ class App
      * Finalize response
      *
      * @param ResponseInterface $response
-     *
      * @return ResponseInterface
-     *
-     * @throws RuntimeException
      */
     protected function finalize(ResponseInterface $response)
     {
         // stop PHP sending a Content-Type automatically
         ini_set('default_mimetype', '');
 
-        $request = $this->container->get('request');
-        if ($this->isEmptyResponse($response) && !$this->isHeadRequest($request)) {
+        if ($this->isEmptyResponse($response)) {
             return $response->withoutHeader('Content-Type')->withoutHeader('Content-Length');
         }
 
@@ -618,18 +619,13 @@ class App
         if (isset($this->container->get('settings')['addContentLengthHeader']) &&
             $this->container->get('settings')['addContentLengthHeader'] == true) {
             if (ob_get_length() > 0) {
-                throw new RuntimeException("Unexpected data in output buffer. " .
+                throw new \RuntimeException("Unexpected data in output buffer. " .
                     "Maybe you have characters before an opening <?php tag?");
             }
             $size = $response->getBody()->getSize();
             if ($size !== null && !$response->hasHeader('Content-Length')) {
                 $response = $response->withHeader('Content-Length', (string) $size);
             }
-        }
-
-        // clear the body if this is a HEAD request
-        if ($this->isHeadRequest($request)) {
-            return $response->withBody(new Body(fopen('php://temp', 'r+')));
         }
 
         return $response;
@@ -642,7 +638,6 @@ class App
      * @see https://tools.ietf.org/html/rfc7231
      *
      * @param ResponseInterface $response
-     *
      * @return bool
      */
     protected function isEmptyResponse(ResponseInterface $response)
@@ -655,28 +650,15 @@ class App
     }
 
     /**
-     * Helper method to check if the current request is a HEAD request
-     *
-     * @param RequestInterface $request
-     *
-     * @return bool
-     */
-    protected function isHeadRequest(RequestInterface $request)
-    {
-        return strtoupper($request->getMethod()) === 'HEAD';
-    }
-
-    /**
      * Call relevant handler from the Container if needed. If it doesn't exist,
      * then just re-throw.
      *
-     * @param  Exception              $e
+     * @param  Exception $e
      * @param  ServerRequestInterface $request
-     * @param  ResponseInterface      $response
+     * @param  ResponseInterface $response
      *
      * @return ResponseInterface
-     *
-     * @throws Exception If a handler is needed and not found
+     * @throws Exception if a handler is needed and not found
      */
     protected function handleException(Exception $e, ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -712,9 +694,7 @@ class App
      * @param  Throwable $e
      * @param  ServerRequestInterface $request
      * @param  ResponseInterface $response
-     *
      * @return ResponseInterface
-     *
      * @throws Throwable
      */
     protected function handlePhpError(Throwable $e, ServerRequestInterface $request, ResponseInterface $response)

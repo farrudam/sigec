@@ -5,12 +5,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="http://localhost/sigec">
+                <a href="{{ base_url }}">
                     Home
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                <a href="http://localhost/sigec/chaves">
+                <a href="{{ base_url }}/chaves">
                     Chaves
                 </a>
             </li>
@@ -36,7 +36,7 @@
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
             <h3 class="card-title"><b>Chaves</b></h3>
         
-            <a href="http://localhost/sigec/chave/nova" class="btn btn-primary">Nova Chave</a>
+            <a href="{{ base_url }}/chave/nova" class="btn btn-primary">Nova Chave</a>
         </div>
         
         <div class="card-body">
@@ -69,26 +69,21 @@
                                 {% endif %}
                             </td>
                             <td class="text-center">
-                                <a href="http://localhost/sigec/chave/{{chave.id}}/editar" tooltip="tooltip" title="Editar Chave">
+                                <a href="{{ base_url }}/chave/{{chave.id}}/editar" tooltip="tooltip" title="Editar Chave">
                                     <i class="fa-solid fa-pen m-1"></i>
                                 </a>
                                 {% if chave.habilitada %}
-                                    <a href="http://localhost/sigec/chave/{{chave.id}}/desabilitar" tooltip="tooltip" title="Desativar Chave">
+                                    <a href="{{ base_url }}/chave/{{chave.id}}/desabilitar" tooltip="tooltip" title="Desativar Chave">
                                         <i class="fas fa-ban"></i>
                                     </a>
                                 {% else %}
-                                    <a href="http://localhost/sigec/chave/{{chave.id}}/habilitar" tooltip="tooltip" title="Ativar Chave">
+                                    <a href="{{ base_url }}/chave/{{chave.id}}/habilitar" tooltip="tooltip" title="Ativar Chave">
                                         <i class="fas fa-check-circle"></i>
                                     </a>
                                 {% endif %}
                                 <a href="#" tooltip="tooltip" title="Restringir Chave">
                                     <i class="fa-solid fa-hand"></i>
-                                </a>
-                                <!-- 
-                                <a href="http://localhost/sigec/sala/{{sala.id}}/excluir" tooltip="tooltip" title="Excluir">
-                                    <i class="fa-solid fa-trash m-1"></i>
-                                </a>
-                                -->
+                                </a>                                
                             </td>
                         </tr>
                         {%endfor%}
