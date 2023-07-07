@@ -50,10 +50,13 @@ class SalaController extends Controller{
     }
 
     public function show(Request $request, Response $response, $args){
-        unset($_SESSION['slimflash']);
-        $objeto = new Sala();
-        $salas = $objeto->getAll();
         
+        $objeto = new Sala();
+        $salas = $objeto->getAll(); 
+        
+        var_dump($salas);
+        die();
+                
         return $this->container['renderizar']->render($response, 'listar_salas.html', [
             'salas' => $salas
         ]);

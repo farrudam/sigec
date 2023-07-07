@@ -15,9 +15,10 @@ class Emprestimo{
     private $data_devolucao;
     private $observacao;
     private $situacao;    
-    
-    private $id_usuario;
-    private $usuario;
+        
+    private $solicitante;
+    private $user_abertura;
+    private $user_devolucao;
     
     private $chaves = [];
     
@@ -25,21 +26,26 @@ class Emprestimo{
         $this->id = $id;
     }
     
-    private function bundle ($row){        
-             
-        $emprestimo = new Emprestimo($row['id']);        
+    private function bundle ($row){
 
+        #Usuários
+        $solicitante = (new Usuario())->getByMatricula($row['mat_solic']);
+        $user_abertura = (new Usuario())->getByMatricula($row['mat_user_abertura']);
+        $user_devolucao = (new Usuario())->getByMatricula($row['mat_user_devolucao']);
+        
+        #Emprestimo     
+        $emprestimo = new Emprestimo($row['id']);               
+                 
         $emprestimo->setMatSolic($row['mat_solic']);
         $emprestimo->setMatUserAbertura($row['mat_user_abertura']);
         $emprestimo->setDataAbertura($row['data_abertura']);
         $emprestimo->setObservacao($row['observacao']);
-        $emprestimo->setSituacao($row['situacao']);       
-        $emprestimo->setIdUsuario($row['id_usuario']);  
+        $emprestimo->setSituacao($row['situacao']); 
         
-        #Usuário
-        $usuario = new Usuario($row['id_usuario']);
-        $emprestimo->setUsuario($usuario->getById());
-    
+        $emprestimo->setSolicitante($solicitante);
+        $emprestimo->setUser_abertura($user_abertura);
+        $emprestimo->setUser_devolucao($user_devolucao);
+         
         return $emprestimo;
     }
     
@@ -84,27 +90,27 @@ class Emprestimo{
         return $stmt->errorInfo();
     }
 
-    public function update($params) {
-        $sql = "UPDATE emprestimo set nome = ? WHERE id = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($params['nome'], $this->id));
-        return $stmt->errorInfo();
-    }
+//    public function update($params) {
+//        $sql = "UPDATE emprestimo set nome = ? WHERE id = ?";
+//        $stmt = DBSigec::getKeys()->prepare($sql);
+//        $stmt->execute(array($params['nome'], $this->id));
+//        return $stmt->errorInfo();
+//    }
 
-    public function adicionarItemEmprestimo(ItemEmprestimo $item) {
-        $this->itensEmprestimo[] = $item;
-    }
-
-    public function removerItemEmprestimo(ItemEmprestimo $item) {
-        $index = array_search($item, $this->itensEmprestimo);
-        if ($index !== false) {
-            unset($this->itensEmprestimo[$index]);
-        }
-    }
-    
-    public function limparItensEmprestimo() {
-        $this->itensEmprestimo = array();
-    }
+//    public function adicionarItemEmprestimo(ItemEmprestimo $item) {
+//        $this->itensEmprestimo[] = $item;
+//    }
+//
+//    public function removerItemEmprestimo(ItemEmprestimo $item) {
+//        $index = array_search($item, $this->itensEmprestimo);
+//        if ($index !== false) {
+//            unset($this->itensEmprestimo[$index]);
+//        }
+//    }
+//    
+//    public function limparItensEmprestimo() {
+//        $this->itensEmprestimo = array();
+//    }
     
     public function detalhar() {
         
@@ -114,6 +120,18 @@ class Emprestimo{
         return $this->id;
     }
     
+    public function getUserName() {
+        $sql = "select nome "
+                . "from usuario u"
+                . "INNER JOIN emprestimo e on e.id = u.id";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($this->id));
+        $row = $stmt->fetch();
+        if ($row == null) {
+            return null;
+        }
+        return self::bundle($row);
+    }
     
     public function getMatSolic() {
         return $this->mat_solic;
@@ -190,16 +208,36 @@ class Emprestimo{
     public function setSituacao($situacao) {
         $this->situacao = $situacao;
     }
-
-    public function setIdUsuario($id_usuario) {
-        $this->id_usuario = $id_usuario;
-    } 
-
+    
     public function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
     
     
-    
+    public function getSolicitante() {
+        return $this->solicitante;
+    }
+
+    public function getUser_abertura() {
+        return $this->user_abertura;
+    }
+
+    public function getUser_devolucao() {
+        return $this->user_devolucao;
+    }
+
+    public function setSolicitante($solicitante): void {
+        $this->solicitante = $solicitante;
+    }
+
+    public function setUser_abertura($user_abertura): void {
+        $this->user_abertura = $user_abertura;
+    }
+
+    public function setUser_devolucao($user_devolucao): void {
+        $this->user_devolucao = $user_devolucao;
+    }
+
+
     
 }

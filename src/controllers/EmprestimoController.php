@@ -5,6 +5,7 @@ namespace sigec\controllers;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
+
 use sigec\models\Emprestimo;
 use sigec\models\ItemEmprestimo;
 use sigec\models\Usuario;
@@ -43,19 +44,11 @@ class EmprestimoController extends Controller{
         return $response->withStatus(301)->withHeader('Location', '../../emprestimos'); 
     }
 
-    public function show(Request $request, Response $response, $args){
-        $objeto = new Emprestimo();
-        $emprestimo = $objeto->getAll();
-        $chaves = $objeto->getChaves();
-        
-//        var_dump($emprestimo);
-//        echo '------------------------------------<br>';
-//        var_dump($chaves);
-//        die();
+    public function show(Request $request, Response $response, $args){        
+        $emprestimos = (new Emprestimo)->getAll();
         
         return $this->container['renderizar']->render($response, 'listar_emprestimos.html', [
-            'emprestimos' => $emprestimo,
-            'chave' => $chaves
+            'emprestimos' => $emprestimos
         ]);
     }
     
@@ -82,6 +75,14 @@ class EmprestimoController extends Controller{
         
         return $this->container['renderizar']->render($response, 'emprestimo_detalhar.html', [
             'emprestimos' => $emprestimo
+        ]);
+    }
+    
+    public function detalhes(Request $request, Response $response, $args){        
+        $emprestimo = (new Emprestimo($args['id']))->getById();        
+                
+        return $this->container['renderizar']->render($response, 'detalhar_emprestimo.html', [
+            'emprestimo' => $emprestimo
         ]);
     }
 

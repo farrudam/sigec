@@ -36,12 +36,18 @@
     <div class="card border-0 shadow-sm">
         
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-            <h3 class="card-title"><b>Empréstimos</b></h3>
-        
-            <a href="{{ base_url }}/emprestimo/novo" class="btn btn-primary">Novo Empréstimo</a>
+            <h3 class="card-title"><b>Detalhes do Empréstimo</b></h3>
         </div>
         
         <div class="card-body">
+            <strong>Data/Horário</strong>: &nbsp; {{emprestimo.dataAbertura |date("d/m/Y - H:i") }}
+            <br><strong>Solicitante</strong>: &nbsp; {{emprestimo.solicitante.nome}}
+            <br><strong>Responsável Entrega</strong>: &nbsp; {{emprestimo.user_abertura.nome}}
+            <br><strong>Situação</strong>: &nbsp; {{emprestimo.situacao}}
+            
+            <br><strong>Chaves Emprestadas</strong>: &nbsp;
+            <br><br>
+            
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead class="thead-light">
@@ -56,21 +62,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for emprestimo in emprestimos %}
+                        
                         <tr>
-                            <td >{{emprestimo.dataAbertura |date("d/m/Y - H:i") }}</td>
-                            <td>{{emprestimo.solicitante.nome}}</td>
-                            <td>{{emprestimo.user_abertura.nome}}</td>
-                            <td>{{emprestimo.user_devolucao.nome}}</td>
-                            <td></td>
-                            <td class="text-center">{{emprestimo.situacao}}</td>
-                            <td class="text-center">
-                                <a href="{{ base_url }}/emprestimo/{{emprestimo.id}}/detalhes" tooltip="tooltip" title="Detalhar">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </td>
+                                                      
                         </tr>
-                        {% endfor%}
+                        
                     </tbody>
                 </table>
             </div>     

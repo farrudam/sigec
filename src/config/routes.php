@@ -50,5 +50,6 @@ $app->get ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:novo')->s
 $app->post ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:create');
 $app->get ('/emprestimos/relatorio', 'sigec\controllers\EmprestimoController:relatorio')->setName('emprestimo_relatorio')->add($auth);
 $app->get ('/emprestimos/detalhar', 'sigec\controllers\EmprestimoController:detalhar')->setName('emprestimo_detalhar')->add($auth);
+$app->get ('/emprestimo/{id}/detalhes', 'sigec\controllers\EmprestimoController:detalhes')->setName('detalhes_emprestimo')->add($auth);
 
 
