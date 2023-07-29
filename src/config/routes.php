@@ -43,13 +43,13 @@ $app->post('/chave/update/{id}', 'sigec\controllers\ChaveController:update');
 $app->get('/chave/{id}/excluir', 'sigec\controllers\ChaveController:excluir')->setName('chave_excluir')->add($auth);
 $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar')->setName('chave_habilitar')->add($auth);
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar')->add($auth);
+$app->get ('/chave/{id}/receber', 'sigec\controllers\ChaveController::receber')->setName('chave_receber')->add($auth);
 
 
 $app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
 $app->get ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:novo')->setName('emprestimo_novo')->add($auth);
 $app->post ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:create');
 $app->get ('/emprestimos/relatorio', 'sigec\controllers\EmprestimoController:relatorio')->setName('emprestimo_relatorio')->add($auth);
-$app->get ('/emprestimos/detalhar', 'sigec\controllers\EmprestimoController:detalhar')->setName('emprestimo_detalhar')->add($auth);
 $app->get ('/emprestimo/{id}/detalhes', 'sigec\controllers\EmprestimoController:detalhes')->setName('detalhes_emprestimo')->add($auth);
 
 

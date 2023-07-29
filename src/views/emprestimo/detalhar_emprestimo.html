@@ -40,33 +40,45 @@
         </div>
         
         <div class="card-body">
-            <strong>Data/Horário</strong>: &nbsp; {{emprestimo.dataAbertura |date("d/m/Y - H:i") }}
+            <strong>Código:</strong> &nbsp; {{emprestimo.id}}
+            <br><br>
+            <strong>Abertura</strong>: &nbsp; {{emprestimo.dataAbertura |date("d/m/Y - H:i") }}
             <br><strong>Solicitante</strong>: &nbsp; {{emprestimo.solicitante.nome}}
-            <br><strong>Responsável Entrega</strong>: &nbsp; {{emprestimo.user_abertura.nome}}
+            <br><strong>Responsável pela Entrega</strong>: &nbsp; {{emprestimo.user_abertura.nome}}
             <br><strong>Situação</strong>: &nbsp; {{emprestimo.situacao}}
             
-            <br><strong>Chaves Emprestadas</strong>: &nbsp;
             <br><br>
             
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Data/Horário</th>
-                            <th scope="col">Solicitante</th>
-                            <th scope="col">Responsável Entrega</th>
-                            <th scope="col">Devolvido por</th>
+                        <tr>                            
+                            <th scope="col">Chave</th>
+                            <th scope="col">Situação</th>
+                            <th scope="col" class="text-center">Receber</th>                            
+                            <th scope="col">Data Recebimento</th>                                                     
                             <th scope="col">Responsável Recebimento</th>
-                            <th scope="col" class="text-center">Situação</th>                            
-                            <th scope="col" class="text-center">Detalhes</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        
+                    <tbody> 
+                        {% for item in itens_emprestimo %}
                         <tr>
-                                                      
+                            <td title="{{item.chave.descricao}}"><span class="badge bg-secondary">{{item.chave.etiqueta}}</span> </td>
+                            <td>{{item.chave.situacao}}</td>
+                            <td class="text-center">
+                                {% if item.chave.situacao == "Emprestada" %}
+                                    <a href="{{ base_url }}/chave/{{item.chave.id}}/receber">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                                
+                            </td>
+                            <td>{{emprestimo.dataDevolucao}}</td>                            
+                            <td>{{emprestimo.user_devolucao.nome}}</td>
                         </tr>
-                        
+                        {% endfor%}
                     </tbody>
                 </table>
             </div>     

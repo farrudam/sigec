@@ -39,8 +39,10 @@ class Emprestimo{
         $emprestimo->setMatSolic($row['mat_solic']);
         $emprestimo->setMatUserAbertura($row['mat_user_abertura']);
         $emprestimo->setDataAbertura($row['data_abertura']);
+        $emprestimo->setDataDevolucao($row['data_devolucao']);
         $emprestimo->setObservacao($row['observacao']);
         $emprestimo->setSituacao($row['situacao']); 
+        $emprestimo->setChaves($row['chaves']); 
         
         $emprestimo->setSolicitante($solicitante);
         $emprestimo->setUser_abertura($user_abertura);
@@ -175,6 +177,18 @@ class Emprestimo{
         }
         return $this->chaves;
     }
+    
+    public function getSolicitante() {
+        return $this->solicitante;
+    }
+
+    public function getUser_abertura() {
+        return $this->user_abertura;
+    }
+
+    public function getUser_devolucao() {
+        return $this->user_devolucao;
+    }
 
     public function setId($id) {
         $this->id = $id;
@@ -213,19 +227,6 @@ class Emprestimo{
         $this->usuario = $usuario;
     }
     
-    
-    public function getSolicitante() {
-        return $this->solicitante;
-    }
-
-    public function getUser_abertura() {
-        return $this->user_abertura;
-    }
-
-    public function getUser_devolucao() {
-        return $this->user_devolucao;
-    }
-
     public function setSolicitante($solicitante): void {
         $this->solicitante = $solicitante;
     }
@@ -238,6 +239,8 @@ class Emprestimo{
         $this->user_devolucao = $user_devolucao;
     }
 
-
+    public function setChaves($chaves) {
+        $this->chaves = $chaves;
+    }
     
 }

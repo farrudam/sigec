@@ -59,27 +59,9 @@
                         <tr>
                             <td >{{emprestimo.dataAbertura |date("d/m/Y - H:i") }}</td>
                             <td>{{emprestimo.solicitante.nome}}</td>
-                            
-                            <td>
-                            {% for item in itens_emprestimos %}
-                                {% if emprestimo.id == item.emprestimo.id %}                                    
-                                <span title="{{item.chave.descricao}}" class="badge bg-secondary">{{item.chave.etiqueta}}</span> 
-                                {% endif %}                                
-                            {% endfor %}
-                            </td>
-                            
+                            <td>aqui....</td>
                             <td>{{emprestimo.user_abertura.nome}}</td>
-                            <td class="text-center">
-                                {% if emprestimo.situacao == 'Aberto' %}
-                                    <span class="text-warning fw-bold">{{emprestimo.situacao}}</span>
-                                {% endif %}
-                                {% if emprestimo.situacao == 'Atrasado' %}
-                                    <span class="text-danger fw-bold">{{emprestimo.situacao}}</span>
-                                {% endif %}
-                                {% if emprestimo.situacao == 'Devolvido' %}
-                                    <span class="text-success fw-bold">{{emprestimo.situacao}}</span>
-                                {% endif %}
-                            </td>
+                            <td class="text-center">{{emprestimo.situacao}}</td>
                             <td class="text-center">
                                 <a href="{{ base_url }}/emprestimo/{{emprestimo.id}}/detalhes" tooltip="tooltip" title="Detalhar">
                                     <i class="fa-solid fa-eye"></i>

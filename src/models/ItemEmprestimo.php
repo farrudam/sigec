@@ -15,7 +15,7 @@ class ItemEmprestimo{
     private $id_chave;
     private $chave;
     
-    public function __construct($id_emprestimo, $id_chave) {
+    public function __construct($id_emprestimo = null, $id_chave = null) {
         $this->id_emprestimo = $id_emprestimo;
         $this->id_chave = $id_chave;
     }
@@ -95,7 +95,14 @@ class ItemEmprestimo{
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute($params['devolvido_em'], $this->id_emprestimo, $this->id_chave);
         return $stmt->errorInfo();
-    }   
+    }
+    
+    static function receber($id) {
+        $sql = "UPDATE item_emprestimo set devolvido_em = CURRENT_TIMESTAMP WHERE id_emprestimo = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
     
     public function getDevolvidoEm() {
         return $this->devolvido_em;
@@ -122,7 +129,7 @@ class ItemEmprestimo{
     }
 
     public function setEmprestimo($emprestimo) {
-        $this->usuario = $usuario;
+        $this->emprestimo = $emprestimo;
     }
 
     public function setIdEmprestimo($id_emprestimo) {

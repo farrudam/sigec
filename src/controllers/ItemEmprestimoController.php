@@ -6,6 +6,7 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use sigec\models\ItemEmprestimo;
+use sigec\models\Chave;
 
 
 class ItemEmprestimoController extends Controller{
@@ -58,12 +59,15 @@ class ItemEmprestimoController extends Controller{
 
         Bloco::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
-//        $msg = Produto::delete($produto_codigo);
-//        if ($msg[2]) {
-//            $this->flash->addMessage('danger', $msg[2]);
-//        } else {
-//            $this->flash->addMessage('success', 'Registro excluido com sucesso');
-//        }
+
+    }
+    
+    public function receber(Request $request, Response $response, $args){
+                
+        Chave::receber($args['id']);
+        ItemEmprestimo::receber($id);
+        return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
+
     }
     
     
