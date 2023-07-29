@@ -48,8 +48,7 @@ class ChaveController extends Controller{
         return $response->withStatus(301)->withHeader('Location', '../../chaves'); 
     }
 
-    public function show(Request $request, Response $response, $args){
-        unset($_SESSION['slimflash']);
+    public function show(Request $request, Response $response, $args){        
         $objeto = new Chave();
         $chaves = $objeto->getAll();
         
@@ -77,8 +76,7 @@ class ChaveController extends Controller{
         Chave::desabilitar($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 
-    }
-    
+    }   
     
 }
 

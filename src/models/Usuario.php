@@ -49,7 +49,7 @@ class Usuario{
     }
     
     public function getAll() {
-        $sql = "select * from usuario order by nome ";
+        $sql = "select * from usuario order by id ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();

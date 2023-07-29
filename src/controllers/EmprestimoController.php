@@ -5,9 +5,12 @@ namespace sigec\controllers;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
+
 use sigec\models\Emprestimo;
 use sigec\models\ItemEmprestimo;
 use sigec\models\Usuario;
+use sigec\models\Bloco;
+use sigec\models\Chave;
 
 
 class EmprestimoController extends Controller{
@@ -23,7 +26,13 @@ class EmprestimoController extends Controller{
     
     public function novo(Request $request, Response $response, $args){
          
-         return $this->container['renderizar']->render($response, 'emprestimo_novo.html', [ ]);                
+        $blocos = (new Bloco)->getAll();  
+        $chaves = (new Chave)->getAll();  
+                        
+        return $this->container['renderizar']->render($response, 'exibir_chaves.html', [
+            'blocos' => $blocos,
+            'chaves' => $chaves
+        ]);
     }
     
     public function editar(Request $request, Response $response, $args){
@@ -43,19 +52,13 @@ class EmprestimoController extends Controller{
         return $response->withStatus(301)->withHeader('Location', '../../emprestimos'); 
     }
 
-    public function show(Request $request, Response $response, $args){
-        $objeto = new Emprestimo();
-        $emprestimo = $objeto->getAll();
-        $chaves = $objeto->getChaves();
-        
-//        var_dump($emprestimo);
-//        echo '------------------------------------<br>';
-//        var_dump($chaves);
-//        die();
-        
+    public function show(Request $request, Response $response, $args){        
+        $emprestimos = (new Emprestimo)->getAll();  
+        $itens_emprestimos = (new ItemEmprestimo)->getAll();  
+                        
         return $this->container['renderizar']->render($response, 'listar_emprestimos.html', [
-            'emprestimos' => $emprestimo,
-            'chave' => $chaves
+            'emprestimos' => $emprestimos,
+            'itens_emprestimos' => $itens_emprestimos
         ]);
     }
     
@@ -74,14 +77,14 @@ class EmprestimoController extends Controller{
             'emprestimos' => $emprestimo
         ]);
     }
-    
-    
-    public function detalhar(Request $request, Response $response, $args){
-        $objeto = new Emprestimo();
-        $emprestimo = $objeto->getAll();
         
-        return $this->container['renderizar']->render($response, 'emprestimo_detalhar.html', [
-            'emprestimos' => $emprestimo
+    public function detalhes(Request $request, Response $response, $args){        
+        $emprestimo = (new Emprestimo($args['id']))->getById();
+        $chaves = (new Emprestimo($args['id']))->getChaves();
+                        
+        return $this->container['renderizar']->render($response, 'detalhar_emprestimo.html', [
+            'emprestimo' => $emprestimo,
+            'itens_emprestimo' => $chaves
         ]);
     }
 

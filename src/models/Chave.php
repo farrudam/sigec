@@ -101,6 +101,13 @@ class Chave{
         $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
+    
+    static function receber($id) {
+        $sql = "UPDATE chave set situacao = 'Disponivel' WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
 
     public function getId() {
         return $this->id;

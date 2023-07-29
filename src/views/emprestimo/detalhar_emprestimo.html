@@ -1,0 +1,94 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+
+
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ base_url }}">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="{{ base_url }}/emprestimos">
+                    Empréstimos
+                </a>
+            </li>
+        </ol>
+    </nav>  
+
+    {% for item in messages.success %}
+        <div class="alert alert-success alert-dismissible fade show">
+            {{item}}
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    {% endfor %}
+
+    {% for item in messages.error %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{item}}
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    {% endfor %}
+
+
+    <div class="card border-0 shadow-sm">
+        
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><b>Detalhes do Empréstimo</b></h3>
+        </div>
+        
+        <div class="card-body">
+            <strong>Código:</strong> &nbsp; {{emprestimo.id}}
+            <br><br>
+            <strong>Abertura</strong>: &nbsp; {{emprestimo.dataAbertura |date("d/m/Y - H:i") }}
+            <br><strong>Solicitante</strong>: &nbsp; {{emprestimo.solicitante.nome}}
+            <br><strong>Responsável pela Entrega</strong>: &nbsp; {{emprestimo.user_abertura.nome}}
+            <br><strong>Situação</strong>: &nbsp; {{emprestimo.situacao}}
+            
+            <br><br>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>                            
+                            <th scope="col">Chave</th>
+                            <th scope="col">Situação</th>
+                            <th scope="col" class="text-center">Receber</th>                            
+                            <th scope="col">Data Recebimento</th>                                                     
+                            <th scope="col">Responsável Recebimento</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        {% for item in itens_emprestimo %}
+                        <tr>
+                            <td title="{{item.chave.descricao}}"><span class="badge bg-secondary">{{item.chave.etiqueta}}</span> </td>
+                            <td>{{item.chave.situacao}}</td>
+                            <td class="text-center">
+                                {% if item.chave.situacao == "Emprestada" %}
+                                    <a href="{{ base_url }}/chave/{{item.chave.id}}/receber">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                                
+                            </td>
+                            <td>{{emprestimo.dataDevolucao}}</td>                            
+                            <td>{{emprestimo.user_devolucao.nome}}</td>
+                        </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+            </div>     
+
+
+        </div>        
+       
+    </div>
+    
+{% endblock %}
+
+
+
