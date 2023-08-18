@@ -73,6 +73,7 @@ CREATE TABLE `item_emprestimo` (
   `id_emprestimo` INT NOT NULL,
   `id_chave` INT NOT NULL,  
   `devolvido_em` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `mat_user` INT NOT NULL,
     PRIMARY KEY (`id_emprestimo`, `id_chave`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -91,6 +92,7 @@ ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_user_devolucao) REFEREN
 
 ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (id_emprestimo) REFERENCES emprestimo(id));
 ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (id_chave) REFERENCES chave(id));
+ALTER TABLE item_emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_user) REFERENCES usuario(matricula));
 
 
 /* Inserção de dados*/
