@@ -4,6 +4,7 @@ namespace sigec\models;
 use sigec\database\DBSigec;
 use sigec\models\Emprestimo;
 use sigec\models\Chave;
+use sigec\models\Usuario;
 
 class ItemEmprestimo{
     
@@ -15,9 +16,13 @@ class ItemEmprestimo{
     private $id_chave;
     private $chave;
     
-    public function __construct($id_emprestimo = null, $id_chave = null) {
+    private $mat_user;
+    private $usuario;
+    
+    public function __construct($id_emprestimo = null, $id_chave = null, $mat_user = null) {
         $this->id_emprestimo = $id_emprestimo;
         $this->id_chave = $id_chave;
+        $this->mat_user = $mat_user;
     }
     
     private function bundle ($row){      
@@ -26,13 +31,14 @@ class ItemEmprestimo{
         
         $chave =  new Chave($row['id_chave']);
         
-        $item_emprestimo = new ItemEmprestimo($row['id_emprestimo'], $row['id_chave']);  
+        $usuario = new Usuario($row['mat_user']);
+        
+        $item_emprestimo = new ItemEmprestimo($row['id_emprestimo'], $row['id_chave'], $row['mat_user']);  
         $item_emprestimo->setEmprestimo($emprestimo->getById());
         $item_emprestimo->setDevolvidoEm($row['devolvido_em']);  
         
         $item_emprestimo->setChave($chave->getById($row['id_chave']));
-        
-        
+        $item_emprestimo->setUsuario($usuario->getByMatricula($row['mat_user']));
         
         return $item_emprestimo;
     }
@@ -90,20 +96,17 @@ class ItemEmprestimo{
         return $stmt->errorInfo();
     }
 
-    public function update($params) {
-        $sql = "UPDATE item_emprestimo set devolvido_em = ? WHERE id_emprestimo = ? and id_chave = ?";
+    static function devolver($id_emprestimo, $id_chave, $mat_user) {       
+        
+        $sql = "UPDATE item_emprestimo "
+                . "SET devolvido_em = CURRENT_TIME(), item_emprestimo.mat_user = ? "
+                . "WHERE item_emprestimo.id_emprestimo = ? AND item_emprestimo.id_chave = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute($params['devolvido_em'], $this->id_emprestimo, $this->id_chave);
+        $stmt->execute(array($mat_user, $id_emprestimo, $id_chave));        
         return $stmt->errorInfo();
     }
     
-    static function receber($id) {
-        $sql = "UPDATE item_emprestimo set devolvido_em = CURRENT_TIMESTAMP WHERE id_emprestimo = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id));
-        return $stmt->errorInfo();
-    }
-    
+
     public function getDevolvidoEm() {
         return $this->devolvido_em;
     }
@@ -119,6 +122,10 @@ class ItemEmprestimo{
     public function getChave() {
         return $this->chave;
     }    
+    
+    public function getUsuario() {
+        return $this->usuario;
+    } 
 
     public function getIdChave() {
         return $this->id_chave;
@@ -139,6 +146,10 @@ class ItemEmprestimo{
     public function setChave($chave) {
         $this->chave = $chave;
     }    
+    
+    public function setUsuario($usuario) {
+        $this->usuario = $usuario;
+    }
 
     public function setIdChave($id_chave) {
         $this->id_chave = $id_chave;

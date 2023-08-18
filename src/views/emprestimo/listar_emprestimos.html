@@ -71,13 +71,13 @@
                             <td>{{emprestimo.user_abertura.nome}}</td>
                             <td class="text-center">
                                 {% if emprestimo.situacao == 'Aberto' %}
-                                    <span class="text-warning fw-bold">{{emprestimo.situacao}}</span>
+                                    <span class="text-info">{{emprestimo.situacao}}</span>
                                 {% endif %}
                                 {% if emprestimo.situacao == 'Atrasado' %}
-                                    <span class="text-danger fw-bold">{{emprestimo.situacao}}</span>
+                                    <span class="text-danger">{{emprestimo.situacao}}</span>
                                 {% endif %}
                                 {% if emprestimo.situacao == 'Devolvido' %}
-                                    <span class="text-success fw-bold">{{emprestimo.situacao}}</span>
+                                    <span class="text-success">{{emprestimo.situacao}}</span>
                                 {% endif %}
                             </td>
                             <td class="text-center">

@@ -35,23 +35,6 @@ class EmprestimoController extends Controller{
         ]);
     }
     
-    public function editar(Request $request, Response $response, $args){
-        $objeto = new Emprestimo();
-        $emprestimo = $objeto->getById($args['id']);
-//        
-        return $this->container['renderizar']->render($response, 'emprestimo_editar.html', [
-            'emprestimo' => $emprestimo
-        ]);        
-    }
-    
-    public function update(Request $request, Response $response, $args){
-        $objeto = new Emprestimo($args['id']);       
-        $params = $request->getParams();        
-        $objeto->update($params);        
-
-        return $response->withStatus(301)->withHeader('Location', '../../emprestimos'); 
-    }
-
     public function show(Request $request, Response $response, $args){        
         $emprestimos = (new Emprestimo)->getAll();  
         $itens_emprestimos = (new ItemEmprestimo)->getAll();  
@@ -62,12 +45,41 @@ class EmprestimoController extends Controller{
         ]);
     }
     
-    public function excluir(Request $request, Response $response, $args){
+    public function detalhes(Request $request, Response $response, $args){        
+        $emprestimo = (new Emprestimo($args['id']))->getById();
+        $chaves = (new Emprestimo($args['id']))->getChaves();
+                        
+        return $this->container['renderizar']->render($response, 'detalhar_emprestimo.html', [
+            'emprestimo' => $emprestimo,
+            'itens_emprestimo' => $chaves
+        ]);
+    } 
+    
+//    public function editar(Request $request, Response $response, $args){
+//        $objeto = new Emprestimo();
+//        $emprestimo = $objeto->getById($args['id']);
+//        
+//        return $this->container['renderizar']->render($response, 'emprestimo_editar.html', [
+//            'emprestimo' => $emprestimo
+//        ]);        
+//    }
+    
+//    public function update(Request $request, Response $response, $args){
+//        $objeto = new Emprestimo($args['id']);       
+//        $params = $request->getParams();        
+//        $objeto->update($params);        
+//
+//        return $response->withStatus(301)->withHeader('Location', '../../emprestimos'); 
+//    }
 
-        Emprestimo::delete($args['id']);
-        return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
-
-    }
+    
+    
+//    public function excluir(Request $request, Response $response, $args){
+//
+//        Emprestimo::delete($args['id']);
+//        return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
+//
+//    }
     
     public function relatorio(Request $request, Response $response, $args){
         $objeto = new Emprestimo();
@@ -77,16 +89,8 @@ class EmprestimoController extends Controller{
             'emprestimos' => $emprestimo
         ]);
     }
-        
-    public function detalhes(Request $request, Response $response, $args){        
-        $emprestimo = (new Emprestimo($args['id']))->getById();
-        $chaves = (new Emprestimo($args['id']))->getChaves();
-                        
-        return $this->container['renderizar']->render($response, 'detalhar_emprestimo.html', [
-            'emprestimo' => $emprestimo,
-            'itens_emprestimo' => $chaves
-        ]);
-    }
+    
+    
 
 
 }

@@ -84,6 +84,50 @@ class Emprestimo{
         return $stmt->errorInfo(); 
         
     }
+    
+    
+    
+    
+      static function emprestimo($params) {
+        transaction.....
+            $sql = "INSERT INTO emprestimo (id_usuario, nome) VALUES (?, ?)";
+            $stmt = DBSigec::getKeys()->prepare($sql);
+            $stmt->execute(array(
+                $params['id_usuario'],  
+                $params['nome']
+            ));
+
+            $cod = $stmt->lastid;
+
+
+            foreach (chaves as chave){
+                $sql = "INSERT INTO item_emprestimo (id_usuario, nome) VALUES (?, ?)";
+                $stmt = DBSigec::getKeys()->prepare($sql);
+                $stmt->execute(array(
+                    $params['id_usuario'],  
+                    $params['nome']
+                ));
+
+                $sql = "UPDATE chave....";
+                $stmt = DBSigec::getKeys()->prepare($sql);
+                $stmt->execute(array(
+                    $params['id_usuario'],  
+                    $params['nome']
+                ));   
+            }
+        
+        
+        
+             
+                
+        return $stmt->errorInfo(); 
+        
+    }
+    
+    
+    
+    
+    
 
     static function delete($id) {
         $sql = 'DELETE FROM emprestimo WHERE id = ?';
@@ -91,28 +135,6 @@ class Emprestimo{
         $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
-
-//    public function update($params) {
-//        $sql = "UPDATE emprestimo set nome = ? WHERE id = ?";
-//        $stmt = DBSigec::getKeys()->prepare($sql);
-//        $stmt->execute(array($params['nome'], $this->id));
-//        return $stmt->errorInfo();
-//    }
-
-//    public function adicionarItemEmprestimo(ItemEmprestimo $item) {
-//        $this->itensEmprestimo[] = $item;
-//    }
-//
-//    public function removerItemEmprestimo(ItemEmprestimo $item) {
-//        $index = array_search($item, $this->itensEmprestimo);
-//        if ($index !== false) {
-//            unset($this->itensEmprestimo[$index]);
-//        }
-//    }
-//    
-//    public function limparItensEmprestimo() {
-//        $this->itensEmprestimo = array();
-//    }
     
     public function detalhar() {
         
