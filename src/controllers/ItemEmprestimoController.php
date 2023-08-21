@@ -7,7 +7,9 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use sigec\models\ItemEmprestimo;
 use sigec\models\Chave;
+use sigec\models\Emprestimo;
 use sigec\models\Autenticador;
+use sigec\database\DBSigec;
 
 
 class ItemEmprestimoController extends Controller{
@@ -30,10 +32,46 @@ class ItemEmprestimoController extends Controller{
     
     public function devolver(Request $request, Response $response, $args){  
         
-        Chave::devolver($args['id_chave']);
-        $mat_user = Autenticador::instanciar()->getMatricula();
-        ItemEmprestimo::devolver($args['id'], $args['id_chave'], $mat_user);
-        return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos');
+//        
+//        $mat_user = Autenticador::instanciar()->getMatricula();
+//        ItemEmprestimo::devolver($args['id'], $args['id_chave'], $mat_user);
+//        return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos');
+        
+        $db = DBSigec::getKeys();
+        
+        $db->beginTransaction();
+        
+        try {
+            // Localiza o usuário operador do sistema
+            $mat_user = Autenticador::instanciar()->getMatricula();
+            
+            // Devolver o item do emprestimo (chave)            
+            ItemEmprestimo::devolver($args['id'], $args['id_chave'], $mat_user);
+            
+            // Atualizar a situação da chave devolvida
+            Chave::devolver($args['id_chave']);
+            
+            // Verificar se todas as chaves do empréstimo foram devolvidas
+            $chavesEmprestimo = ItemEmprestimo::getByEmprestimo($args['id']);
+            $todasChavesDevolvidas = true;
+            foreach ($chavesEmprestimo as $itemEmprestimo) {
+                if (!$itemEmprestimo->getDevolvidoEm()) {
+                    $todasChavesDevolvidas = false;
+                    break; 
+                }
+            }
+           
+            // Se todas as chaves foram devolvidas, atualizar a situação do empréstimo
+            if ($todasChavesDevolvidas) {
+                Emprestimo::encerrar($args['id'], $mat_user);                
+            }
+            
+            $db->commit();
+            return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos');
+        } catch (Exception $e) {
+            $db->rollback();
+            // Lidar com o erro de alguma maneira apropriada
+        }
 
     }
 }

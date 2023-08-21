@@ -125,21 +125,6 @@ class Usuario{
         $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
-
-//    static function loginCriarOuAtualizar($login, $nome, $senha, $telefone, $setor, $privilegio, $ativo) {
-//        $user = self::getByLogin($login);
-//        #Se tiver usuário cadastrado então é uma atualização se não é um novo usuário
-//        if ($user) {
-//            #Verifica se o usuário ta atualizando a senha.
-//            $senha = ($senha == null or $senha == '') ? $user->getSenha() : $senha;
-//            $sql = 'UPDATE usuario SET nome = ?, senha = ?, telefone = ?, setor_id = ?, nivel_acesso_id = ?, ativo = ? WHERE login = ?';
-//        } else {
-//            $sql = 'INSERT INTO usuario (nome, senha, telefone, setor_id, nivel_acesso_id, ativo, login) VALUES (?, ?, ?, ?, ?, ?, ?)';
-//        }
-//        $stmt = DBSigec::getKeys()->prepare($sql);
-//        $stmt->execute(array($nome, $senha, $telefone, $setor, $privilegio, $ativo, $login));
-//        return $stmt->errorInfo();
-//    }
     
     public function getId() {
         return $this->id;

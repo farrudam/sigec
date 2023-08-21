@@ -83,52 +83,8 @@ class Emprestimo{
         ));        
         return $stmt->errorInfo(); 
         
-    }
-    
-    
-    
-    
-      static function emprestimo($params) {
-        transaction.....
-            $sql = "INSERT INTO emprestimo (id_usuario, nome) VALUES (?, ?)";
-            $stmt = DBSigec::getKeys()->prepare($sql);
-            $stmt->execute(array(
-                $params['id_usuario'],  
-                $params['nome']
-            ));
-
-            $cod = $stmt->lastid;
-
-
-            foreach (chaves as chave){
-                $sql = "INSERT INTO item_emprestimo (id_usuario, nome) VALUES (?, ?)";
-                $stmt = DBSigec::getKeys()->prepare($sql);
-                $stmt->execute(array(
-                    $params['id_usuario'],  
-                    $params['nome']
-                ));
-
-                $sql = "UPDATE chave....";
-                $stmt = DBSigec::getKeys()->prepare($sql);
-                $stmt->execute(array(
-                    $params['id_usuario'],  
-                    $params['nome']
-                ));   
-            }
-        
-        
-        
-             
-                
-        return $stmt->errorInfo(); 
-        
-    }
-    
-    
-    
-    
-    
-
+    }    
+      
     static function delete($id) {
         $sql = 'DELETE FROM emprestimo WHERE id = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
@@ -136,8 +92,14 @@ class Emprestimo{
         return $stmt->errorInfo();
     }
     
-    public function detalhar() {
+    static function encerrar($id_emprestimo, $mat_user) {       
         
+        $sql = "UPDATE emprestimo "
+                . "SET data_devolucao = CURRENT_TIME(), mat_user_devolucao = ?, situacao = 'Devolvido' "
+                . "WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($mat_user, $id_emprestimo));        
+        return $stmt->errorInfo();
     }
     
     public function getId() {

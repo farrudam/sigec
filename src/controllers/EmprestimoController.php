@@ -53,34 +53,8 @@ class EmprestimoController extends Controller{
             'emprestimo' => $emprestimo,
             'itens_emprestimo' => $chaves
         ]);
-    } 
-    
-//    public function editar(Request $request, Response $response, $args){
-//        $objeto = new Emprestimo();
-//        $emprestimo = $objeto->getById($args['id']);
-//        
-//        return $this->container['renderizar']->render($response, 'emprestimo_editar.html', [
-//            'emprestimo' => $emprestimo
-//        ]);        
-//    }
-    
-//    public function update(Request $request, Response $response, $args){
-//        $objeto = new Emprestimo($args['id']);       
-//        $params = $request->getParams();        
-//        $objeto->update($params);        
-//
-//        return $response->withStatus(301)->withHeader('Location', '../../emprestimos'); 
-//    }
+    }     
 
-    
-    
-//    public function excluir(Request $request, Response $response, $args){
-//
-//        Emprestimo::delete($args['id']);
-//        return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
-//
-//    }
-    
     public function relatorio(Request $request, Response $response, $args){
         $objeto = new Emprestimo();
         $emprestimo = $objeto->getAll();
