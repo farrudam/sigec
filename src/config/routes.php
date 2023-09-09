@@ -1,6 +1,11 @@
 <?php
 
-$app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
+$app->get('/', 'sigec\controllers\HomeController:home')->setName('home')->add($auth);
+$app->get('/buscar/{matricula}', 'sigec\controllers\EmprestimoController:buscar')->add($auth);
+$app->post('/pesquisar', 'sigec\controllers\EmprestimoController:pesquisar');
+$app->get('/detalhar_usuario/{userMatricula}', 'sigec\controllers\EmprestimoController:detalharUsuario')->add($auth);
+//$app->post('/detalhar_usuario', 'sigec\controllers\EmprestimoController:detalharUsuario');
+
 
 $app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios')->add($auth);
 $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo')->add($auth);

@@ -21,6 +21,10 @@ body {
     font-family: "Inter", "Helvetica Neue", Arial;
 }
 
+.texto-preto {
+    color: black !important;
+}
+
 .sidebar {
     width: 300px;
     position: fixed;
