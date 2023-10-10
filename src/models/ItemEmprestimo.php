@@ -106,6 +106,16 @@ class ItemEmprestimo{
         return $stmt->errorInfo();
     }
     
+    
+    static function setDevolucaoChaves($mat_user, $id_emprestimo) {
+        $sql = "UPDATE item_emprestimo "
+                . "SET devolvido_em = CURRENT_TIME(),"
+                . "item_emprestimo.mat_user = ? "
+                . "WHERE item_emprestimo.id_emprestimo = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($mat_user, $id_emprestimo));        
+        return $stmt->errorInfo();
+    }
 
     public function getDevolvidoEm() {
         return $this->devolvido_em;

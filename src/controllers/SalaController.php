@@ -18,8 +18,8 @@ class SalaController extends Controller{
         
         if(isset($postParam)){
             Sala::create($postParam);
-            //$this->container['flash']->addMessage('success', 'Sala adicionada com sucesso!');
-            $this->flash->addMessage('success', 'Sala adicionada com sucesso. This is a message');
+            $this->container['flash']->addMessage('success', 'Sala adicionada com sucesso!');
+            //$this->flash->addMessage('success', 'Sala adicionada com sucesso.');
             return $response->withStatus(301)->withHeader('Location', '../salas'); 
         }                
     }

@@ -102,10 +102,10 @@ class Chave{
         return $stmt->errorInfo();
     }
     
-    static function emprestar() {
+    static function emprestar($id) {
         $sql = "UPDATE chave SET situacao = 'Emprestada' WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($this->id));
+        $stmt->execute(array($id));
         return $stmt->errorInfo();
     }
     
@@ -113,6 +113,18 @@ class Chave{
         $sql = "UPDATE chave set situacao = 'Disponivel' WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
+    
+    static function devolverChaves($id_emprestimo) {
+        $sql = "UPDATE chave 
+                set situacao = 'Disponivel' 
+                WHERE id IN (
+                    SELECT id_chave
+                    FROM item_emprestimo
+                    WHERE id_emprestimo = ?)";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id_emprestimo));
         return $stmt->errorInfo();
     }
 

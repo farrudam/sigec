@@ -14,7 +14,7 @@ use sigec\database\DBSigec;
 
 class ItemEmprestimoController extends Controller{
     
-    static function create(Request $request, Response $response, $args){
+    public function create(Request $request, Response $response, $args){
        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);         
         
         if(isset($postParam)){
@@ -30,12 +30,8 @@ class ItemEmprestimoController extends Controller{
          return $this->container['renderizar']->render($response, 'emprestimo_itens.html', [ ]);                
     }
     
-    public function devolver(Request $request, Response $response, $args){  
-        
-//        
-//        $mat_user = Autenticador::instanciar()->getMatricula();
-//        ItemEmprestimo::devolver($args['id'], $args['id_chave'], $mat_user);
-//        return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos');
+    public function devolver(Request $request, Response $response, $args){         
+
         
         $db = DBSigec::getKeys();
         
@@ -66,11 +62,15 @@ class ItemEmprestimoController extends Controller{
                 Emprestimo::encerrar($args['id'], $mat_user);                
             }
             
-            $db->commit();
+            $db->commit();            
+            
+            $this->container['flash']->addMessage('success', 'Chave devolvida com sucesso!');            
             return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos');
+            
+            
         } catch (Exception $e) {
             $db->rollback();
-            // Lidar com o erro de alguma maneira apropriada
+            // Lidar com o erro de alguma maneira apropriada. Mensagem Flash
         }
 
     }

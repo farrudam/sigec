@@ -1,6 +1,6 @@
 <?php
 
-$app->get('/', 'sigec\controllers\HomeController:home')->setName('home')->add($auth);
+$app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
 $app->get('/buscar/{matricula}', 'sigec\controllers\EmprestimoController:buscar')->add($auth);
 $app->post('/pesquisar', 'sigec\controllers\EmprestimoController:pesquisar');
 $app->get('/detalhar_usuario/{userMatricula}', 'sigec\controllers\EmprestimoController:detalharUsuario')->add($auth);
@@ -51,10 +51,13 @@ $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabili
 
 
 $app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
+$app->get('/emprestimos/ativos', 'sigec\controllers\EmprestimoController:ativos')->setName('emprestimos_ativos')->add($auth);
+$app->get('/emprestimos/encerrados', 'sigec\controllers\EmprestimoController:encerrados')->setName('emprestimos_encerrados')->add($auth);
 $app->get ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:novo')->setName('emprestimo_novo')->add($auth);
 $app->post ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:create');
 $app->get ('/emprestimos/relatorio', 'sigec\controllers\EmprestimoController:relatorio')->setName('emprestimo_relatorio')->add($auth);
 $app->get ('/emprestimo/{id}/detalhes', 'sigec\controllers\EmprestimoController:detalhes')->setName('detalhes_emprestimo')->add($auth);
+$app->get ('/emprestimo/{id}/concluir', 'sigec\controllers\EmprestimoController:concluir')->setName('concluir_emprestimo')->add($auth);
 
 
-$app->get ('/emprestimo/{id}/chave/{id_chave}/devolver', 'sigec\controllers\ItemEmprestimoController::devolver')->setName('item_devolver')->add($auth);
+$app->get ('/emprestimo/{id}/chave/{id_chave}/devolver', 'sigec\controllers\ItemEmprestimoController:devolver')->setName('item_devolver')->add($auth);
