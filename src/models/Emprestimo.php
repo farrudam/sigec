@@ -52,7 +52,31 @@ class Emprestimo{
     }
     
     public function getAll() {
-        $sql = "select * from emprestimo order by id ";
+        $sql = "select * from emprestimo order by data_abertura DESC ";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array());
+        $rows = $stmt->fetchAll();
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, self::bundle($row));
+        }
+        return $result;
+    }
+    
+    public function getAtivos() {
+        $sql = "select * from emprestimo WHERE situacao = 'Aberto' order by data_abertura DESC ";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array());
+        $rows = $stmt->fetchAll();
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, self::bundle($row));
+        }
+        return $result;
+    }
+    
+    public function getEncerrados() {
+        $sql = "select * from emprestimo WHERE situacao = 'Devolvido' order by data_abertura DESC ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -75,15 +99,14 @@ class Emprestimo{
     }
 
     static function create($params) {
-        $sql = "INSERT INTO emprestimo (id_usuario, nome) VALUES (?, ?)";
+        $sql = "INSERT INTO emprestimo (mat_solic, mat_user_abertura) VALUES (?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
-            $params['id_usuario'],  
-            $params['nome']
+            $params['mat_solic'],  
+            $params['mat_user_abertura']
         ));        
         return $stmt->errorInfo(); 
-        
-    }    
+    }
       
     static function delete($id) {
         $sql = 'DELETE FROM emprestimo WHERE id = ?';
@@ -92,7 +115,7 @@ class Emprestimo{
         return $stmt->errorInfo();
     }
     
-    static function encerrar($id_emprestimo, $mat_user) {       
+    static function encerrar($id_emprestimo, $mat_user) {      
         
         $sql = "UPDATE emprestimo "
                 . "SET data_devolucao = CURRENT_TIME(), mat_user_devolucao = ?, situacao = 'Devolvido' "

@@ -10,6 +10,7 @@
 @import url("components/container.css");
 @import url("components/navbar.css");
 @import url("components/avatar.css");
+@import url("components/menu.css");
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 /* [...] */
@@ -19,6 +20,10 @@
 
 body {
     font-family: "Inter", "Helvetica Neue", Arial;
+}
+
+.texto-preto {
+    color: black !important;
 }
 
 .sidebar {
@@ -66,20 +71,20 @@ body {
 
 .logohorizontal {
     width: 45%;
-                height: 45%;
-                object-fit: contain;
+    height: 45%;
+    object-fit: contain;
     display: block;
     margin: 0 auto 40px;
     
 }
 
 .sidebarTitulo {
-    color: var(--cor12);
-    font-size: .75rem;
+    color: var(--cor16);
+    font-size: .85rem;
 }
 
 .sidebarMenu ul {
-    padding-left: .5rem;
+    padding-left: .7rem;
 }
 
 .sidebarMenu li {
@@ -93,7 +98,7 @@ body {
 }
 
 .sidebarMenu a {
-    padding: .2rem;
+    padding: .4rem;
     display: block;
     color: var(--cor14);
     border-bottom: 1px solid var(--cor3);
@@ -101,11 +106,19 @@ body {
 
 .sidebarMenu a:hover {
     border-bottom: 1px solid var(--cor2);
-    color: var(--cor8) !important;
+    color: #DAFFFB !important;
 }
 
 .sidebarMenu i {
     padding-right: .5rem;
+}
+
+.sidebarMenu ul ul {
+    display: none;
+}
+
+.submenuEmprestimo {
+    display: none;
 }
 
 

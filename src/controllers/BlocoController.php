@@ -12,7 +12,7 @@ class BlocoController extends Controller{
  
     
     public function create(Request $request, Response $response, $args){
-         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
             Bloco::create($postParam);
@@ -57,12 +57,6 @@ class BlocoController extends Controller{
 
         Bloco::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../blocos');
-//        $msg = Produto::delete($produto_codigo);
-//        if ($msg[2]) {
-//            $this->flash->addMessage('danger', $msg[2]);
-//        } else {
-//            $this->flash->addMessage('success', 'Registro excluido com sucesso');
-//        }
     }
     
     

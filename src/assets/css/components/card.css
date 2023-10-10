@@ -1,4 +1,23 @@
-.card-home {
+.selectable {
+    cursor: pointer; /* Adiciona o cursor de ponteiro ao passar o mouse */
+    transition: box-shadow 0.3s ease; /* Adiciona uma transição suave para a sombra */
+    /* Outros estilos, como borda ou cor de fundo, conforme necessário */
+}
+
+.selectable:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra sutil ao passar o mouse */
+}
+
+.selected {
+    border: 2px solid green;
+}
+
+.etiqueta {
+    text-align:center;
+    //font-weight: bold;
+}
+
+/*.card-home {
   margin: 5px;
   box-shadow: 0 2px 4px #00000033;
   border-radius: 5px;
@@ -36,4 +55,4 @@
   background-color: inherit;
   border-top: 1px solid rgba(160,160,160,0.2);
   padding: 16px 24px;
-}
+}*/

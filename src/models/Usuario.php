@@ -126,6 +126,31 @@ class Usuario{
         return $stmt->errorInfo();
     }
     
+    static function buscar($busca) {
+        $sql = "SELECT * FROM usuario WHERE matricula LIKE '%$busca%'";        
+        //$sql = "SELECT * FROM usuario WHERE matricula = '%$busca'";        
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($busca));
+        $rows = $stmt->fetchAll();
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, self::bundle($row));
+        }
+        return $result; 
+    }
+    
+    static function pesquisar($busca) {
+        $sql = "SELECT matricula FROM usuario WHERE matricula LIKE '%$busca%'";        
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($busca));
+        $row = $stmt->fetch();
+        if ($row == null) {
+            return null;
+        }
+        return self::bundle($row); 
+    }
+
+    
     public function getId() {
         return $this->id;
     }
