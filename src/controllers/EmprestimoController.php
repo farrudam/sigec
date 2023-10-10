@@ -13,6 +13,7 @@ use sigec\models\Bloco;
 use sigec\models\Chave;
 use sigec\database\DBSigec;
 use sigec\models\Autenticador;
+use DateTime;
 
 
 class EmprestimoController extends Controller{
@@ -65,7 +66,7 @@ class EmprestimoController extends Controller{
             // Commit da transação
             $db->commit();
             
-            $this->container['flash']->addMessage('success', 'Empréstimo adicionado com sucesso!');                        
+            $this->container['flash']->addMessage('success', 'Empréstimo adicionado com sucesso!');            
             return $response->withStatus(301)->withHeader('Location', '../emprestimos'); 
             
             

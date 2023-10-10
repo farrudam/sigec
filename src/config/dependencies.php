@@ -46,10 +46,6 @@ $container['flash'] = function () {
   return new \Slim\Flash\Messages();
 };
 
-// Container para mensagens SweetAlert
-//$container['sweetalert'] = function () {
-//    return new SweetAlert();
-//};
 
 $container['DOMPDF'] = function () {
    return new Dompdf();
