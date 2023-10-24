@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/laragon/www/sigec/src/config/routes.php</file>
+            <file>file:/C:/laragon/www/sigec/src/controllers/ChaveController.php</file>
+            <file>file:/C:/laragon/www/sigec/src/views/chave/chave_restringir.html</file>
+            <file>file:/C:/laragon/www/sigec/src/views/chave/listar_chaves.html</file>
+            <file>file:/C:/laragon/www/sigec/src/views/chave/chave_nova.html</file>
+        </group>
     </open-files>
 </project-private>

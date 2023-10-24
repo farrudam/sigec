@@ -19,24 +19,87 @@
     </nav>  
 
     {% for item in messages.success %}
-        <div class="alert alert-success alert-dismissible fade show">
+<!--        <div class="alert alert-success alert-dismissible fade show">
             {{item}}
             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>
+        </div>-->
+        <script>            
+            window.onload = function() {                
+                Swal.fire({                   
+                    icon: 'success',
+                    title: '{{item}}',
+                    showConfirmButton: true
+                    //timer: 1500
+                  })
+            };
+        </script>
     {% endfor %}
 
     {% for item in messages.error %}
-        <div class="alert alert-danger alert-dismissible fade show">
+<!--        <div class="alert alert-danger alert-dismissible fade show">
             {{item}}
             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>
+        </div>-->
+        <script>            
+            window.onload = function() {                
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{item}}'
+              })
+            };
+        </script>
     {% endfor %}
     
     {% for item in messages.warning %}
-        <div class="alert alert-warning alert-dismissible fade show">
+        <!--<div class="alert alert-warning alert-dismissible fade show">-->
+            <!--{{item}}-->
+            <!--<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>-->
+        <!--</div>-->
+        <script>            
+            window.onload = function() {                
+                Swal.fire({                    
+                    text: "{{item}}",
+                    icon: 'warning',                    
+                    confirmButtonColor: '#3085d6',                    
+                    confirmButtonText: 'Ok'
+                  })
+            };
+        </script>        
+    {% endfor %}
+    
+    {% for item in messages.info %}
+<!--        <div class="alert alert-info alert-dismissible fade show">
             {{item}}
             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>
+        </div>-->
+    {% endfor %}
+    
+    {% for item in messages.question %}
+<!--        <div class="alert alert-info alert-dismissible fade show">
+            {{item}}
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>-->
+        <script>            
+            window.onload = function() {                
+                Swal.fire({
+                title: 'Confirma devoluçao?',
+                text: "Não será possível reverter esta operação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire(
+                    'Chave devolvida!',                    
+                    'success'
+                  )
+                }
+              })
+            };
+        </script> 
     {% endfor %}
 
 
@@ -45,6 +108,11 @@
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
             <h3 class="card-title"><b>Detalhes do Empréstimo</b></h3>
         </div>
+        
+         <div style="text-indent: 10px; margin: 10px;">                
+            <i class="fa-solid fa-circle text-warning" tooltip="tooltip" title="Ativo"></i> Chave Emprestada
+            <i class="fa-solid fa-circle text-secondary" tooltip="tooltip" title="Ativo"></i> Chave Devolvida            
+        </div>  
         
         <div class="card-body">
             <strong>Código:</strong> &nbsp; {{emprestimo.id}}
@@ -69,28 +137,29 @@
                     <tbody> 
                         {% for item in itens_emprestimo %}
                         <tr>
-                            <td title="{{item.chave.descricao}}"><span class="badge bg-secondary">{{item.chave.etiqueta}}</span> </td>
-                            
-                            <td class="text-center">
-                                {% if item.DevolvidoEm is null %}
+                            {% if item.DevolvidoEm is null %}
+                                <td>
+                                    <span title="{{item.chave.descricao}}" class="badge bg-warning">{{item.chave.etiqueta}}</span>
+                                </td>
+                                <td class="text-center">                
                                     <a href="{{ base_url }}/emprestimo/{{emprestimo.id}}/chave/{{item.chave.id}}/devolver">
                                         <i class="fa-solid fa-rotate-left"></i>
                                     </a>
-                                {% else %}
-                                    
-                                {% endif %}
-                                
-                            </td>
-                            {% if item.DevolvidoEm is null %}
+                                </td>
                                 <td>  </td>
+                                <td>  </td>
+
                             {% else %}
-                                <td>{{item.DevolvidoEm |date('d/m/Y H:i')}}</td>                            
-                            {% endif %}    
-                            <td>{{item.usuario.nome}}</td>
+                                <td title="{{item.chave.descricao}}"><span class="badge bg-secondary">{{item.chave.etiqueta}}</span> </td>
+                                <td>  </td>
+                                <td>{{item.DevolvidoEm |date('d/m/Y H:i')}}</td>
+                                <td>{{item.usuario.nome}}</td>
+                            {% endif %}
                         </tr>
                         {% endfor%}
                     </tbody>
                 </table>
+                <button id="btn_voltar" type="button" class="btn btn-success" onclick="history.back()">Voltar</button>
             </div>     
 
 

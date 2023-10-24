@@ -15,6 +15,12 @@ class BlocoController extends Controller{
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
+            
+            if (in_array('', $postParam)) {                
+                $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
+                return $response->withStatus(301)->withHeader('Location', '../blocos'); 
+            }
+            
             Bloco::create($postParam);
             $this->container['flash']->addMessage('success', 'Bloco adicionado com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../blocos'); 
@@ -38,7 +44,7 @@ class BlocoController extends Controller{
         $objeto = new Bloco($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
-        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
+        $this->container['flash']->addMessage('success', 'Salvo com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../blocos');
 
     }

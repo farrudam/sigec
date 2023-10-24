@@ -1,6 +1,4 @@
 {% extends "dashboard.html" %}
-{% import "funcoes.html" as msg %}
-
 {% block conteudo %}
 
 <nav aria-label="breadcrumb">
@@ -37,7 +35,7 @@
                 <input type="text" name="etiqueta" value="{{chave.etiqueta}}" class="form-control" id="etiqueta" required>                
             </div>         
             
-            <button  type="submit" class="btn btn-primary">
+            <button  type="submit" class="btn btn-success">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar
             </button>
         </form>

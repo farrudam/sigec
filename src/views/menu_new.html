@@ -2,7 +2,7 @@
     <div class="sidebarLogo">
         <a href="#" data-bs-toggle="tooltip" title="Página Inicial">
             <div class="logo">
-                <img src="{{ base_url }}/src/assets/img/IFCE_LogoVertical.png" alt="logo_campus_tiangua"/>
+                <img src="{{ base_url }}/src/assets/img/logo-vertical-branco.png" alt="logo_campus_tiangua"/>
             </div>
         </a>
     </div>
@@ -37,28 +37,28 @@
                 </a>
             </li>
             <li>
-                <a href="{{ base_url }}/emprestimos" class="emprestimo" tooltip="tooltip" title="Gestão de Empréstimos">
-                    <i class="fa-solid fa-hand-holding"></i>
-                    <span>Empréstimos</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
-                <ul class="submenuEmprestimo">
+                <a href="#" class="emprestimo"> <i class="fa-solid fa-hand-holding"></i>Empréstimos</a>
+                <ul class="itemSubmenu">
                     <li>
-                        <a href="#" tooltip="tooltip" title="Todos os Empréstimos">
-                            Todos os Empréstimos
+                        <a href="{{ base_url }}/emprestimo/novo" tooltip="tooltip" title="Todos os Empréstimos">
+                            Novo
                         </a>
                     </li>
                     <li>
-                        <a href="#" tooltip="tooltip" title="Empréstimos Ativos">
+                        <a href="{{ base_url }}/emprestimos/ativos" tooltip="tooltip" title="Empréstimos Ativos">
                             Empréstimos Ativos
                         </a>
-                    </li>
-                    <!-- Adicione outros subitens conforme necessário -->
+                    </li>                    
+                    <li>
+                        <a href="{{ base_url }}/emprestimos/encerrados" tooltip="tooltip" title="Empréstimos Ativos">
+                            Empréstimos Encerrados
+                        </a>
+                    </li>                    
                 </ul>
             </li>
-
         </ul>
     </div>
     
 </div>
+
 

@@ -57,7 +57,7 @@ body {
 }
 
 .sidebarLogo {
-    padding: 1rem;
+    padding: 1.5rem;
     margin-bottom: 5px;
 }
 .sidebarLogo a {
@@ -81,11 +81,30 @@ body {
 .sidebarTitulo {
     color: var(--cor16);
     font-size: .85rem;
+    line-height: 60px;
+    border-bottom: 2px solid #DAFFFB;
+    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 .sidebarMenu ul {
-    padding-left: .7rem;
+    padding-left: .9rem;
 }
+
+.sidebarMenu ul ul li a {
+    font-size: 14px; 
+    padding-left: 40px;
+}
+
+.sidebarMenu li:hover ul.itemSubmenu {
+    display: block;
+}
+
+/* Inicialmente, oculte todos os submenus */
+.sidebarMenu ul.itemSubmenu {
+    display: none;
+}
+
 
 .sidebarMenu li {
     line-height: 40px;
@@ -101,24 +120,18 @@ body {
     padding: .4rem;
     display: block;
     color: var(--cor14);
-    border-bottom: 1px solid var(--cor3);
+    border-bottom: 1px solid #DAFFFB;
 }
 
 .sidebarMenu a:hover {
-    border-bottom: 1px solid var(--cor2);
+    border-bottom: 1px solid #DAFFFB;
     color: #DAFFFB !important;
+    background-color: #2ca02c;
+    transition: 0.5s;
 }
 
 .sidebarMenu i {
-    padding-right: .5rem;
-}
-
-.sidebarMenu ul ul {
-    display: none;
-}
-
-.submenuEmprestimo {
-    display: none;
+    padding-right: .6rem;
 }
 
 
