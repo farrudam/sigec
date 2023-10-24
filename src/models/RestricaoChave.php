@@ -2,49 +2,44 @@
 
 namespace sigec\models;
 use sigec\database\DBSigec;
-use sigec\models\Emprestimo;
 use sigec\models\Chave;
 use sigec\models\Usuario;
 
-class ItemEmprestimo{
+class RestricaoChave{
     
-    private $devolvido_em;    
-    
-    private $id_emprestimo;
-    private $emprestimo;
-        
+    private $restricao;    
+                
     private $id_chave;
     private $chave;
     
-    private $mat_user;
+    private $mat_solic;
     private $usuario;
     
-    public function __construct($id_emprestimo = null, $id_chave = null, $mat_user = null) {
-        $this->id_emprestimo = $id_emprestimo;
+    public function __construct($id_chave = null, $mat_solic = null) {        
         $this->id_chave = $id_chave;
-        $this->mat_user = $mat_user;
+        $this->mat_solic = $mat_solic;
     }
     
-    private function bundle ($row){      
+    private function bundle ($row){  
         
-        $emprestimo = new Emprestimo($row['id_emprestimo']);
+        $chave =  new Chave($row['id_chave']);        
+        $usuario = new Usuario($row['mat_solic']);
         
-        $chave =  new Chave($row['id_chave']);
+        $restricao_chave = new RestricaoChave($row['id_chave'], $row['mat_solic']);  
+
+//        $usuario_restrito->setEmprestimo($emprestimo->getById());
+//        $usuario_restrito->setDevolvidoEm($row['devolvido_em']);  
         
-        $usuario = new Usuario($row['mat_user']);
+        $restricao_chave->setRestricao($row['restricao']);
         
-        $item_emprestimo = new ItemEmprestimo($row['id_emprestimo'], $row['id_chave'], $row['mat_user']);  
-        $item_emprestimo->setEmprestimo($emprestimo->getById());
-        $item_emprestimo->setDevolvidoEm($row['devolvido_em']);  
+        $restricao_chave->setChave($chave->getById($row['id_chave']));
+        $restricao_chave->setUsuario($usuario->getByMatricula($row['mat_solic']));
         
-        $item_emprestimo->setChave($chave->getById($row['id_chave']));
-        $item_emprestimo->setUsuario($usuario->getByMatricula($row['mat_user']));
-        
-        return $item_emprestimo;
+        return $restricao_chave;
     }
     
     public function getAll() {
-        $sql = "select * from item_emprestimo order by id_emprestimo";
+        $sql = "select * from restricao_chave order by mat_solic";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -55,10 +50,10 @@ class ItemEmprestimo{
         return $result;
     }
     
-    static function getByEmprestimo($id_emprestimo) {
-        $sql = "select * from item_emprestimo where id_emprestimo = ?";
+    static function getByChave($id_chave) {
+        $sql = "select * from restricao_chave where id_chave = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id_emprestimo));
+        $stmt->execute(array($id_chave));
         $rows = $stmt->fetchAll();
         $result = [];
         foreach ($rows as $row) {
@@ -70,7 +65,7 @@ class ItemEmprestimo{
     public function getById() {
         $sql = "SELECT * from item_emprestimo WHERE id_emprestimo = ? and id_chave = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($this->id_emprestimo, $this->id_chave));
+        $stmt->execute(array($this->id_chave, $this->id_chave));
         $row = $stmt->fetch();
         if ($row == null) {
             return null;
@@ -116,53 +111,45 @@ class ItemEmprestimo{
         $stmt->execute(array($mat_user, $id_emprestimo));        
         return $stmt->errorInfo();
     }
-
-    public function getDevolvidoEm() {
-        return $this->devolvido_em;
+   
+    public function getRestricao() {
+        return $this->restricao;
     }
     
-    public function getEmprestimo() {
-        return $this->emprestimo;
-    }    
-
-    public function getIdEmprestimo() {
-        return $this->id_emprestimo;
-    }
-
     public function getChave() {
         return $this->chave;
     }    
+    
+    public function getIdChave() {
+        return $this->id_chave;
+    }
     
     public function getUsuario() {
         return $this->usuario;
     } 
 
-    public function getIdChave() {
-        return $this->id_chave;
+    public function getIdUsuario() {
+        return $this->mat_solic;
     }
-
-    public function setDevolvidoEm($devolvido_em) {
-        $this->devolvido_em = $devolvido_em;
+    
+    public function setRestricao($restricao) {
+        $this->restricao = $restricao;
     }
-
-    public function setEmprestimo($emprestimo) {
-        $this->emprestimo = $emprestimo;
-    }
-
-    public function setIdEmprestimo($id_emprestimo) {
-        $this->id_emprestimo = $id_emprestimo;
-    } 
-
+    
     public function setChave($chave) {
         $this->chave = $chave;
     }    
+    
+    public function setIdChave($id_chave) {
+        $this->id_chave = $id_chave;
+    }
     
     public function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
 
-    public function setIdChave($id_chave) {
-        $this->id_chave = $id_chave;
+    public function setIdUsuario($mat_solic) {
+        $this->mat_solic = $mat_solic;
     }
     
 }

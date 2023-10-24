@@ -16,6 +16,8 @@ class Chave{
     private $id_sala;
     private $sala;
     
+    private $usuarios = [];
+    
     public function __construct($id = null) {
         $this->id = $id;
     }
