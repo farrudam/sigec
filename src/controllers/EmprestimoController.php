@@ -13,7 +13,6 @@ use sigec\models\Bloco;
 use sigec\models\Chave;
 use sigec\database\DBSigec;
 use sigec\models\Autenticador;
-use DateTime;
 
 
 class EmprestimoController extends Controller{
@@ -66,8 +65,8 @@ class EmprestimoController extends Controller{
             // Commit da transação
             $db->commit();
             
-            $this->container['flash']->addMessage('success', 'Empréstimo adicionado com sucesso!');            
-            return $response->withStatus(301)->withHeader('Location', '../emprestimos'); 
+            $this->container['flash']->addMessage('success', 'Empréstimo realizado com sucesso!');            
+            return $response->withStatus(301)->withHeader('Location', '../emprestimos/ativos'); 
             
             
         } catch (PDOException $e) {
@@ -161,21 +160,13 @@ class EmprestimoController extends Controller{
             Chave::devolverChaves($args['id']);
             //atualizar situacao do emprestimo
             Emprestimo::encerrar($args['id'], $mat_user);
-//
-//            // Se todas as chaves foram devolvidas....
-//            if ($todasChavesDevolvidas) {
-                //Devolver todas as chaves do empréstimo 
-//                Chave::devolverChaves($args['id']);
-//                // Atualizar devolvido_em e usuário que registrou a devolução
-//                ItemEmprestimo::devolver($args['id'], $args['id_chave'], $mat_user);
-//                //atualizar situacao do emprestimo
-//                Emprestimo::encerrar($args['id'], $mat_user);                
-////            }
-
             $db->commit();            
-
-            $this->container['flash']->addMessage('success', 'Empréstimo concluído com sucesso!');            
-            return $response->withStatus(301)->withHeader('Location', '../../emprestimos');
+            
+            echo '
+        <script>  swal("Done!"); </script>
+      ';
+            $this->container['flash']->addMessage('success', 'Empréstimo concluído com sucesso!');
+            return $response->withStatus(301)->withHeader('Location', '../../emprestimos/ativos');
         
             
         } catch (Exception $e) {

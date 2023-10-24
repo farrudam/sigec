@@ -21,7 +21,7 @@ class ItemEmprestimoController extends Controller{
             ItemEmprestimo::create($postParam);
             $chave = new Chave($postParam['id_chave']);
             $chave->emprestar();
-            return $response->withStatus(301)->withHeader('Location', '../emprestimos'); 
+            return $response->withStatus(301)->withHeader('Location', '../emprestimos/ativos'); 
         }                
     }
     
@@ -65,7 +65,7 @@ class ItemEmprestimoController extends Controller{
             $db->commit();            
             
             $this->container['flash']->addMessage('success', 'Chave devolvida com sucesso!');            
-            return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos');
+            return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos/ativos');
             
             
         } catch (Exception $e) {

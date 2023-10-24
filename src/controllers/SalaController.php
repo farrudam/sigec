@@ -17,8 +17,14 @@ class SalaController extends Controller{
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);         
         
         if(isset($postParam)){
+            
+            if (in_array('', $postParam)) {                
+                $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
+                return $response->withStatus(301)->withHeader('Location', '../salas'); 
+            }
+            
             Sala::create($postParam);
-            $this->container['flash']->addMessage('success', 'Sala adicionada com sucesso!');
+            $this->container['flash']->addMessage('success', 'Sala criada com sucesso!');
             //$this->flash->addMessage('success', 'Sala adicionada com sucesso.');
             return $response->withStatus(301)->withHeader('Location', '../salas'); 
         }                
@@ -44,7 +50,7 @@ class SalaController extends Controller{
         $objeto = new Sala($args['id']);        
         $params = $request->getParams();        
         $objeto->update($params);        
-        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
+        $this->container['flash']->addMessage('success', 'Salvo com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../salas'); 
 
     }

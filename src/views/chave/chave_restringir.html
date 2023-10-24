@@ -1,0 +1,75 @@
+{% extends "dashboard.html" %}
+{% block conteudo %}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ base_url }}">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a href="{{ base_url }}/chaves">
+                Chaves
+            </a>
+        </li>
+    </ol>
+</nav>
+
+
+<div class="card border-0 shadow-sm">    
+       
+    <div class="card-body">
+        <div class="panel-heading"><h4>Restringir Chave</h4></div>
+        
+        <form action="../../chave/{{chave.id}}/restringir" method="POST">
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descricao</label>
+                        <input type="text" name="descricao" value="{{chave.descricao}}" class="form-control" id="descricao" disabled>                
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="etiqueta" class="form-label">Etiqueta</label>
+                        <input type="text" name="etiqueta" value="{{chave.etiqueta}}" class="form-control" id="etiqueta" disabled>                
+                    </div>  
+                </div>
+            </div> 
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="sala" class="form-label">Sala</label>
+                        <input type="text" name="sala" value="{{chave.sala.nome}}" class="form-control" id="sala" disabled>                
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="bloco" class="form-label">Bloco</label>
+                        <input type="text" name="bloco" value="{{chave.sala.bloco.nome}}" class="form-control" id="bloco" disabled>                
+                    </div>  
+                </div>
+            </div> 
+            
+            <label for="id_usuario" class="form-label">Selecione o Usuario</label>                
+            <select class="form-select" name="id_usuario" id="id_usuario">
+                <option value="">Selecione...<i class="fas fa-search"></i></option>
+                {% for chave in chaves %}                        
+                    <option value="{{chave.id}}">{{chave.nome}}</option>
+                {% endfor %}
+            </select>
+            
+            <button  type="submit" class="btn btn-success">
+                <i class="fa-regular fa-floppy-disk"></i> Salvar
+            </button>
+        
+        </form>
+    </div>    
+</div>
+
+
+{% endblock %}

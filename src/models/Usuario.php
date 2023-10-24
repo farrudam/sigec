@@ -99,15 +99,14 @@ class Usuario{
 
     public function update($params) {
         $sql = "UPDATE usuario set nome = ?, email = ?, celular = ?, perfil = ?, 
-                       doc_autorizacao = ?, url_foto = ? WHERE id = ?";
+                       doc_autorizacao = ?, WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['nome'],
             $params['email'],            
             $params['celular'],            
             $params['perfil'],            
-            $params['doc_autorizacao'],
-            $params['url_foto'],
+            $params['doc_autorizacao'],            
              $this->id));
         return $stmt->errorInfo();
     }

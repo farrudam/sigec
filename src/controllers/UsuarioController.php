@@ -8,7 +8,7 @@ use Slim\Http\Response;
 use sigec\models\Usuario;
 use sigec\models\Autenticador;
 
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class UsuarioController extends Controller{
     
@@ -34,7 +34,7 @@ class UsuarioController extends Controller{
             
             if ($objeto->logar($postParam['matricula'], $postParam['senha'], $tp = 'LOCALHOST')){
 //                
-                return $response->withStatus(301)->withHeader('Location', '/sigec/emprestimos');         
+                return $response->withStatus(301)->withHeader('Location', '/sigec/emprestimos/ativos');         
             } else{
                 $this->container['flash']->addMessage('error', 'Matrícula ou senha inválida!');                
                 return $response->withStatus(301)->withHeader('Location', '/sigec/login');         
@@ -53,6 +53,12 @@ class UsuarioController extends Controller{
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
+            
+            if (in_array('', $postParam)) {                
+                $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
+            return $response->withStatus(301)->withHeader('Location', '../usuarios'); 
+            } 
+            
             $postParam['senha'] = md5($postParam['senha']);
             //$postParam['senha'] = password_hash($postParam['senha'], PASSWORD_DEFAULT);
             
@@ -81,7 +87,7 @@ class UsuarioController extends Controller{
         $objeto = new Usuario($args['id']);       
         $params = $request->getParams();        
         $objeto->update($params);        
-        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');          
+        $this->container['flash']->addMessage('success', 'Salvo com sucesso!');          
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');        
     }
 
@@ -111,6 +117,12 @@ class UsuarioController extends Controller{
     public function desativar(Request $request, Response $response, $args){
 
         Usuario::desativar($args['id']);
+        return $response->withStatus(301)->withHeader('Location', '../../usuarios');
+    }
+    
+    public function importar(Request $request, Response $response, $args){
+
+        $this->container['flash']->addMessage('success', 'Você será redirecionado!');          
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');
     }
 }

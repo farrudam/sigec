@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <form id="search-form" class="d-flex" role="search">
                         <input class="form-control me-2" type="search" name="matricula" id="matricula" placeholder="Digite a matrícula do solicitante" aria-label="Buscar">
-                        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                        <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
                         <br>                        
                     </form>                    
                 </div>
@@ -71,7 +71,7 @@
         
             <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
                 <h3 class="card-title"><b></b></h3>                    
-                <button id="criar-emprestimo" class="btn btn-primary" type="submit" >Criar Empréstimo</button>
+                <button id="criar-emprestimo" class="btn btn-success" type="submit" >Criar Empréstimo</button>
             </div>
         
     </div>
@@ -289,6 +289,45 @@ document.addEventListener("DOMContentLoaded", function () {
         form.submit();
     });
 });
+
+
+
+
+//// Suponha que você tenha um evento (por exemplo, clique em um botão) que dispara a solicitação AJAX.
+//document.getElementById('criar-emprestimo').addEventListener('click', function() {
+//    // Crie um objeto FormData para coletar os dados do formulário, se necessário.
+//    const formData = new FormData(document.getElementById('emprestimo-form'));
+//
+//    // Faça a solicitação AJAX
+//    fetch('https://sistemas.tiangua.ifce.edu.br/sigec/emprestimo/novo', {
+//        method: 'POST',
+//        body: JSON.stringify(SEUS_DADOS), // Envie os dados em formato JSON
+//        headers: {
+//        'Content-Type': 'application/json'
+//    }
+//    })
+//    .then(response => response.json()) // Converte a resposta para JSON
+//    .then(data => {
+//        // Verifica o status na resposta JSON
+//        if (data.status === 'success') {
+//            // Sucesso: exibe um Sweet Alert de sucesso
+//            swal('Success', data.message, 'success');
+//        } else if (data.status === 'error') {
+//            // Erro: exibe um Sweet Alert de erro
+//            swal('Error', data.message, 'error');
+//        } else {
+//            // Status desconhecido ou qualquer outro tratamento de erro
+//            swal('Error', 'Erro desconhecido.', 'error');
+//        }
+//    })
+//    .catch(error => {
+//        // Se houver algum erro na solicitação AJAX
+//        console.error('Erro na solicitação AJAX:', error);
+//        swal('Error', 'Erro na solicitação AJAX.', 'error');
+//    });
+//});
+
+
 
 
 </script>

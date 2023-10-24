@@ -17,6 +17,12 @@ class ChaveController extends Controller{
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(isset($postParam)){
+            
+            if (in_array('', $postParam)) {                
+                $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
+                return $response->withStatus(301)->withHeader('Location', '../chaves'); 
+            }
+            
             Chave::create($postParam);
             $this->container['flash']->addMessage('success', 'Chave adicionada com sucesso!');
             return $response->withStatus(301)->withHeader('Location', '../chaves'); 
@@ -44,7 +50,7 @@ class ChaveController extends Controller{
         $objeto = new Chave($args['id']);        
         $params = $request->getParams();        
         $objeto->update($params);
-        $this->container['flash']->addMessage('success', 'Alteração realizada com sucesso!');
+        $this->container['flash']->addMessage('success', 'Salvo com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../chaves'); 
     }
 
@@ -77,6 +83,16 @@ class ChaveController extends Controller{
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 
     }   
+    
+    public function restringir(Request $request, Response $response, $args){
+        
+        $objeto = new Chave();
+        $chave = $objeto->getById($args['id']);     
+        
+        return $this->container['renderizar']->render($response, 'chave_restringir.html', [
+            'chave' => $chave            
+        ]);
+    }
     
 }
 
