@@ -101,8 +101,8 @@ class EmprestimoController extends Controller{
     
     public function ativos(Request $request, Response $response, $args){        
         $emprestimos = (new Emprestimo)->getAtivos();  
-        $itens_emprestimos = (new ItemEmprestimo)->getAll();  
-                        
+        $itens_emprestimos = (new ItemEmprestimo)->getAll();
+        
         return $this->container['renderizar']->render($response, 'listar_emprestimos_ativos.html', [
             'emprestimos' => $emprestimos,
             'itens_emprestimos' => $itens_emprestimos

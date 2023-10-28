@@ -2,6 +2,7 @@
 
 namespace sigec\models;
 use sigec\database\DBSigec;
+use sigec\models\Chave;
 
 class Usuario{
     
@@ -147,6 +148,24 @@ class Usuario{
             return null;
         }
         return self::bundle($row); 
+    }
+    
+    static function getAllSemRestricao($id_chave) {
+        //$sql = "select * from restricao_chave where id_chave = ?";
+        $sql = "SELECT * 
+                FROM usuario 
+                WHERE matricula 
+                NOT IN ( SELECT mat_solic
+                        FROM restricao_chave
+                        WHERE id_chave = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id_chave));
+        $rows = $stmt->fetchAll();
+        $result = [];
+        foreach ($rows as $row) {
+            $result[] = self::bundle($row);
+        }
+        return $result;
     }
 
     

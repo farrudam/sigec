@@ -17,18 +17,18 @@
     </ol>
 </nav>
 
-
-<div class="card border-0 shadow-sm">    
-       
-    <div class="card-body">
-        <div class="panel-heading"><h4>Restringir Chave</h4></div>
+<div class="card border-0 shadow-sm">
         
-        <form action="../../chave/{{chave.id}}/restringir" method="POST">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><b>Detalhes da Chave</b></h3>
+        </div>
+    
+        <div class="card-body">
             
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="descricao" class="form-label">Descricao</label>
+                        <label for="descricao" class="form-label">Descrição</label>
                         <input type="text" name="descricao" value="{{chave.descricao}}" class="form-control" id="descricao" disabled>                
                     </div> 
                 </div>
@@ -53,23 +53,97 @@
                         <input type="text" name="bloco" value="{{chave.sala.bloco.nome}}" class="form-control" id="bloco" disabled>                
                     </div>  
                 </div>
-            </div> 
-            
-            <label for="id_usuario" class="form-label">Selecione o Usuario</label>                
-            <select class="form-select" name="id_usuario" id="id_usuario">
-                <option value="">Selecione...<i class="fas fa-search"></i></option>
-                {% for chave in chaves %}                        
-                    <option value="{{chave.id}}">{{chave.nome}}</option>
-                {% endfor %}
-            </select>
-            
-            <button  type="submit" class="btn btn-success">
-                <i class="fa-regular fa-floppy-disk"></i> Salvar
-            </button>
-        
-        </form>
-    </div>    
-</div>
+            </div>             
+        </div>
+    </div>
+    <br>
+ 
+    <div class="card border-0 shadow-sm"> 
+    
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><b>Restrições Ativas</b></h3>
+        </div>
+     
+        <div class="card-body">    
+            <div class="table-responsive">
+                <table id="tabela2" class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>                            
+                            <th scope="col">Nome</th>                            
+                            <th scope="col">Função</th>   
+                            <th scope="col" class="text-center">Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for restricao in restricoes %}
+                        <tr> 
+                            <td>{{restricao.usuario.nome}}</td>
+                            <td>{{restricao.usuario.tipo}}</td> 
+                            {% if chave.id == restricao.chave.id %}                                   
+                                <td class="text-center">
+                                    <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{restricao.usuario.id}}/reabilitar" tooltip="tooltip" title="Excluir Restrição">
+                                        <i class="fa-solid fa-trash" style="color: #cd191e;"></i>
+                                    </a>
+                                </td>                            
+                            {% endif %}
+                        </tr>        
+                        {%endfor%}
+                    </tbody>
+                </table>
+                <button id="btn_voltar" type="button" class="btn btn-success" onclick="history.back()">Voltar</button>
+            </div>   
+        </div>        
+       
+    </div>
+    
+    <br>
+    
+    <div class="card border-0 shadow-sm"> 
+    
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><b>Adicionar Restrição</b></h3>
+        </div>
+     
+        <div class="card-body">    
+            <div class="table-responsive">
+                <table id="tabela" class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>                            
+                            <th scope="col">Nome</th>                            
+                            <th scope="col">Função</th>   
+                            <th scope="col" class="text-center">Opções</th>                           
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        {% for user in usuarios %}                        
+                            {% set possuiRestricao = false %}
+                            {% for restricao in restricoes %}                            
+                                {% if restricao.usuario.matricula == user.matricula %}
+                                    {% set possuiRestricao = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if not possuiRestricao %}
+                            <tr> 
+                                <td>{{ user.nome }} </td>
+                                <td>{{ user.tipo }}</td>
+                                <td class="text-center">
+                                    <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{user.id}}/restringir" tooltip="tooltip" title="Adicionar Restrição">
+                                        <i class="fa-solid fa-square-plus" style="color: #2f9e41"></i>
+                                    </a>
+                                </td> 
+                            </tr>
+                                
+                                
+                            {% endif %}
+                        {% endfor %}
 
+                    </tbody>
+                </table>   
+                <button id="btn_voltar" type="button" class="btn btn-success" onclick="history.back()">Voltar</button>
+            </div>   
+        </div>        
+       
+    </div>
 
+    
 {% endblock %}

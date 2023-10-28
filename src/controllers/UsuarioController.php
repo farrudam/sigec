@@ -104,6 +104,7 @@ class UsuarioController extends Controller{
     public function excluir(Request $request, Response $response, $args){
 
         Usuario::delete($args['id']);
+        $this->container['flash']->addMessage('success', 'Excluído com sucesso!'); 
         return $response->withStatus(301)->withHeader('Location', '../../usuarios');        
     }
 

@@ -51,7 +51,13 @@ CREATE TABLE `usuario` (
 CREATE TABLE `restricao_chave` (
   `id_chave` INT NOT NULL,
   `mat_solic` INT NOT NULL,
-  `restricao` TINYINT(1) DEFAULT '0',
+  `data_inclusao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_inclusao` INT NOT NULL,
+  `motivo_inclusao` VARCHAR(255) DEFAULT NULL,
+  `data_remocao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_remocao` INT NOT NULL,
+  `restrita` TINYINT(1) DEFAULT '0',
+  
   PRIMARY KEY (`id_chave`, `mat_solic`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -73,7 +79,7 @@ CREATE TABLE `item_emprestimo` (
   `id_emprestimo` INT NOT NULL,
   `id_chave` INT NOT NULL,  
   `devolvido_em` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `mat_user` INT NOT NULL,
+  `mat_user` INT NULL,
     PRIMARY KEY (`id_emprestimo`, `id_chave`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

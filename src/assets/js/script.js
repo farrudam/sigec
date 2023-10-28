@@ -16,6 +16,15 @@ $(document).ready(function () {
             }
         ]
     });
+    
+    $('#tabela2').DataTable({
+        columnDefs: [
+            {
+                targets: [0]
+            }
+        ]
+        
+    });
 });
 
 

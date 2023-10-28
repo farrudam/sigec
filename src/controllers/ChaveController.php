@@ -84,15 +84,5 @@ class ChaveController extends Controller{
 
     }   
     
-    public function restringir(Request $request, Response $response, $args){
-        
-        $objeto = new Chave();
-        $chave = $objeto->getById($args['id']);     
-        
-        return $this->container['renderizar']->render($response, 'chave_restringir.html', [
-            'chave' => $chave            
-        ]);
-    }
-    
 }
 

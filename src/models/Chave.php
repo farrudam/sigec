@@ -3,6 +3,7 @@
 namespace sigec\models;
 use sigec\database\DBSigec;
 use sigec\models\Sala;
+use sigec\models\RestricaoChave;
 
 class Chave{
 
@@ -16,7 +17,7 @@ class Chave{
     private $id_sala;
     private $sala;
     
-    private $usuarios = [];
+    private $restricoes = [];
     
     public function __construct($id = null) {
         $this->id = $id;
@@ -37,6 +38,8 @@ class Chave{
                         
         $chave->setSala($sala->getById());
         $chave->setIdSala($row['id_sala']);
+        
+        $chave->setRestricoes($row['restricoes']);
     
         return $chave;
     }
@@ -129,6 +132,13 @@ class Chave{
         $stmt->execute(array($id_emprestimo));
         return $stmt->errorInfo();
     }
+    
+    public function getRestricoes() {
+        if (empty($this->restricoes)){
+            $this->restricoes = RestricaoChave::getRestricoesByChave($this->id);
+        }
+        return $this->chaves;
+    }
 
     public function getId() {
         return $this->id;
@@ -161,6 +171,10 @@ class Chave{
     public function getSala() {
         return $this->sala;
     }  
+    
+    public function setRestricoes($restricoes) {
+        $this->restricoes = $restricoes;
+    }
 
     public function setId($id): void {
         $this->id = $id;

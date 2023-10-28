@@ -12,6 +12,7 @@ $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName(
 $app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
 $app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar')->setName('user_editar')->add($auth);
 $app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');
+$app->get('/usuario/{id}/excluir', 'sigec\controllers\UsuarioController:excluir')->setName('user_excluir')->add($auth);
 $app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar')->setName('user_detalhar')->add($auth);
 $app->get('/usuario/importar', 'sigec\controllers\UsuarioController:importar')->setName('user_importar')->add($auth);
 $app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar')->setName('user_ativar')->add($auth);
@@ -50,8 +51,9 @@ $app->get('/chave/{id}/excluir', 'sigec\controllers\ChaveController:excluir')->s
 $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar')->setName('chave_habilitar')->add($auth);
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar')->add($auth);
 
-$app->get('/chave/{id}/restringir', 'sigec\controllers\ChaveController:restringir')->setName('chave_restringir')->add($auth);
-$app->post('/chave/{id}/restringir', 'sigec\controllers\ChaveController:efetuarRestricao')->setName('chave_efetuarRestricao')->add($auth);
+$app->get('/chave/{id}/restringir', 'sigec\controllers\RestricaoChaveController:novo')->setName('chave_restringir')->add($auth);
+$app->get('/chave/{id}/usuario/{id_usuario}/reabilitar', 'sigec\controllers\RestricaoChaveController:reabilitar')->setName('chave_restringir')->add($auth);
+//$app->post('/chave/{id}/restringir', 'sigec\controllers\RestricaoChaveController:create')->setName('chave_efetuarRestricao')->add($auth);
 
 
 //$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
