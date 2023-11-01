@@ -32,23 +32,42 @@ class RestricaoChave{
     }  
     
     static function create($params) {
-        $sql = "INSERT INTO restricao_chave (id_chave, mat_solic) VALUES (?, ?)";
+//        var_dump($params);
+//        die();
+        $sql = "INSERT INTO restricao_chave (id_chave, mat_solic, user_inclusao, motivo_inclusao) VALUES (?, ?, ?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
-            $params['id_chave'],  
-            $params['mat_solic']            
+            $params['chave'],  
+            $params['matricula'],
+            $params['user_inclusao'],
+            $params['justificativa']
         ));        
         return $stmt->errorInfo(); 
         
     }
 
-    static function delete($id_chave, $mat_solic) {
-        $sql = 'DELETE FROM restricao_chave WHERE id_chave = ? and mat_solic = ?';
+    static function delete($params) {        
+        $sql = "DELETE FROM restricao_chave WHERE restricao_chave.id_chave = ? AND restricao_chave.mat_solic = ?";
+//        var_dump($sql);
+//        die();
         $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id_chave, $mat_solic));
+        $stmt->execute(array(
+            $params['id_chave'],  
+            $params['mat_solic']            
+        ));
         return $stmt->errorInfo();
-    } 
-    
+        
+//        if ($result) {
+//            
+//            return $result;
+//        } else {
+//            $errorInfo = $stmt->errorInfo();
+//            
+//            return $errorInfo;
+//        }
+        
+    }    
+        
     static function getRestricoesByChave($id_chave) {
         $sql = "select * from restricao_chave where id_chave = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
@@ -61,23 +80,6 @@ class RestricaoChave{
         return $result;
     }    
     
-    static function getAllSemRestricao($id_chave) {
-        //$sql = "select * from restricao_chave where id_chave = ?";
-        $sql = "SELECT * 
-                FROM usuario 
-                WHERE matricula 
-                NOT IN ( SELECT mat_solic
-                        FROM restricao_chave
-                        WHERE id_chave = ?";
-        $stmt = DBSigec::getKeys()->prepare($sql);
-        $stmt->execute(array($id_chave));
-        $rows = $stmt->fetchAll();
-        $result = [];
-        foreach ($rows as $row) {
-            $result[] = self::bundle($row);
-        }
-        return $result;
-    }
     
     public function getChave() {
         return $this->chave;
@@ -110,30 +112,6 @@ class RestricaoChave{
     public function setIdUsuario($mat_solic) {
         $this->mat_solic = $mat_solic;
     }
-    
-    
-    //    public function getAll() {
-//        $sql = "select * from restricao_chave order by mat_solic";
-//        $stmt = DBSigec::getKeys()->prepare($sql);
-//        $stmt->execute(array());
-//        $rows = $stmt->fetchAll();
-//        $result = array();
-//        foreach ($rows as $row) {
-//            array_push($result, self::bundle($row));
-//        }
-//        return $result;
-//    }
-    
-//    public function getById() {
-//        $sql = "SELECT * from item_emprestimo WHERE id_emprestimo = ? and id_chave = ?";
-//        $stmt = DBSigec::getKeys()->prepare($sql);
-//        $stmt->execute(array($this->id_chave, $this->id_chave));
-//        $row = $stmt->fetch();
-//        if ($row == null) {
-//            return null;
-//        }
-//        return self::bundle($row);
-//    }
     
     
 }

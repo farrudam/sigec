@@ -8,28 +8,13 @@ use Slim\Http\Response;
 use sigec\models\RestricaoChave;
 use sigec\models\Chave;
 use sigec\models\Usuario;
-
 use sigec\models\Autenticador;
 use sigec\database\DBSigec;
 
 
 class RestricaoChaveController extends Controller{
     
-    public function create(Request $request, Response $response, $args){
-        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        
-        if(isset($postParam)){
-            
-            if (in_array('', $postParam)) {                
-                $this->container['flash']->addMessage('warning', 'Selecione um usuário!');                                
-                return $response->withStatus(301)->withHeader('Location', '../chaves'); 
-            }
-            
-            RestricaoChave::create($postParam);
-            $this->container['flash']->addMessage('success', 'Restrição adicionada!');
-            return $response->withStatus(301)->withHeader('Location', '../chaves'); 
-        }                
-    }
+    
     
     public function novo(Request $request, Response $response, $args){
         
@@ -38,9 +23,6 @@ class RestricaoChaveController extends Controller{
         $restricoes = (new RestricaoChave())->getRestricoesByChave($args['id']);
         //$usuarios = (new RestricaoChave())->getAllSemRestricao($args['id']);
         $usuarios = (new Usuario())->getAll();
-        
-//        var_dump($usuarios);
-//        die();
                          
         return $this->container['renderizar']->render($response, 'chave_restringir.html', [
             'chave' => $chave,
@@ -49,28 +31,30 @@ class RestricaoChaveController extends Controller{
         ]);
     }
     
-    public function reabilitar(Request $request, Response $response, $args){         
-
+    public function restringir(Request $request, Response $response, $args){
         
-        $db = DBSigec::getKeys();
+        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
-        $db->beginTransaction();
-        
-        try {
-                        
-            RestricaoChave::delete($args['id_chave'], $args['id_usuario']);
-                        
-            $db->commit();            
+        if(isset($postParam)){
+                                  
+            // Localiza o usuário operador do sistema
+            $postParam['user_inclusao'] = Autenticador::instanciar()->getMatricula();
             
-            $this->container['flash']->addMessage('success', 'Restrição removida!');            
-            return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos/ativos');
+//            var_dump($postParam);
+//            die();
             
+            RestricaoChave::create($postParam);
+            $this->container['flash']->addMessage('success', 'Restrição adicionada!');
+            return $response->withStatus(301)->withHeader('Location', '../../../../chaves');  
             
-        } catch (Exception $e) {
-            $db->rollback();
-            // Lidar com o erro de alguma maneira apropriada. Mensagem Flash
-        }
-
+        }        
+                      
+    }
+    
+    public function reabilitar(Request $request, Response $response, $args){        
+        RestricaoChave::delete($args);
+        $this->container['flash']->addMessage('success', 'Restrição removida!');            
+        return $response->withStatus(301)->withHeader('Location', '../../../../chaves');
     }
 }
 

@@ -64,7 +64,8 @@ class ChaveController extends Controller{
     }
     
     public function excluir(Request $request, Response $response, $args){
-
+//        var_dump($args);
+//        die();
         Chave::delete($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 

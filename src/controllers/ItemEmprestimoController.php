@@ -31,7 +31,6 @@ class ItemEmprestimoController extends Controller{
     }
     
     public function devolver(Request $request, Response $response, $args){         
-
         
         $db = DBSigec::getKeys();
         

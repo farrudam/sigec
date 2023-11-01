@@ -81,7 +81,7 @@
                             <td>{{restricao.usuario.tipo}}</td> 
                             {% if chave.id == restricao.chave.id %}                                   
                                 <td class="text-center">
-                                    <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{restricao.usuario.id}}/reabilitar" tooltip="tooltip" title="Excluir Restrição">
+                                    <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{restricao.usuario.matricula}}/reabilitar" tooltip="tooltip" title="Excluir Restrição">
                                         <i class="fa-solid fa-trash" style="color: #cd191e;"></i>
                                     </a>
                                 </td>                            
@@ -98,52 +98,87 @@
     
     <br>
     
-    <div class="card border-0 shadow-sm"> 
-    
-        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-            <h3 class="card-title"><b>Adicionar Restrição</b></h3>
-        </div>
-     
-        <div class="card-body">    
-            <div class="table-responsive">
-                <table id="tabela" class="table table-hover">
-                    <thead class="thead-light">
-                        <tr>                            
-                            <th scope="col">Nome</th>                            
-                            <th scope="col">Função</th>   
-                            <th scope="col" class="text-center">Opções</th>                           
-                        </tr>
-                    </thead>
-                    <tbody>                        
-                        {% for user in usuarios %}                        
-                            {% set possuiRestricao = false %}
-                            {% for restricao in restricoes %}                            
-                                {% if restricao.usuario.matricula == user.matricula %}
-                                    {% set possuiRestricao = true %}
+    <form action="../../chave/{{chave.id}}/usuario/{{user.matricula}}/restringir" method="POST" id="form_justificativa">    
+        
+        <input type="hidden" name="matricula" id="matricula" value="{{ user.matricula }}">
+        <input type="hidden" name="chave" value="{{ chave.id }}">
+        <textarea name="justificativa" id="justificativa" style="display: none;"></textarea>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                <h3 class="card-title"><b>Adicionar Restrição</b></h3>
+            </div>
+        
+            <div class="card-body">    
+                <div class="table-responsive">
+                    <table id="tabela" class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>                            
+                                <th scope="col">Nome</th>                            
+                                <th scope="col">Função</th>   
+                                <th scope="col" class="text-center">Opções</th>                           
+                            </tr>
+                        </thead>
+                        <tbody>                        
+                            {% for user in usuarios %}                        
+                                {% set possuiRestricao = false %}
+                                {% for restricao in restricoes %}                            
+                                    {% if restricao.usuario.matricula == user.matricula %}
+                                        {% set possuiRestricao = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not possuiRestricao %}
+                                <tr> 
+                                    <td>{{ user.nome }} </td>
+                                    <td>{{ user.tipo }}</td>
+                                    <td class="text-center">
+<!--                                        <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{user.matricula}}/restringir" tooltip="tooltip" title="Adicionar Restrição">
+                                            <i class="fa-solid fa-square-plus" style="color: #2f9e41"></i>
+                                        </a>-->
+                                        <a href="#" onclick="exibirJustificativa('{{user.matricula}}')" tooltip="tooltip" title="Adicionar Restrição">
+                                            <i class="fa-solid fa-square-plus" style="color: #2f9e41"></i>
+                                        </a>
+                                    </td> 
+                                </tr>
+
+
                                 {% endif %}
                             {% endfor %}
-                            {% if not possuiRestricao %}
-                            <tr> 
-                                <td>{{ user.nome }} </td>
-                                <td>{{ user.tipo }}</td>
-                                <td class="text-center">
-                                    <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{user.id}}/restringir" tooltip="tooltip" title="Adicionar Restrição">
-                                        <i class="fa-solid fa-square-plus" style="color: #2f9e41"></i>
-                                    </a>
-                                </td> 
-                            </tr>
-                                
-                                
-                            {% endif %}
-                        {% endfor %}
 
-                    </tbody>
-                </table>   
-                <button id="btn_voltar" type="button" class="btn btn-success" onclick="history.back()">Voltar</button>
-            </div>   
-        </div>        
-       
-    </div>
+                        </tbody>
+                    </table>   
+                    <button id="btn_voltar" type="button" class="btn btn-success" onclick="history.back()">Voltar</button>
+                </div>   
+            </div>
+        </div>
+    </form>
+    
+    <script>
+    function exibirJustificativa(matricula) {
+        Swal.fire({
+            input: 'textarea',
+            inputLabel: 'Justificativa',
+            inputPlaceholder: 'Motivo para restringir a chave',
+            inputAttributes: {
+                'aria-label': 'Digite sua justificativa'
+            },
+            showCancelButton: true,
+            preConfirm: (justificativa) => {
+                if (justificativa) {
+                    enviarJustificativa(matricula, justificativa);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+    }
 
+    function enviarJustificativa(matricula, justificativa) {
+        document.getElementById('justificativa').value = justificativa;
+        document.getElementById('matricula').value = matricula;
+        const form = document.getElementById('form_justificativa');
+        form.action = `../../chave/{{chave.id}}/usuario/${matricula}/restringir`;
+        form.submit();
+    }
+</script>
     
 {% endblock %}

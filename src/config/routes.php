@@ -52,8 +52,8 @@ $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar'
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar')->add($auth);
 
 $app->get('/chave/{id}/restringir', 'sigec\controllers\RestricaoChaveController:novo')->setName('chave_restringir')->add($auth);
-$app->get('/chave/{id}/usuario/{id_usuario}/reabilitar', 'sigec\controllers\RestricaoChaveController:reabilitar')->setName('chave_restringir')->add($auth);
-//$app->post('/chave/{id}/restringir', 'sigec\controllers\RestricaoChaveController:create')->setName('chave_efetuarRestricao')->add($auth);
+$app->post('/chave/{id_chave}/usuario/{mat_solic}/restringir', 'sigec\controllers\RestricaoChaveController:restringir')->setName('chave_restringir')->add($auth);
+$app->get('/chave/{id_chave}/usuario/{mat_solic}/reabilitar', 'sigec\controllers\RestricaoChaveController:reabilitar')->setName('chave_reabilitar_usuario')->add($auth);
 
 
 //$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);

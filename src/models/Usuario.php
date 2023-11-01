@@ -73,7 +73,9 @@ class Usuario{
     }
     
 
-    static function create($params) {        
+    static function create($params) { 
+        var_dump($params);
+        die();
         $sql = "INSERT INTO usuario (matricula, nome, senha, celular, email, tipo, perfil) 
                             VALUES (?, ?, ?, ?, ?, ?, ?)";
 

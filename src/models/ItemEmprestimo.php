@@ -79,6 +79,8 @@ class ItemEmprestimo{
     }
 
     static function create($params) {
+        var_dump($params);
+        die();
         $sql = "INSERT INTO item_emprestimo (id_emprestimo, id_chave) VALUES (?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
@@ -90,14 +92,15 @@ class ItemEmprestimo{
     }
 
     static function delete($id_emprestimo, $id_chave) {
+       
         $sql = 'DELETE FROM item_emprestimo WHERE id_emprestimo = ? and id_chave = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($this->id_emprestimo, $this->id_chave));
         return $stmt->errorInfo();
     }
 
-    static function devolver($id_emprestimo, $id_chave, $mat_user) {       
-        
+    static function devolver($id_emprestimo, $id_chave, $mat_user) {      
+         
         $sql = "UPDATE item_emprestimo "
                 . "SET devolvido_em = CURRENT_TIME(), item_emprestimo.mat_user = ? "
                 . "WHERE item_emprestimo.id_emprestimo = ? AND item_emprestimo.id_chave = ?";
