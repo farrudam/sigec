@@ -75,22 +75,11 @@ $app->get ('/emprestimo/{id}/concluir', 'sigec\controllers\EmprestimoController:
 
 $app->get ('/emprestimo/{id}/chave/{id_chave}/devolver', 'sigec\controllers\ItemEmprestimoController:devolver')->setName('item_devolver')->add($auth);
 
+use sigec\controllers\EmailController; 
 
 $app->get('/teste', function ($request, $response, $args) {
 
-    $destinatario = 'fabioarrudamagalhaes@gmail.com';
-        $assunto = 'Teste';
-        $corpo = 'Teste de envio de e-mail';
-        
-       $email = new \sigec\utils\EmailService;
-        
-        // Enviar e-mail
-        if ($email->enviarEmail($destinatario, $assunto, $corpo)) {
-            // E-mail enviado com sucesso
-            return $response->withJson(['mensagem' => 'E-mail enviado com sucesso']);
-        } else {
-            // Erro ao enviar o e-mail
-            return $response->withJson(['erro' => 'Erro ao enviar o e-mail'], 500);
-        }
-   
+       //$this->container['mailer']->setTo('fabioarrudamagalhaes@gmail.com', 'Fábio')->sendMessage(new EmailController('Fulano'));
+        $this->mailer->setTo('ronaldo.ribeiro@ifce.edu.br', 'Ronaldo')->sendMessage(new EmailController('Fulano'));
+       echo 'enviou';
 });
