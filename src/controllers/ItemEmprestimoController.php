@@ -64,7 +64,7 @@ class ItemEmprestimoController extends Controller{
             $db->commit();            
             
             $this->container['flash']->addMessage('success', 'Chave devolvida com sucesso!');            
-            return $response->withStatus(301)->withHeader('Location', '../../../../emprestimos/ativos');
+            return $response->withStatus(301)->withHeader('Location', '../../detalhes');
             
             
         } catch (Exception $e) {

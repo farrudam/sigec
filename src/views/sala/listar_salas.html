@@ -16,82 +16,28 @@
             </li>
         </ol>
     </nav>  
-
-    {% for item in messages.success %}
-<!--        <div class="alert alert-success alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({                   
-                    icon: 'success',
-                    title: '{{item}}',
-                    showConfirmButton: true
-                    //timer: 1500
-                  })
-            };
-        </script>
-    {% endfor %}
-
-    {% for item in messages.error %}
-<!--        <div class="alert alert-danger alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '{{item}}'
-              })
-            };
-        </script>
-    {% endfor %}
-    
-    {% for item in messages.warning %}
-        <!--<div class="alert alert-warning alert-dismissible fade show">-->
-            <!--{{item}}-->
-            <!--<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>-->
-        <!--</div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({                    
-                    text: "{{item}}",
-                    icon: 'warning',                    
-                    confirmButtonColor: '#3085d6',                    
-                    confirmButtonText: 'Ok'
-                  })
-            };
-        </script>        
-    {% endfor %}
-    
-    {% for item in messages.info %}
-<!--        <div class="alert alert-info alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-    {% endfor %}
-    
+        
     <div class="card border-0 shadow-sm">
         
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
             <h3 class="card-title"><b>Salas</b></h3>
-        
-            <a href="{{ base_url }}/sala/nova" class="btn btn-success">Nova Sala</a>
+            {% if session.Perfil == "Administrador" %}
+                <a href="{{ base_url }}/sala/nova" class="btn btn-success">Nova Sala</a>
+            {% endif %}
         </div>
         
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="tabela" class="table table-hover">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Bloco</th>
                             <th scope="col" class="text-center">Situação</th>
-                            <th scope="col" class="text-center">Opções</th>
+                            {% if session.Perfil == "Administrador" %}
+                                <th scope="col" class="text-center">Opções</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -111,34 +57,36 @@
                                     <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativa"></i>                                    
                                 {% endif %}
                             </td>
-                            <td class="text-center">
-                                <a href="{{ base_url }}/sala/{{sala.id}}/editar" tooltip="tooltip" title="Editar">
-                                    <i class="fa-solid fa-pen m-1"></i>
-                                </a>
-                                {% if sala.situacao == 'Ativa' %}
-                                    <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
-                                        <i class="fas fa-ban"></i>
+                            {% if session.Perfil == "Administrador" %}
+                                <td class="text-center">
+                                    <a href="{{ base_url }}/sala/{{sala.id}}/editar" tooltip="tooltip" title="Editar">
+                                        <i class="fa-regular fa-pen-to-square fa-lg" style="color: #000000;"></i>
                                     </a>
-                                    <a href="{{ base_url }}/sala/{{sala.id}}/reparar" tooltip="tooltip" title="Realizar Manutenção">
-                                        <i class="fa-solid fa-screwdriver-wrench"></i>
-                                    </a>
-                                {% elseif sala.situacao == 'Manutencao' %}
-                                    <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
-                                        <i class="fas fa-ban"></i>
-                                    </a>
-                                    <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Finalizar Manutenção">
-                                        <i class="fa-solid fa-school-circle-check"></i>
-                                    </a>
-                                {% else %}
-                                    <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Ativar Sala">
-                                        <i class="fas fa-check-circle"></i>
-                                    </a>
-                                {% endif %}
-                                
-<!--                                <a href="{{ base_url }}/sala/{{sala.id}}/excluir" tooltip="tooltip" title="Excluir">
-                                    <i class="fa-solid fa-trash m-1"></i>
-                                </a>-->
-                            </td>
+                                    {% if sala.situacao == 'Ativa' %}
+                                         <a href="{{ base_url }}/sala/{{sala.id}}/reparar" tooltip="tooltip" title="Realizar Manutenção">
+                                            <i class="fa-solid fa-screwdriver-wrench fa-lg" style="color: #f18517;"></i>
+                                        </a>
+                                        <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
+                                            <i class="fa-solid fa-ban fa-lg" style="color: #cd191e;"></i>
+                                        </a>                                   
+                                    {% elseif sala.situacao == 'Manutencao' %}
+                                        <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Finalizar Manutenção">
+                                            <i class="fa-solid fa-school-circle-check fa-lg" style="color: #2f9e41;"></i>
+                                        </a>
+                                        <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
+                                            <i class="fas fa-ban fa-lg" style="color: #cd191e;"></i>
+                                        </a>                                    
+                                    {% else %}
+                                        <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Ativar Sala">
+                                            <i class="fa-regular fa-circle-check fa-lg" style="color: #2f9e41;"></i>
+                                        </a>
+                                    {% endif %}
+                            {% endif %}            
+    <!--                                <a href="{{ base_url }}/sala/{{sala.id}}/excluir" tooltip="tooltip" title="Excluir">
+                                        <i class="fa-solid fa-trash m-1"></i>
+                                    </a>-->
+                                </td>
+                            
                         </tr>
                         {% endfor%}
                     </tbody>
@@ -149,7 +97,7 @@
         </div>        
        
     </div>
-
+    
 {% endblock %}
 
 

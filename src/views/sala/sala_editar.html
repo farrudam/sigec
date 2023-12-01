@@ -1,6 +1,4 @@
 {% extends "dashboard.html" %}
-{% import "funcoes.html" as msg %}
-
 {% block conteudo %}
 
 <nav aria-label="breadcrumb">
@@ -18,10 +16,7 @@
     </ol>
 </nav>
 
-<div class="card border-0 shadow-sm">    
-    <div class="col-md-10 col-md-offset-1">
-            {{ msg.messagem(classe, texto)}}
-    </div>
+<div class="card border-0 shadow-sm">        
         
     <div class="card-body">
         <div class="panel-heading"><h4>Editar Sala</h4></div>
@@ -38,8 +33,44 @@
             <button  type="submit" class="btn btn-success">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar
             </button>
+            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/salas';">Voltar</button>
         </form>
     </div>    
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            Swal.fire({
+                title: "Deseja salvar as alterações?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonColor: "#2f9e41",
+                confirmButtonText: "Salvar",
+                denyButtonColor: "#cd191e",
+                denyButtonText: "Não salvar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, envie o formulário
+                    form.submit();
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: "As alterações não foram salvas",
+                        icon: "info",
+                        confirmButtonColor: "#2f9e41",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        // Se o usuário optar por não salvar, recarregue a página
+                        location.reload();
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

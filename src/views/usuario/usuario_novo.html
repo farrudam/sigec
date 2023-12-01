@@ -1,6 +1,4 @@
 {% extends "dashboard.html" %}
-{% import "funcoes.html" as msg %}
-
 {% block conteudo %}
 
 
@@ -19,77 +17,85 @@
     </ol>
 </nav>
 
-
-<div class="card border-0 shadow-sm">    
-    <div class="col-md-10 col-md-offset-1">
-            {{ msg.messagem(classe, texto)}}
-    </div>
+<div class="card border-0 shadow-sm">       
     
     <div class="card-body">
         <div class="panel-heading"><h4>Cadastrar Usuário</h4></div>
-        <form action="#" method="post">
+        <form action="../usuario/novo" method="post" enctype="multipart/form-data">
             
             <div class="mb-3">
-                <label for="nome" class="form-label">Nome</label>
+                <label for="nome" class="form-label">Nome<span>*</span></label>
                 <input type="text" name="nome" id="nome" class="form-control">
-            </div>
-            <div class="row">                
+            </div> 
+            
+            
+            
+            <div class="row"> 
                 <div class="col-md-6 ">
                     <div class="mb-3">
-                        <label for="senha" class="form-label">Senha</label>
+                        <label for="senha" class="form-label">Senha<span>*</span></label>
                         <input type="password" name="senha" id="senha" class="form-control">
                     </div> 
                 </div>
                 
-                
-                <div class="col-md-6"> 
+                <div class="col-md-6 ">
                     <div class="mb-3">
-                        <label for="email" class="form-label">E-mail</label>
+                        <label for="email" class="form-label">E-mail<span>*</span></label>
                         <input type="text" name="email" id="email" class="form-control">
-                    </div> 
-                </div>
-                    
-            </div>
+                    </div>
+                </div>                
+            </div>    
+                
+                          
+<!--                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="url_foto" class="form-label">Escolha a foto:</label>
+                        <input type="file" name="url_foto" id="url_foto" accept="image/*" class="form-control">
+                    </div>
+                </div>-->
+            
+    
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="matricula" class="form-label">Matrícula</label>
+                        <label for="matricula" class="form-label">Matrícula<span>*</span></label>
                         <input type="text" name="matricula" id="matricula" class="form-control">
                     </div>
-                </div>                
-            
-                <div class="col-md-6">
+                </div>
+                
+                <div class="col-md-6"> 
                     <div class="mb-3">
-                        <label for="celular" class="form-label">Celular</label>
-                        <input type="text" name="celular" id="celular" maxlength="15" class="form-control">
+                        <label for="cargo" class="form-label">Cargo</label>
+                        <input type="text" name="cargo" id="cargo" class="form-control">
                     </div> 
-                </div>                
+                </div>
             </div>
                         
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="tipo" class="form-label">Tipo</label>
+                        <label for="tipo" class="form-label">Tipo<span>*</span></label>
                         <select class="form-select" name="tipo" id="tipo">
                             <option value="">Selecione...</option>
                             <option value="Servidor">Servidor</option>
-                            <option value="Terceirizado">Terceirizado</option>
+                            <option value="Terceirizado">Colaborador</option>
                             <option value="Aluno">Aluno</option>
                         </select>
                     </div>
                 </div>
-
+                
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="perfil" class="form-label">Perfil</label>
+                        <label for="perfil" class="form-label">Perfil<span>*</span></label>
                         <select class="form-select" name="perfil" id="perfil">
                             <option value="">Selecione...</option>
                             <option value="Administrador">Administrador</option>
-                            <option value="Portaria">Portaria</option>
+                            <option value="Recepção">Recepção</option>
                             <option value="Solicitante">Solicitante</option>
                         </select>
                     </div>
                 </div>
+
             </div>
             
             <button  type="submit" class="btn btn-success">
@@ -99,28 +105,4 @@
     </div>    
 </div>
 
-<script>
-    function mascara(o,f){
-    v_obj=o
-    v_fun=f
-    setTimeout("execmascara()",1)
-}
-function execmascara(){
-    v_obj.value=v_fun(v_obj.value)
-}
-function mtel(v){
-    v=v.replace(/\D/g,""); //Remove tudo o que não é dígito
-    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d)(\d{4})$/,"$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-    return v;
-}
-function id( el ){
-	return document.getElementById( el );
-}
-window.onload = function(){
-	id('celular').onkeyup = function(){
-		mascara( this, mtel );
-	}
-}
-</script>
 {% endblock %}

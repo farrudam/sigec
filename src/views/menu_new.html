@@ -1,3 +1,4 @@
+<input type="checkbox" id="menu">
 <div class="sidebar">
     <div class="sidebarLogo">
         <a href="#" data-bs-toggle="tooltip" title="Página Inicial">
@@ -12,53 +13,66 @@
             <li class="sidebarTitulo">
                 <h6 style="text-align: center; font-weight: bold">SIGEC - Sistema de Gestão para Empréstimo de Chaves</h6>
             </li>
-            <li>
-                <a href="{{ base_url }}/blocos" tooltip="tooltip" title="Gestão de Blocos">
-                    <i class="fa-solid fa-hotel"></i>
-                    <span>Blocos</span>
-                </a>
-            </li>  
-            <li>
-                <a href="{{ base_url }}/salas" tooltip="tooltip" title="Gestão de Salas">
-                    <i class="fa-solid fa-door-open"></i>
-                    <span>Salas</span>
-                </a>
-            </li> 
-            <li>
-                <a href="{{ base_url }}/chaves" tooltip="tooltip" title="Gestão de Chaves">
-                    <i class="fa-solid fa-key"></i>
-                    <span>Chaves</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ base_url }}/usuarios" tooltip="tooltip" title="Gestão de Usuários">
-                    <i class="fas fa-users"></i> 
-                    <span>Usuários</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="emprestimo"> <i class="fa-solid fa-hand-holding"></i>Empréstimos</a>
-                <ul class="itemSubmenu">
-                    <li>
-                        <a href="{{ base_url }}/emprestimo/novo" tooltip="tooltip" title="Todos os Empréstimos">
-                            Novo
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ base_url }}/emprestimos/ativos" tooltip="tooltip" title="Empréstimos Ativos">
-                            Empréstimos Ativos
-                        </a>
-                    </li>                    
-                    <li>
-                        <a href="{{ base_url }}/emprestimos/encerrados" tooltip="tooltip" title="Empréstimos Ativos">
-                            Empréstimos Encerrados
-                        </a>
-                    </li>                    
-                </ul>
-            </li>
+            {% if session.Perfil == "Solicitante" %}
+                <li>
+                    <a href="{{ base_url }}/emprestimos/my" tooltip="tooltip" title="Meus Empréstimos">
+                        <i class="fa-solid fa-hand-holding"></i>Meus Empréstimos
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ base_url }}/blocos" tooltip="tooltip" title="Gestão de Blocos">
+                        <i class="fa-solid fa-hotel"></i>
+                        <span>Blocos</span>
+                    </a>
+                </li>  
+                <li>
+                    <a href="{{ base_url }}/salas" tooltip="tooltip" title="Gestão de Salas">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span>Salas</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="{{ base_url }}/chaves" tooltip="tooltip" title="Gestão de Chaves">
+                        <i class="fa-solid fa-key"></i>
+                        <span>Chaves</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ base_url }}/usuarios" tooltip="tooltip" title="Gestão de Usuários">
+                        <i class="fas fa-users"></i> 
+                        <span>Usuários</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ base_url }}/emprestimos/my" tooltip="tooltip" title="Meus Empréstimos">
+                        <i class="fa-solid fa-hand-holding"></i>Meus Empréstimos
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="emprestimo"> <i class="fa-solid fa-hand-holding"></i>Empréstimos</a>
+                    <ul class="itemSubmenu">
+                        <li>
+                            <a href="{{ base_url }}/emprestimo/novo" tooltip="tooltip" title="Todos os Empréstimos">
+                                Novo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ base_url }}/emprestimos/ativos" tooltip="tooltip" title="Empréstimos Ativos">
+                                Empréstimos Ativos
+                            </a>
+                        </li>                    
+                        <li>
+                            <a href="{{ base_url }}/emprestimos/encerrados" tooltip="tooltip" title="Empréstimos Encerrados">
+                                Empréstimos Encerrados
+                            </a>
+                        </li>                    
+                    </ul>
+                </li>
+            {% endif %}
         </ul>
     </div>
-    
 </div>
+
 
 

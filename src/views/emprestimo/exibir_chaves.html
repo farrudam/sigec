@@ -1,5 +1,4 @@
 {% extends "dashboard.html" %}
-
 {% block conteudo %}
     
     <nav aria-label="breadcrumb">
@@ -58,279 +57,350 @@
         </div>
     </div>
     <form action="#" method="post" id="emprestimo-form">
-    <div class="card border-0 shadow-sm">
-        
-            <!-- Campo oculto para o ID do usuário -->
-            <input type="hidden" name="idUsuario" id="idUsuario" value="">
-            
-            <!-- Campo oculto para o ID do usuário -->
-            <input type="hidden" name="mat_solic" id="mat_solic" value="">
-            
-            <!-- Campo oculto para os itens de empréstimo -->
-            <input type="hidden" name="itensEmprestimo" id="itensEmprestimo" value="">
-        
-            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-                <h3 class="card-title"><b></b></h3>                    
-                <button id="criar-emprestimo" class="btn btn-success" type="submit" >Criar Empréstimo</button>
-            </div>
-        
-    </div>
+        <div class="card border-0 shadow-sm">            
 
+                <!-- Campo oculto para o ID do usuário -->
+                <input type="hidden" name="idUsuario" id="idUsuario" value="">
 
-    <div class="card border-0 shadow-sm mx-auto">        
-        {% for bloco in blocos %}        
-            <!--<div class="card-header bg-white border-0 mx-auto">
-                <h3 class="card-title"><b>Bloco &nbsp;{{bloco.nome}}</b></h3>            
-            </div>-->       
+                <!-- Campo oculto para o ID do usuário -->
+                <input type="hidden" name="mat_solic" id="mat_solic" value="">
+
+                <!-- Campo oculto para os itens de empréstimo -->
+                <input type="hidden" name="itensEmprestimo" id="itensEmprestimo" value="">
+                
+                <!-- Campo oculto para a confirmação de senha -->
+                <input type="hidden" name="senha" id="senha" value="">
+                
+                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                    <h3 class="card-title"><b>Chaves por Bloco</b></h3>                    
+                    <button id="criar-emprestimo" class="btn btn-success" type="submit" >Criar Empréstimo</button>
+                </div>
+
+        </div>
+        
+        <br>
+        
+        <div class="card border-0 shadow-sm mx-auto">        
+            <ul class="nav nav-tabs border-2 mb-3" id="myTab" role="tablist">
+                {% for bloco in blocos %} 
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link text-success {% if loop.first %}show active{% endif %}" id="bloco-{{ bloco.id }}-tab" data-bs-toggle="tab" href="#bloco-{{ bloco.id }}" role="tab" aria-controls="bloco-{{ bloco.id }}" aria-selected="{{ loop.first }}">{{ bloco.nome }}</a>
+                    </li>
+                {% endfor %}
+            </ul>                 
+            <br>               
             
-                <div class="row mx-2 justify-content-center">                               
-                    {% for chave in chaves %}
-                        {% if bloco.id == chave.sala.bloco.id %}
-                            <div class="col-md-3 col-lg-2 col-xl-2 mb-4">
-                                <div class="card bg-light selectable chave-card" data-id="{{chave.id}}" title="{{chave.descricao}}" >
-                                    <span class="position-absolute top-0 badge rounded-pill bg-secondary">
-                                        {{chave.id}}                                        
-                                    </span>
-                                    <div class="card-body shadow-sm">                                
-                                            <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
-                                            <div class="etiqueta">{{chave.etiqueta}}</div>
-                                            <div class="card-body">
-                                                <div class="row">
+            <div class="tab-content" id="myTabContent">
+                {% for bloco in blocos %}
+                    <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="bloco-{{ bloco.id }}" role="tabpanel" aria-labelledby="bloco-{{ bloco.id }}-tab">
+                        <div class="row mx-2 justify-content-center">                               
+                            {% for chave in chaves %}
+                                {% if bloco.id == chave.sala.bloco.id %}
+                                    {% if chave.habilitada %}
+                                        <div class="col-md-3 col-lg-2 col-xl-2 mb-4">
+                                            <div class="card bg-light selectable chave-card border-2" data-id="{{ chave.id }}" title="{{ chave.descricao }}" >
+                                                {% if chave.situacao == 'Emprestada' %}
+                                                    <!--<span class="position-absolute top-0 badge rounded-pill bg-secondary">-->
+                                                        <!--  {{ chave.id }}  -->                                                    
+                                                            {% for item in itens_emprestimos %}
+                                                                {% if chave.id == item.chave.id %}
+                                                                    {% if item.DevolvidoEm is null %}
+                                                                        <div class="position-absolute top-0 start-0 m-2">
+                                                                            <i class="fa-regular fa-user fa-xl" style="color: #cd191e;" tooltip="tooltip" title="{{item.emprestimo.solicitante.nome}}"></i> 
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}                                                    
+                                                    <!--</span>-->
+                                                {% endif %}
+                                                <div class="card-body shadow-sm">
                                                     {% if chave.situacao == 'Disponivel' %}
-                                                        <span class="badge text-bg-success">{{ chave.situacao }}</span>
-                                                    {% endif %}
-                                                    {% if chave.situacao == 'Emprestada' %}
-                                                        <span class="badge text-bg-warning">{{chave.situacao}}</span>
-                                                    {% endif %} 
-                                                    {% if chave.situacao == 'Extraviada' %} 
-                                                        <span class="badge text-bg-danger">{{chave.situacao}}</span>
-                                                    {% endif %} 
-                                                </div>
-                                            </div>
+                                                        <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
+                                                    {% elseif chave.situacao == 'Indisponivel' %}
+                                                        <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key-off.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
+                                                    {% elseif chave.situacao == 'Emprestada' %}
+                                                        <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key-x.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
+                                                    {% endif %}    
+                                                    <div class="etiqueta">{{ chave.etiqueta }}</div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            {% if chave.situacao == 'Disponivel' %}
+                                                                <span class="badge text-bg-success">{{ chave.situacao }}</span>
+                                                            {% elseif chave.situacao == 'Indisponivel' %}
+                                                                <span class="badge text-bg-secondary">{{ chave.situacao }}</span>    
+                                                            {% elseif chave.situacao == 'Emprestada' %}
+                                                                <span class="badge text-bg-danger">{{ chave.situacao }}</span>
+                                                            {% elseif chave.situacao == 'Extraviada' %} 
+                                                                <span class="badge text-bg-danger">{{ chave.situacao }}</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>                            
+                                            </div>                         
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 
-                                    </div>                            
-                                </div>                         
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>              
-        {% endfor%}        
-    </div>
+           
     </form> 
     
     
 <script>
 
-// Obtém o campo de entrada
-var matriculaInput = document.getElementById("matricula");
-
-// Adiciona um ouvinte de evento para detectar alterações no campo de entrada
-matriculaInput.addEventListener("input", function() {
-    var matricula = this.value;
-    var detalhesUsuarioDiv = document.getElementById("detalhesUsuario");
+    // Obtém o campo de entrada
+    var matriculaInput = document.getElementById("matricula");
     
-    // Verifica se o campo de entrada está vazio ou contém apenas espaços em branco
-    if (matricula.trim() === "" || !/^\d{6,}$/.test(matricula)) {
-        detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Informe a matrícula do solicitante.</div>';
-    }
-    
-});
-
-document.getElementById("search-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Impede o envio padrão do formulário
-    
-    var matricula = matriculaInput.value;
-           
-    if (!/^\d{6,}$/.test(matricula)) {
-        alert("A matrícula deve ser um número com pelo menos 6 dígitos.");
-        return;
-    }
-    
-    console.log("Matrícula do solicitante: ", matricula); 
-    
-    document.getElementById("mat_solic").value = matricula;
+    // Adiciona um ouvinte de evento para detectar alterações no campo de entrada
+    matriculaInput.addEventListener("input", function() {
+        var matricula = this.value;
+        var detalhesUsuarioDiv = document.getElementById("detalhesUsuario");
         
-    var detalhesUsuarioDiv = document.getElementById("detalhesUsuario");
-    
-    // Fazer a requisição AJAX para buscar o usuário
-    fetch("https://sistemas.tiangua.ifce.edu.br/sigec/buscar/" + matricula)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Erro na requisição");
+        // Verifica se o campo de entrada está vazio ou contém apenas espaços em branco
+        if (matricula.trim() === "" || !/^\d{6,}$/.test(matricula)) {
+            detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Informe a matrícula do solicitante.</div>';
         }
-        return response.text(); // Use text() em vez de json()
-    })
-    .then(responseText => {
-        // Verifica se a resposta está vazia ou contém algum conteúdo
-        if (responseText.trim() === "") {
-            detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Solicitante não encontrado.</div>';
+        
+    });    
+    
+    document.getElementById("search-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+        
+        var matricula = matriculaInput.value;
+               
+        if (!/^\d{6,}$/.test(matricula)) {
+            
+            Swal.fire({
+                    title: "Atenção!",
+                    html: "A matrícula deve ser um <b>número</b> com pelo menos 6 dígitos!",
+                    icon: 'warning',
+                    confirmButtonColor: '#2f9e41',
+                    confirmButtonText: 'Ok'
+                });
             return;
         }
         
-        // A resposta contém algum conteúdo, você pode tentar analisá-la como JSON
-        try {
-            const usuario = JSON.parse(responseText);
-            console.log("Usuario recebido:", usuario);
+        console.log("Matrícula do solicitante: ", matricula); 
+        
+        document.getElementById("mat_solic").value = matricula;
             
-            // Carrega o conteúdo do arquivo Twig na div            
-            console.log("Caminho do arquivo Twig:", window.location.href);
-            fetch('{{ base_url }}/src/views/emprestimo/detalhes_usuario.twig')
-                .then(response => response.text())
-                .then(template => {
-                    console.log("Template carregado:", template);
-                    const renderedTemplate = Twig.twig({ data: template }).render({ usuario: usuario });
-                    detalhesUsuarioDiv.innerHTML = renderedTemplate;
-                });
-        } catch (error) {
-            console.log("Erro ao analisar JSON:", error);
-            detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Erro ao carregar dados do solicitante.</div>';
-        }
-    })
-    .catch(error => {
-        console.log("Erro:", error);
-        detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Erro ao carregar dados do solicitante.</div>';
-    });
-}); 
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const cards = document.querySelectorAll(".selectable");
-
-    cards.forEach(function (card) {
-        // Adicione um ouvinte de clique a cada card
-        card.addEventListener("click", function () {
-            // Verifique se o card possui a classe "disponivel"
-            if (card.querySelector(".badge.text-bg-success")) {
-                // Alternar a classe "selected" no card clicado
-                card.classList.toggle("selected");
+        var detalhesUsuarioDiv = document.getElementById("detalhesUsuario");
+        
+        // Fazer a requisição AJAX para buscar o usuário
+        fetch("https://sistemas.tiangua.ifce.edu.br/sigec/buscar/" + matricula)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na requisição");
             }
+            return response.text(); // Use text() em vez de json()
+        })
+        .then(responseText => {
+            // Verifica se a resposta está vazia ou contém algum conteúdo
+            if (responseText.trim() === "") {
+                detalhesUsuarioDiv.innerHTML = '<div class="alert alert-danger">Solicitante não encontrado.</div>';
+                return;
+            }
+            
+            // A resposta contém algum conteúdo, você pode tentar analisá-la como JSON
+            try {
+                const usuario = JSON.parse(responseText);
+                console.log("Usuario recebido:", usuario);
+                
+                // Carrega o conteúdo do arquivo Twig na div            
+                console.log("Caminho do arquivo Twig:", window.location.href);
+                fetch('{{ base_url }}/src/views/emprestimo/detalhes_usuario.twig')
+                    .then(response => response.text())
+                    .then(template => {
+                        console.log("Template carregado:", template);
+                        const renderedTemplate = Twig.twig({ data: template }).render({ usuario: usuario });
+                        detalhesUsuarioDiv.innerHTML = renderedTemplate;
+                        
+                        
+                        // Atualize os cards das chaves após receber os dados do usuário
+                        atualizarCardsChaves(usuario.chavesRestritas);
+                        
+                    });
+            } catch (error) {
+                console.log("Erro ao analisar JSON:", error);
+                detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Erro ao carregar dados do solicitante.</div>';
+            }
+        })       
+        
+        .catch(error => {
+            console.log("Erro:", error);
+            detalhesUsuarioDiv.innerHTML = '<div class="alert alert-warning">Erro ao carregar dados do solicitante.</div>';
         });
     });
-});
+    
+    
+    function atualizarCardsChaves(chavesRestritas) {
+            // Selecione todos os cards das chaves
+            const cardsChaves = document.querySelectorAll(".chave-card");
 
+            // Itere sobre cada card e desabilite aqueles que estão restritos
+            cardsChaves.forEach(card => {
+                const idChave = card.getAttribute("data-id");
 
-// Defina um array para armazenar as informações dos itens do empréstimo
-const itensEmprestimo = [];
-
-// Selecione todos os cards (chaves) com a classe "chave-card"
-const cards = document.querySelectorAll(".chave-card");
-
-// Adicione um ouvinte de clique a cada card
-cards.forEach(function (card) {
-    card.addEventListener("click", function () {
-        // Coleta o ID da chave
-        const idChave = card.getAttribute("data-id");
-        
-        // Verifique se o card possui a classe "selecionado"
-        if (card.querySelector(".badge.text-bg-success")) {
-        
-            // Use o método toggle para alternar a classe "selecionado"
-            card.classList.toggle("selecionado");
-
-            // Verifique se o card está selecionado após a alternância da classe
-            const estaSelecionado = card.classList.contains("selecionado");
-
-            // Adicione ou remova o ID da chave ao array com base na seleção
-            if (estaSelecionado) {
-                itensEmprestimo.push(idChave);
-            } else {
-                const index = itensEmprestimo.indexOf(idChave);
-                if (index > -1) {
-                    itensEmprestimo.splice(index, 1);
+                // Verifique se a chave está restrita
+                if (chavesRestritas.includes(idChave)) {
+                    // Adicione uma classe para desabilitar visualmente o card
+                    card.classList.add("restrito");
                 }
-            }
-
-            // Exibe o array atualizado no console (para depuração)
-            console.log("itensEmprestimo:", itensEmprestimo);
-        } else {
-            console.log("A situação desta chave não é 'Disponível', portanto, não pode ser selecionada.");
-        }   
+            });
+        }
+    
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".selectable");
+        
+        cards.forEach(function (card) {
+            // Adicione um ouvinte de clique a cada card
+            card.addEventListener("click", function () {
+                // Verifique se o card possui a classe "disponivel"
+                if (card.querySelector(".badge.text-bg-success")) {
+                    // Alternar a classe "selected" no card clicado
+                    card.classList.toggle("selected");
+                }
+            });
+        });
     });
-});
-
-
-document.addEventListener("DOMContentLoaded", function () {
+     
+    // Defina um array para armazenar as informações dos itens do empréstimo
+    const itensEmprestimo = [];
+    
+    // Selecione todos os cards (chaves) com a classe "chave-card"
+    const cards = document.querySelectorAll(".chave-card");
+    
+    // Adicione um ouvinte de clique a cada card
+    cards.forEach(function (card) {
+        card.addEventListener("click", function () {
+            // Coleta o ID da chave
+            const idChave = card.getAttribute("data-id");
+            
+            // Verifique se o card possui a classe "selecionado"
+            if (card.querySelector(".badge.text-bg-success")) {
+            
+                // Use o método toggle para alternar a classe "selecionado"
+                card.classList.toggle("selecionado");
+    
+                // Verifique se o card está selecionado após a alternância da classe
+                const estaSelecionado = card.classList.contains("selecionado");
+    
+                // Adicione ou remova o ID da chave ao array com base na seleção
+                if (estaSelecionado) {
+                    itensEmprestimo.push(idChave);
+                } else {
+                    const index = itensEmprestimo.indexOf(idChave);
+                    if (index > -1) {
+                        itensEmprestimo.splice(index, 1);
+                    }
+                }
+    
+                // Exibe o array atualizado no console (para depuração)
+                console.log("itensEmprestimo:", itensEmprestimo);
+            } else {
+                console.log("A situação desta chave não é 'Disponível', portanto, não pode ser selecionada.");
+            }   
+        });
+    });
+        
+    document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("emprestimo-form");
 
-    form.addEventListener("submit", function (event) {
+    form.addEventListener("submit", async function (event) {
         event.preventDefault(); // Impede o envio padrão do formulário
-        
-        const idUsuarioElement = document.getElementById("idUser");
-                
-        const idUsuario = idUsuarioElement.textContent.replace("ID: ", "");
-        
-        if (idUsuarioElement) { // Verifica se o elemento foi encontrado
-            
-            document.getElementById("idUsuario").setAttribute("value", idUsuario); 
-            
-            
 
-            
+        console.log("Botão clicado!"); // Adicione este log para verificar se o botão está sendo clicado
+
+        const idUsuarioElement = document.getElementById("idUser");
+        const idUsuario = idUsuarioElement.textContent.replace("ID: ", "");
+
+        if (idUsuarioElement) {
+            // Verifica se o elemento foi encontrado
+            document.getElementById("idUsuario").setAttribute("value", idUsuario);
         } else {
             console.error("Elemento com [data-id-usuario] não encontrado.");
         }
         
+        ////////////////////////////
+        
+        
+        ////////////////////////////
+        
         // Coleta os valores dos itens do empréstimo
         const itensEmprestimo = document.querySelectorAll(".chave-card.selecionado");
-        
-        // Crie um array com os IDs das chaves selecionadas
+
+        // Cria um array com os IDs das chaves selecionadas
         const itensEmprestimoArray = Array.from(itensEmprestimo).map(card => card.getAttribute("data-id"));
-        
+
+        // Cria um array com os nomes das chaves selecionadas
+        const nomeItensEmprestimoArray = Array.from(itensEmprestimo).map(card => card.getAttribute("title"));
+
         // Verifique se há itens de empréstimo selecionados
         if (itensEmprestimoArray.length === 0) {
-            alert("Selecione pelo menos uma chave disponível para criar o empréstimo.");
+            Swal.fire({
+                title: "Atenção!",
+                text: "Selecione pelo menos uma chave disponível para criar o empréstimo",
+                icon: 'warning',
+                confirmButtonColor: '#2f9e41',
+                confirmButtonText: 'Ok'
+            });
             return; // Impede o envio do formulário
         }
-        
+
         // Defina os valores dos campos ocultos
         document.getElementById("itensEmprestimo").value = itensEmprestimoArray.join(",");
-        
-        // Envie o formulário
-        form.submit();
+
+        // Exibir mensagem de confirmação do SweetAlert antes de solicitar a senha
+        const confirmationResult = await Swal.fire({
+            title: 'Confirmação',
+            html: `Deseja efetuar o empréstimo da(s) chave(s)? <br><br> ${nomeItensEmprestimoArray.map(nome => ` - ${nome}`).join('<br>')}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#2f9e41",
+            cancelButtonColor: "#d33",
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Cancelar'
+        });
+
+        // Se o usuário confirmar, então exibir o modal de senha
+        if (confirmationResult.isConfirmed) {
+            // Use o modal do SweetAlert para solicitar a senha
+            const { value: password } = await Swal.fire({
+                title: "Digite sua senha",
+                input: "password",
+                inputLabel: "Senha",
+                inputPlaceholder: "Digite sua senha",
+                inputAttributes: {
+                    maxlength: "10",
+                    autocapitalize: "off",
+                    autocorrect: "off"
+                },
+                showCancelButton: true,
+                cancelButtonColor: "#cd191e",
+                confirmButtonColor: "#2f9e41",
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            });
+
+            // Verifique se a senha foi inserida
+            if (password) {
+                // Atualize o campo oculto com a senha
+                document.getElementById("senha").value = password;
+
+                // Continue com o envio do formulário
+                form.submit();
+            }
+        }
     });
 });
-
-
-
-
-//// Suponha que você tenha um evento (por exemplo, clique em um botão) que dispara a solicitação AJAX.
-//document.getElementById('criar-emprestimo').addEventListener('click', function() {
-//    // Crie um objeto FormData para coletar os dados do formulário, se necessário.
-//    const formData = new FormData(document.getElementById('emprestimo-form'));
-//
-//    // Faça a solicitação AJAX
-//    fetch('https://sistemas.tiangua.ifce.edu.br/sigec/emprestimo/novo', {
-//        method: 'POST',
-//        body: JSON.stringify(SEUS_DADOS), // Envie os dados em formato JSON
-//        headers: {
-//        'Content-Type': 'application/json'
-//    }
-//    })
-//    .then(response => response.json()) // Converte a resposta para JSON
-//    .then(data => {
-//        // Verifica o status na resposta JSON
-//        if (data.status === 'success') {
-//            // Sucesso: exibe um Sweet Alert de sucesso
-//            swal('Success', data.message, 'success');
-//        } else if (data.status === 'error') {
-//            // Erro: exibe um Sweet Alert de erro
-//            swal('Error', data.message, 'error');
-//        } else {
-//            // Status desconhecido ou qualquer outro tratamento de erro
-//            swal('Error', 'Erro desconhecido.', 'error');
-//        }
-//    })
-//    .catch(error => {
-//        // Se houver algum erro na solicitação AJAX
-//        console.error('Erro na solicitação AJAX:', error);
-//        swal('Error', 'Erro na solicitação AJAX.', 'error');
-//    });
-//});
-
-
-
-
-</script>
+    
+    
+    </script>
  
-
 {% endblock %}

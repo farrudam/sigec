@@ -18,91 +18,6 @@
         </ol>
     </nav>  
 
-    {% for item in messages.success %}
-<!--        <div class="alert alert-success alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({                   
-                    icon: 'success',
-                    title: '{{item}}',
-                    showConfirmButton: true
-                    //timer: 1500
-                  })
-            };
-        </script>
-    {% endfor %}
-
-    {% for item in messages.error %}
-<!--        <div class="alert alert-danger alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '{{item}}'
-              })
-            };
-        </script>
-    {% endfor %}
-    
-    {% for item in messages.warning %}
-        <!--<div class="alert alert-warning alert-dismissible fade show">-->
-            <!--{{item}}-->
-            <!--<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>-->
-        <!--</div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({                    
-                    text: "{{item}}",
-                    icon: 'warning',                    
-                    confirmButtonColor: '#3085d6',                    
-                    confirmButtonText: 'Ok'
-                  })
-            };
-        </script>        
-    {% endfor %}
-    
-    {% for item in messages.info %}
-<!--        <div class="alert alert-info alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-    {% endfor %}
-    
-    {% for item in messages.question %}
-<!--        <div class="alert alert-info alert-dismissible fade show">
-            {{item}}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>-->
-        <script>            
-            window.onload = function() {                
-                Swal.fire({
-                title: 'Confirma devoluçao?',
-                text: "Não será possível reverter esta operação!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  Swal.fire(
-                    'Chave devolvida!',                    
-                    'success'
-                  )
-                }
-              })
-            };
-        </script> 
-    {% endfor %}
-
-
     <div class="card border-0 shadow-sm">
         
         <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
@@ -110,8 +25,11 @@
         </div>
         
          <div style="text-indent: 10px; margin: 10px;">                
-            <i class="fa-solid fa-circle text-warning" tooltip="tooltip" title="Ativo"></i> Chave Emprestada
+            <div style="text-indent: 10px; margin: 10px;">             
+            <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Ativo"></i> Chave Emprestada
             <i class="fa-solid fa-circle text-secondary" tooltip="tooltip" title="Ativo"></i> Chave Devolvida            
+            
+        </div>            
         </div>  
         
         <div class="card-body">
@@ -139,10 +57,10 @@
                         <tr>
                             {% if item.DevolvidoEm is null %}
                                 <td>
-                                    <span title="{{item.chave.descricao}}" class="badge bg-warning">{{item.chave.etiqueta}}</span>
+                                    <span title="{{item.chave.descricao}}" class="badge text-bg-danger">{{item.chave.etiqueta}}</span>
                                 </td>
-                                <td class="text-center">                
-                                    <a href="{{ base_url }}/emprestimo/{{emprestimo.id}}/chave/{{item.chave.id}}/devolver">
+                                <td class="text-center">
+                                    <a href="#" onclick="confirmarDevolucao('{{emprestimo.id}}','{{item.chave.id}}','{{item.chave.descricao}}')" tooltip="tooltip" title="Devolver Chave">
                                         <i class="fa-solid fa-rotate-left"></i>
                                     </a>
                                 </td>
@@ -159,13 +77,33 @@
                         {% endfor%}
                     </tbody>
                 </table>
-                <button id="btn_voltar" type="button" class="btn btn-success" onclick="history.back()">Voltar</button>
+                <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/emprestimos/ativos';">Voltar</button>
             </div>     
 
 
         </div>        
        
     </div>
+    
+    <script>
+        function confirmarDevolucao(idEmprestimo, idChave, descricaoChave) {
+            Swal.fire({
+                title: 'Tem certeza?',
+                html: "Deseja realmente devolver a chave <b>" + descricaoChave + "</b>?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#2f9e41',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, redirecione para o link 
+                    window.location.href = "{{ base_url }}/emprestimo/" + idEmprestimo + "/chave/" + idChave + "/devolver";
+                }
+            });
+        }
+</script>
     
 {% endblock %}
 

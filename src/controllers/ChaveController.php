@@ -20,7 +20,7 @@ class ChaveController extends Controller{
             
             if (in_array('', $postParam)) {                
                 $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
-                return $response->withStatus(301)->withHeader('Location', '../chaves'); 
+                return $response->withStatus(301)->withHeader('Location', '../chave/nova'); 
             }
             
             Chave::create($postParam);

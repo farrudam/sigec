@@ -18,7 +18,7 @@ class BlocoController extends Controller{
             
             if (in_array('', $postParam)) {                
                 $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
-                return $response->withStatus(301)->withHeader('Location', '../blocos'); 
+                return $response->withStatus(301)->withHeader('Location', '../bloco/novo'); 
             }
             
             Bloco::create($postParam);

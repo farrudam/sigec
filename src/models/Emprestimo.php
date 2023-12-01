@@ -63,6 +63,18 @@ class Emprestimo{
         return $result;
     }
     
+    public function getMyEmprestimos($mat_solic) {
+        $sql = "select * from emprestimo WHERE mat_solic = ? order by data_abertura DESC";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($mat_solic));
+        $rows = $stmt->fetchAll();
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, self::bundle($row));
+        }
+        return $result; 
+    }
+    
     public function getAtivos() {
         $sql = "select * from emprestimo WHERE situacao = 'Aberto' order by data_abertura DESC ";
         $stmt = DBSigec::getKeys()->prepare($sql);

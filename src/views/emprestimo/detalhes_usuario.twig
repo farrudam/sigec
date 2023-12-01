@@ -1,11 +1,11 @@
-
-    <div>         
-        <img class="avatar" src="{{ usuario['url_foto'] }}" alt="Foto do Usuário">
-        <p id="idUser" data-id-usuario="{{ usuario['id'] }}">ID: {{ usuario['id'] }}</p>
-        <p>Matricula: {{ usuario['mat_solic'] }}</p>
-        <p>Nome: {{ usuario['nome'] }}</p>
-        <p>Email: {{ usuario['email'] }}</p>
-    </div> 
-
    
-     
+    
+    <img src="{{ usuario['url_foto'] }}" alt="foto do usuario" class="avatar">
+    
+    <div>
+        <p id="idUser" data-id-usuario="{{ usuario['id'] }}"></p>
+        
+        <p><b>Nome</b>: {{ usuario['nome'] }}</p>
+        <p><b>Cargo</b>: {{ usuario['cargo'] }}</p>
+    </div>
+

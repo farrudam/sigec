@@ -1,45 +1,13 @@
 .avatar {
-    width: 70px; /* 3x4, ajuste o tamanho conforme necessário */
-    height: 100px; /* 3x4, ajuste o tamanho conforme necessário */
-    float: left; /* Alinhar à esquerda */
-    margin-top: 5px; /* Espaço superior */
-    margin-bottom: 5px; /* Espaço inferior */
-    margin-left: 5px; /* Espaço à esquerda */
-    margin-right: 20px; /* Espaço à esquerda */
-    border-radius: 50%;
-    border: gray 1px solid;
-    
+    width: 100px; /* 3x4, ajuste o tamanho conforme necessário */
+    height: 130px; /* 3x4, ajuste o tamanho conforme necessário */
+    float: right; /* Alinhar à direita*/
+    /*margin-top: 5px;  Espaço superior */
+    margin-bottom: 10px; /* Espaço inferior */
+    margin-left: auto; /* Espaço à esquerda */
+    margin-right: 5px; /* Espaço à esquerda */
+    border: 1px solid black;
     
     
 }
 
-.avatar-large {
-  width: 56px;
-  border-radius: 50%;
-  
-  position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.avatar-bordered {
-  width: 40px;
-  border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
-  
-  position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.avatar-square {
-  width: 40px;
-  border-radius: 0px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
-  
-  position: absolute;
-    top: 0;
-    right: 0;
-}

@@ -17,9 +17,8 @@ class RestricaoChaveController extends Controller{
     
     
     public function novo(Request $request, Response $response, $args){
-        
-        $objeto = new Chave();
-        $chave = $objeto->getById($args['id']); 
+                
+        $chave = (new Chave())->getById($args['id']); 
         $restricoes = (new RestricaoChave())->getRestricoesByChave($args['id']);
         //$usuarios = (new RestricaoChave())->getAllSemRestricao($args['id']);
         $usuarios = (new Usuario())->getAll();
@@ -34,27 +33,27 @@ class RestricaoChaveController extends Controller{
     public function restringir(Request $request, Response $response, $args){
         
         $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        
+                        
         if(isset($postParam)){
                                   
             // Localiza o usuário operador do sistema
             $postParam['user_inclusao'] = Autenticador::instanciar()->getMatricula();
             
-//            var_dump($postParam);
-//            die();
-            
             RestricaoChave::create($postParam);
             $this->container['flash']->addMessage('success', 'Restrição adicionada!');
-            return $response->withStatus(301)->withHeader('Location', '../../../../chaves');  
+            return $response->withStatus(301)->withHeader('Location', '../../restringir');  
             
         }        
                       
     }
     
-    public function reabilitar(Request $request, Response $response, $args){        
-        RestricaoChave::delete($args);
+    public function reabilitar(Request $request, Response $response, $args){
+        
+        $args['user_remocao'] = Autenticador::instanciar()->getMatricula();
+        
+        RestricaoChave::delete($args['user_remocao'], $args['id_chave'], $args['mat_solic'], $args['data_inclusao']);
         $this->container['flash']->addMessage('success', 'Restrição removida!');            
-        return $response->withStatus(301)->withHeader('Location', '../../../../chaves');
+        return $response->withStatus(301)->withHeader('Location', '../../../restringir');  
     }
 }
 

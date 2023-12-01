@@ -1,3 +1,4 @@
+
 DROP DATABASE IF EXISTS `sigec`;
 
 CREATE DATABASE `sigec`;
@@ -25,9 +26,8 @@ CREATE TABLE `chave`(
     `id_sala` INT NOT NULL,
     `etiqueta` VARCHAR(30) UNIQUE NOT NULL,
     `descricao` VARCHAR(80) NOT NULL,    
-    `situacao` ENUM('Disponivel', 'Emprestada', 'Extraviada') DEFAULT 'Disponivel',
-    `habilitada` TINYINT(1) DEFAULT '1',
-    `restrita` TINYINT(1) DEFAULT '0',
+    `situacao` ENUM('Disponivel', 'Indisponivel', 'Extraviada', 'Emprestada') DEFAULT 'Disponivel',
+    `habilitada` TINYINT(1) DEFAULT '1',    
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -37,13 +37,14 @@ CREATE TABLE `usuario` (
   `matricula` INT NOT NULL UNIQUE,
   `nome` VARCHAR(255) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
-  `celular` VARCHAR(50) NOT NULL,
+  `celular` VARCHAR(50) DEFAULT NULL,
+  `cargo` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `url_foto` VARCHAR(255) DEFAULT NULL,
   `habilitado` TINYINT(1) DEFAULT '1',
   `doc_autorizacao` VARCHAR(255) DEFAULT NULL,
-  `tipo` enum('Aluno','Servidor', 'Terceirizado') NOT NULL,
-  `perfil` enum('Administrador', 'Portaria', 'Solicitante') NOT NULL,
+  `tipo` enum('Aluno','Servidor', 'Colaborador') NOT NULL,
+  `perfil` enum('Administrador', 'Recepção', 'Solicitante') NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -56,7 +57,7 @@ CREATE TABLE `restricao_chave` (
   `motivo_inclusao` VARCHAR(255) DEFAULT NULL,
   `data_remocao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `user_remocao` INT NULL,
-  `ativa` TINYINT(1) DEFAULT '0',
+  `ativa` TINYINT(1) DEFAULT '1',
   
   PRIMARY KEY (`id_chave`, `mat_solic`, `data_inclusao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -70,7 +71,7 @@ CREATE TABLE `emprestimo` (
   `data_abertura` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `data_devolucao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(255) DEFAULT NULL,
-  `situacao` enum('Aberto','Devolvido', 'Atrasado') NOT NULL DEFAULT 'Aberto',
+  `situacao` enum('Aberto','Devolvido') NOT NULL DEFAULT 'Aberto',
     PRIMARY KEY (`id`)    
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -91,6 +92,8 @@ ALTER TABLE chave ADD ( CONSTRAINT FOREIGN KEY (id_sala) REFERENCES sala(id));
 
 ALTER TABLE restricao_chave ADD ( CONSTRAINT FOREIGN KEY (id_chave) REFERENCES chave(id));
 ALTER TABLE restricao_chave ADD ( CONSTRAINT FOREIGN KEY (mat_solic) REFERENCES usuario(matricula));
+ALTER TABLE restricao_chave ADD ( CONSTRAINT FOREIGN KEY (user_inclusao) REFERENCES usuario(matricula));
+ALTER TABLE restricao_chave ADD ( CONSTRAINT FOREIGN KEY (user_remocao) REFERENCES usuario(matricula));
 
 ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_solic) REFERENCES usuario(matricula));
 ALTER TABLE emprestimo ADD ( CONSTRAINT FOREIGN KEY (mat_user_abertura) REFERENCES usuario(matricula));

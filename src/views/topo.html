@@ -1,6 +1,6 @@
 
 <header class="bg-white">
-    <h2>
+    <h2 style="text-align: center;">
         <label for="menu">
             <i class="fa-solid fa-bars-staggered" tooltip="tooltip" title="MENU"></i>
         </label>
@@ -13,7 +13,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-lg-end">
             <li>
-                <a class="dropdown-item" href="#" tooltip="tooltip" title="Perfil">
+                <a class="dropdown-item" href="{{ base_url }}/usuario/{{session.UsuarioId}}/detalhar" tooltip="tooltip" title="Perfil">
                     Perfil
                 </a>
             </li>

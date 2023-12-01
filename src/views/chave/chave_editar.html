@@ -38,8 +38,43 @@
             <button  type="submit" class="btn btn-success">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar
             </button>
+            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/chaves';">Voltar</button>
         </form>
     </div>    
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            Swal.fire({
+                title: "Deseja salvar as alterações?",
+                showDenyButton: true,
+                denyButtonColor: "#cd191e",
+                showCancelButton: true,
+                confirmButtonColor: "#2f9e41",
+                confirmButtonText: "Salvar",
+                denyButtonText: "Não salvar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, envie o formulário
+                    form.submit();
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: "As alterações não foram salvas",
+                        icon: "info",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        // Se o usuário optar por não salvar, recarregue a página
+                        location.reload();
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

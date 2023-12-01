@@ -8,6 +8,7 @@ use Slim\Http\Response;
 
 use sigec\models\Emprestimo;
 use sigec\models\ItemEmprestimo;
+use sigec\models\RestricaoChave;
 use sigec\models\Usuario;
 use sigec\models\Bloco;
 use sigec\models\Chave;
@@ -16,10 +17,11 @@ use sigec\models\Autenticador;
 
 
 class EmprestimoController extends Controller{
+    
+    public function create(Request $request, Response $response, $args) {      
 
-    public function create(Request $request, Response $response, $args) {        
+        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT);          
 
-        $postParam = filter_input_array(INPUT_POST, FILTER_DEFAULT); 
         
         if(isset($postParam)){
             
@@ -31,9 +33,20 @@ class EmprestimoController extends Controller{
             // Localiza o usuário operador do sistema
             $postParam['mat_user_abertura'] = Autenticador::instanciar()->getMatricula();            
             
-        }   
+        }           
+        
+        $senhaInformada = md5($postParam['senha']);
+        $usuario = (new Usuario())->getByMatricula($postParam['mat_solic']);
+        $senhaCorreta = $usuario->getSenha();
             
         try {
+            
+            // Verifique a senha do usuário
+            if ($senhaInformada != $senhaCorreta) {                
+                $this->container['flash']->addMessage('error', 'Senha incorreta! Empréstimo não realizado.');
+                return $response->withStatus(301)->withHeader('Location', '../emprestimo/novo'); 
+            }
+            
             // Inicia a transação
             $db = DBSigec::getKeys();        
             $db->beginTransaction();
@@ -46,6 +59,7 @@ class EmprestimoController extends Controller{
             $idEmprestimo = $db->lastInsertId();                
 
             $postParam['id_emprestimo'] = $idEmprestimo;
+                        
 
             // Etapa 3: Obtem as chaves selecionada
             $chavesSelecionadas = $postParam['itensEmprestimo'];
@@ -61,11 +75,14 @@ class EmprestimoController extends Controller{
 
                 Chave::emprestar($idChave);
             }
+            
+//            var_dump($postParam);
+//            die();
 
             // Commit da transação
             $db->commit();
             
-            $this->container['flash']->addMessage('success', 'Empréstimo realizado com sucesso!');            
+            $this->container['flash']->addMessage('success', 'Empréstimo realizado!');            
             return $response->withStatus(301)->withHeader('Location', '../emprestimos/ativos'); 
             
             
@@ -78,14 +95,20 @@ class EmprestimoController extends Controller{
         }
     }   
     
-    public function novo(Request $request, Response $response, $args){
+    public function novo(Request $request, Response $response, $args){   
          
         $blocos = (new Bloco)->getAll();  
-        $chaves = (new Chave)->getAll();  
+        $chaves = (new Chave)->getAll();
+        $itens_emprestimos = (new ItemEmprestimo)->getAll();
+        $emprestimos = (new Emprestimo)->getAll(); 
+        $restricoes = (new RestricaoChave)->getAll();
                         
         return $this->container['renderizar']->render($response, 'exibir_chaves.html', [
             'blocos' => $blocos,
-            'chaves' => $chaves
+            'chaves' => $chaves,
+            'emprestimos' => $emprestimos,
+            'itens_emprestimos' => $itens_emprestimos,
+            'restricoes' => $restricoes
         ]);
     }
     
@@ -94,6 +117,21 @@ class EmprestimoController extends Controller{
         $itens_emprestimos = (new ItemEmprestimo)->getAll();  
                         
         return $this->container['renderizar']->render($response, 'listar_emprestimos.html', [
+            'emprestimos' => $emprestimos,
+            'itens_emprestimos' => $itens_emprestimos
+        ]);
+    }
+    
+    public function meusEmprestimos(Request $request, Response $response, $args){ 
+        
+        // Localiza o usuário operador do sistema
+        $mat_solic = Autenticador::instanciar()->getMatricula();
+        
+        $emprestimos = (new Emprestimo())->getMyEmprestimos($mat_solic);  
+        
+        $itens_emprestimos = (new ItemEmprestimo)->getAll();
+        
+        return $this->container['renderizar']->render($response, 'listar_meus_emprestimos.html', [
             'emprestimos' => $emprestimos,
             'itens_emprestimos' => $itens_emprestimos
         ]);
@@ -161,11 +199,8 @@ class EmprestimoController extends Controller{
             //atualizar situacao do emprestimo
             Emprestimo::encerrar($args['id'], $mat_user);
             $db->commit();            
-            
-            echo '
-        <script>  swal("Done!"); </script>
-      ';
-            $this->container['flash']->addMessage('success', 'Empréstimo concluído com sucesso!');
+                        
+            $this->container['flash']->addMessage('success', 'Empréstimo concluído!');
             return $response->withStatus(301)->withHeader('Location', '../../emprestimos/ativos');
         
             
@@ -188,11 +223,17 @@ class EmprestimoController extends Controller{
                 'mat_solic' => $usuario[0]->getMatricula(),
                 'nome' => $usuario[0]->getNome(),
                 'email' => $usuario[0]->getEmail(),
+                'cargo' => $usuario[0]->getCargo(),
                 'habilitado' => $usuario[0]->getHabilitado(),
                 'url_foto' => $usuario[0]->getUrl_foto()
                 
             );
             
+            // Chaves restritas do usuário            
+            $chavesRestritas = (new RestricaoChave())->buscarChavesRestritas($matricula);
+                        
+            $dadosUsuario['chavesRestritas'] = $chavesRestritas;  
+                        
             header('Content-Type: application/json');
             echo json_encode($dadosUsuario);
         }        

@@ -47,14 +47,29 @@ $container['flash'] = function () {
   return new \Slim\Flash\Messages();
 };
 
+$container['mailer'] = function($container) {
+    $twig = $container['renderizar'];
+    $mailer = new \Anddye\Mailer\Mailer($twig, [
+        'host'      => 'smtp.gmail.com',  // SMTP Host
+        'port'      => '465',  // SMTP Port
+        'username'  => 'nao-responda@ifce.edu.br',  // SMTP Username
+        'password'  => 'd0n0tr3ply!@',  // SMTP Password
+        'protocol'  => 'SSL'   // SSL or TLS
+    ]);
+        
+    // Set the details of the default sender
+    $mailer->setDefaultFrom('suporte@tiangua.ifce.edu.br', 'SIGEC');
+    
+    return $mailer;
+};
 
 $container['DOMPDF'] = function () {
    return new Dompdf();
 };
 
 
-$container['upload_directory_imagem']    =  __DIR_BASE__ .'/uploads/imagem';
-$container['upload_directory_documento'] =  __DIR_BASE__ .'/uploads/documentos/';
+$container['upload_directory_imagem']    =  '/var/www/homes/sistemas/pasta_online_internet/sigec/src/assets/img/usuarios';
+$container['upload_directory_documento'] =  '/var/www/homes/sistemas/pasta_online_internet/sigec/uploads/documentos';
 
 $container['base_url'] = function () {
  if (isset($_SERVER['HTTPS'])){

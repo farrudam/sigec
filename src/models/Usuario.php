@@ -3,6 +3,7 @@
 namespace sigec\models;
 use sigec\database\DBSigec;
 use sigec\models\Chave;
+use sigec\models\RestricaoChave;
 
 class Usuario{
     
@@ -10,8 +11,9 @@ class Usuario{
     private $matricula;
     private $nome;
     private $senha;
-    private $celular;
+    //private $celular;
     private $email;
+    private $cargo;
     private $url_foto;
     private $habilitado;
     private $doc_autorizacao;
@@ -26,9 +28,10 @@ class Usuario{
         $usuario = new Usuario($row['id']);
         $usuario->setMatricula($row['matricula']);
         $usuario->setNome($row['nome']);
-        $usuario->setSenha($row['senha']);
-        $usuario->setCelular($row['celular']);
+        $usuario->setSenha($row['senha']);        
+        //$usuario->setCelular($row['celular']);
         $usuario->setEmail($row['email']);
+        $usuario->setCargo($row['cargo']);
         $usuario->setUrl_foto($row['url_foto']);
         $usuario->setHabilitado($row['habilitado']);
         $usuario->setDoc_autorizacao($row['doc_autorizacao']);
@@ -47,6 +50,15 @@ class Usuario{
             return null;
         }
         return self::bundle($row);
+    }
+    
+    public static function matriculaExists($matricula) {
+        $sql = "SELECT COUNT(*) FROM usuario WHERE matricula = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute([$matricula]);
+
+        // Se o número de linhas retornadas for maior que zero, a matrícula já está em uso
+        return $stmt->fetchColumn() > 0;
     }
     
     public function getAll() {
@@ -74,17 +86,17 @@ class Usuario{
     
 
     static function create($params) { 
-        var_dump($params);
-        die();
-        $sql = "INSERT INTO usuario (matricula, nome, senha, celular, email, tipo, perfil) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        $sql = "INSERT INTO usuario (matricula, nome, senha, cargo, url_foto, email, tipo, perfil) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['matricula'],
             $params['nome'],
             $params['senha'],
-            $params['celular'],
+            $params['cargo'],           
+            $params['url_foto'],
             $params['email'],
             $params['tipo'],
             $params['perfil']
@@ -100,17 +112,36 @@ class Usuario{
         return $stmt->errorInfo();
     }
 
-    public function update($params) {
-        $sql = "UPDATE usuario set nome = ?, email = ?, celular = ?, perfil = ?, 
-                       doc_autorizacao = ?, WHERE id = ?";
+    public function update($params) {        
+        
+        $sql = "UPDATE usuario set nome = ?, email = ?, cargo = ?, perfil = ? WHERE usuario.id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
             $params['nome'],
-            $params['email'],            
-            $params['celular'],            
-            $params['perfil'],            
-            $params['doc_autorizacao'],            
+            $params['email'],
+            $params['cargo'],            
+            $params['perfil'],
              $this->id));
+
+        return $stmt->errorInfo();
+    }
+    
+    public function updateSenha($params) {
+                
+        $sql = "UPDATE usuario set senha = ? WHERE usuario.id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array(
+            $params['senha'],           
+             $this->id));
+
+        return $stmt->errorInfo();
+    }
+    
+    static function atualizarFoto($caminhoFoto, $idUsuario)
+    {
+        $sql = "UPDATE usuario set url_foto = ? WHERE usuario.id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($caminhoFoto, $idUsuario));
         return $stmt->errorInfo();
     }
 
@@ -129,8 +160,7 @@ class Usuario{
     }
     
     static function buscar($busca) {
-        $sql = "SELECT * FROM usuario WHERE matricula LIKE '%$busca%'";        
-        //$sql = "SELECT * FROM usuario WHERE matricula = '%$busca'";        
+        $sql = "SELECT * FROM usuario WHERE matricula LIKE '%$busca%' AND habilitado = 1"; 
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($busca));
         $rows = $stmt->fetchAll();
@@ -152,8 +182,7 @@ class Usuario{
         return self::bundle($row); 
     }
     
-    static function getAllSemRestricao($id_chave) {
-        //$sql = "select * from restricao_chave where id_chave = ?";
+    static function getAllSemRestricao($id_chave) {        
         $sql = "SELECT * 
                 FROM usuario 
                 WHERE matricula 
@@ -168,8 +197,7 @@ class Usuario{
             $result[] = self::bundle($row);
         }
         return $result;
-    }
-
+    }    
     
     public function getId() {
         return $this->id;
@@ -185,14 +213,18 @@ class Usuario{
 
     public function getSenha() {
         return $this->senha;
-    }
+    }    
 
-    public function getCelular() {
-        return $this->celular;
-    }
+//    public function getCelular() {
+//        return $this->celular;
+//    }
 
     public function getEmail() {
         return $this->email;
+    }
+    
+    public function getCargo() {
+        return $this->cargo;
     }
 
     public function getUrl_foto() {
@@ -231,12 +263,16 @@ class Usuario{
         $this->senha = $senha;
     }
     
-    public function setCelular($celular): void {
-        $this->celular = $celular;
-    }
+//    public function setCelular($celular): void {
+//        $this->celular = $celular;
+//    }
 
     public function setEmail($email): void {
         $this->email = $email;
+    }
+    
+    public function setCargo($cargo): void {
+        $this->cargo = $cargo;
     }
 
     public function setUrl_foto($url_foto): void {

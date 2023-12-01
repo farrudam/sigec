@@ -1,0 +1,97 @@
+{% extends "dashboard.html" %}
+{% import "funcoes.html" as msg %}
+
+{% block conteudo %}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ base_url }}">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a href="{{ base_url }}/usuarios">
+                Usuários
+            </a>
+        </li>
+    </ol>
+</nav>
+
+
+<div class="card border-0 shadow-sm">    
+    <div class="card-body">
+        <div class="panel-heading"><h4>Alterar Senha</h4></div>
+        <form action="../../usuario/update/{{usuario.id}}/senha" method="post">            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" value="{{usuario.nome}}" name="nome" id="nome" class="form-control" disabled>
+                    </div>            
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="matricula" class="form-label">Matrícula</label>
+                        <input type="text" value="{{usuario.matricula}}" name="matricula" id="matricula" class="form-control" disabled>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">                     
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="nova_senha" class="form-label">Nova Senha</label>
+                        <div class="input-group">
+                            <input type="password" name="nova_senha" id="nova_senha" class="form-control" aria-label="Nova senha">
+                            <button class="btn btn-outline-secondary" type="button" id="toggleNovaSenha">
+                                <i id="eyeIconNovaSenha" class="bi bi-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="confirmar_senha" class="form-label">Confirmar Senha</label>
+                        <div class="input-group">
+                            <input type="password" name="confirmar_senha" id="confirmar_senha" class="form-control" aria-label="Confirmar senha">
+                            <button class="btn btn-outline-secondary" type="button" id="toggleConfirmarSenha">
+                                <i id="eyeIconConfirmarSenha" class="bi bi-eye-slash"></i>
+                            </button>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <i class="fa-regular fa-floppy-disk"></i> Salvar
+            </button>
+            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
+        </form>
+    </div>    
+</div>
+    
+<script>
+    const toggleNovaSenha = document.querySelector('#toggleNovaSenha');
+    const novaSenha = document.querySelector('#nova_senha');
+    const eyeIconNovaSenha = document.querySelector('#eyeIconNovaSenha');
+
+    toggleNovaSenha.addEventListener('click', function (e) {
+        const type = novaSenha.getAttribute('type') === 'password' ? 'text' : 'password';
+        novaSenha.setAttribute('type', type);
+        eyeIconNovaSenha.classList.toggle('bi-eye-slash');
+        eyeIconNovaSenha.classList.toggle('bi-eye');
+    });
+
+    const toggleConfirmarSenha = document.querySelector('#toggleConfirmarSenha');
+    const confirmarSenha = document.querySelector('#confirmar_senha');
+    const eyeIconConfirmarSenha = document.querySelector('#eyeIconConfirmarSenha');
+
+    toggleConfirmarSenha.addEventListener('click', function (e) {
+        const type = confirmarSenha.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmarSenha.setAttribute('type', type);
+        eyeIconConfirmarSenha.classList.toggle('bi-eye-slash');
+        eyeIconConfirmarSenha.classList.toggle('bi-eye');
+    });
+</script>  
+
+{% endblock %}

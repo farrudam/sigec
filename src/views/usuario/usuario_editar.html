@@ -19,15 +19,11 @@
     </ol>
 </nav>
 
-
 <div class="card border-0 shadow-sm">    
-    <div class="col-md-10 col-md-offset-1">
-            {{ msg.messagem(classe, texto)}}
-    </div>
     
     <div class="card-body">
         <div class="panel-heading"><h4>Editar Usuário</h4></div>
-        <form action="../../usuario/update/{{usuario.id}}" method="post">
+        <form action="../../usuario/{{usuario.id}}/update" method="post" enctype="multipart/form-data">
             
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome</label>
@@ -39,20 +35,33 @@
                 <input type="text" value="{{usuario.email}}" name="email" id="email" class="form-control">
             </div> 
             
+            <!--<div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="text" value="{{usuario.email}}" name="email" id="email" class="form-control">
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="url_foto" class="form-label">Escolha a foto:</label>
+                        <input type="file" value="{{usuario.url_foto}}" name="url_foto" id="url_foto" accept="image/*" class="form-control">
+                    </div>
+                </div>
+            </div>-->
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="matricula" class="form-label">Matrícula</label>
                         <input type="text" value="{{usuario.matricula}}" name="matricula" id="matricula" class="form-control" disabled>
                     </div>
-                </div>                
-            
+                </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="celular" class="form-label">Celular</label>
-                        <input type="text" value="{{usuario.celular}}" name="celular" id="celular" maxlength="15" class="form-control">
-                    </div> 
-                </div>                
+                       <label for="cargo" class="form-label">Cargo</label>
+                       <input type="text" value="{{usuario.cargo}}" name="cargo" id="cargo" class="form-control">
+                   </div> 
+                </div>
             </div>
                         
             <div class="row">
@@ -70,51 +79,63 @@
                         -->
                     </div>
                 </div>
-
-                <!--{% set permissoes = ['Administrador', 'Portaria', 'Solicitante'] %}-->
-
+                
                 <div class="col-md-6">
                     <div class="mb-3">                        
                         <label for="perfil" class="form-label">Perfil</label>
                         <select class="form-select" name="perfil" id="perfil">
-                            <option value="Administrador" {% if usuario.permissao == 'administrador' %}selected{%endif%}>Administrador</option>
-                            <option value="Portaria" {% if usuario.permissao == 'portaria' %}selected{%endif%}>Portaria</option>
-                            <option value="Solicitante" {% if usuario.permissao == 'solicitante' %}selected{%endif%}>Solicitante</option>                            
+                            <option value="Administrador" {% if usuario.perfil == 'Administrador' %}selected{%endif%}>Administrador</option>
+                            <option value="Recepção" {% if usuario.perfil == 'Recepção' %}selected{%endif%}>Recepção</option>
+                            <option value="Solicitante" {% if usuario.perfil == 'Solicitante' %}selected{%endif%}>Solicitante</option>                            
                         </select>
                     </div>
                 </div>
+
+                <!--{% set permissoes = ['Administrador', 'Portaria', 'Solicitante'] %}-->
+
+                
             </div>
             
             <button  type="submit" class="btn btn-success">
                 <i class="fa-regular fa-floppy-disk"></i> Salvar
             </button>
+            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
         </form>
     </div>    
 </div>
 
 <script>
-    function mascara(o,f){
-    v_obj=o
-    v_fun=f
-    setTimeout("execmascara()",1)
-}
-function execmascara(){
-    v_obj.value=v_fun(v_obj.value)
-}
-function mtel(v){
-    v=v.replace(/\D/g,""); //Remove tudo o que não é dígito
-    v=v.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d)(\d{4})$/,"$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
-    return v;
-}
-function id( el ){
-	return document.getElementById( el );
-}
-window.onload = function(){
-	id('celular').onkeyup = function(){
-		mascara( this, mtel );
-	}
-}
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            Swal.fire({
+                title: "Deseja salvar as alterações?",
+                showDenyButton: true,
+                denyButtonColor: "#cd191e",
+                showCancelButton: true,
+                confirmButtonText: "Salvar",
+                confirmButtonColor: "#2f9e41",
+                denyButtonText: "Não salvar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, envie o formulário
+                    form.submit();
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: "As alterações não foram salvas",
+                        icon: "info",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        // Se o usuário optar por não salvar, recarregue a página
+                        location.reload();
+                    });
+                }
+            });
+        });
+    });
 </script>
 
 {% endblock %}

@@ -12,7 +12,7 @@ class Chave{
     private $descricao;
     private $situacao;
     private $habilitada;    
-    private $restrita;        
+    //private $restrita;        
 
     private $id_sala;
     private $sala;
@@ -34,7 +34,7 @@ class Chave{
         $chave->setDescricao($row['descricao']);
         $chave->setSituacao($row['situacao']);
         $chave->setHabilitada($row['habilitada']);
-        $chave->setRestrita($row['restrita']);
+        //$chave->setRestrita($row['restrita']);
                         
         $chave->setSala($sala->getById());
         $chave->setIdSala($row['id_sala']);
@@ -107,6 +107,26 @@ class Chave{
         return $stmt->errorInfo();
     }
     
+//    static function chavesVinculadasDisponiveis($idSala) {
+//        $sql = "
+//            chave.id AS id_chave,
+//            FROM chave c
+//            WHERE c.id_sala = :idSala
+//              AND c.situacao = 'Disponivel'
+//        ";
+//
+//        $stmt = DBSigec::getKeys()->prepare($sql);
+//        $stmt->execute([':idSala' => $idSala]);
+//        $rows = $stmt->fetchAll();
+//
+//        $result = array();
+//        foreach ($rows as $row) {
+//            array_push($result, Chave::bundle($row));
+//        }
+//
+//        return $result;
+//    }
+    
     static function emprestar($id) {
         $sql = "UPDATE chave SET situacao = 'Emprestada' WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
@@ -160,9 +180,9 @@ class Chave{
         return $this->habilitada;
     }
 
-    public function getRestrita() {
-        return $this->restrita;
-    }
+//    public function getRestrita() {
+//        return $this->restrita;
+//    }
 
     public function getIdSala() {
         return $this->id_sala;
@@ -196,9 +216,9 @@ class Chave{
         $this->habilitada = $habilitada;
     }
 
-    public function setRestrita($restrita) {
-        $this->restrita = $restrita;
-    }
+//    public function setRestrita($restrita) {
+//        $this->restrita = $restrita;
+//    }
 
     public function setIdSala($id_sala) {
         $this->id_sala = $id_sala;

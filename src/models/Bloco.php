@@ -36,7 +36,7 @@ class Bloco{
     }
     
     public function getAll() {
-        $sql = "select * from bloco order by id ";
+        $sql = "select * from bloco order by nome ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();

@@ -79,8 +79,7 @@ class ItemEmprestimo{
     }
 
     static function create($params) {
-        var_dump($params);
-        die();
+        
         $sql = "INSERT INTO item_emprestimo (id_emprestimo, id_chave) VALUES (?, ?)";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(

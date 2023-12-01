@@ -8,6 +8,7 @@ use Slim\Http\Response;
 
 use sigec\models\Sala;
 use sigec\models\Bloco;
+use sigec\models\Chave;
 
 
 class SalaController extends Controller{
@@ -20,7 +21,7 @@ class SalaController extends Controller{
             
             if (in_array('', $postParam)) {                
                 $this->container['flash']->addMessage('warning', 'Todos os campos são obrigatórios!');                                
-                return $response->withStatus(301)->withHeader('Location', '../salas'); 
+                return $response->withStatus(301)->withHeader('Location', '../sala/nova'); 
             }
             
             Sala::create($postParam);
@@ -83,6 +84,23 @@ class SalaController extends Controller{
 
         Sala::desativar($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../salas');
+        
+        
+//        $idSala = $args['id'];
+//
+//        // Verificar se há chaves vinculadas disponíveis
+//        $chavesDisponiveis = Chave::chavesVinculadasDisponiveis($idSala);
+//
+//        if (!empty($chavesDisponiveis)) {
+//            // Desativar a sala apenas se houver chaves disponíveis
+//            Sala::desativar($idSala);
+//            $this->container['flash']->addMessage('success', 'Sala desativada com sucesso!');
+//        } else {
+//            // Lógica para quando não há chaves disponíveis
+//            $this->container['flash']->addMessage('error', 'Não é possível desativar a sala. Existem chaves vinculadas em uso.');
+//        }
+//
+//        return $response->withStatus(301)->withHeader('Location', '../../salas');
 
     }
 

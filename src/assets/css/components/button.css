@@ -11,3 +11,12 @@
   background: #4D04C4;
   color: white;
 }
+
+.btn-custom-class {
+    background-color: #2f9e41 !important; /* Cor desejada para o botão Confirmar da caixa de texto do Sweet Alert */
+    color: #ffffff !important; /* Cor do texto no botão Confirmar */
+}
+
+.button-group {
+        margin-right: 8px; /* Ou a quantidade de margem desejada */
+    }

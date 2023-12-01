@@ -3,6 +3,7 @@
 namespace sigec\models;
 use sigec\database\DBSigec;
 use sigec\models\Bloco;
+use sigec\models\Chave;
 
 class Sala{
 

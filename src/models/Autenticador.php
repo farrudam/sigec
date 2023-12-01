@@ -90,8 +90,10 @@ class AutenticadorEmMemoria extends Autenticador {
                 return false;
         }
         
+        $sess->set('id', $usuario_cad->getId());
         $sess->set('nome', $usuario_cad->getNome());
         $sess->set('perfil', $usuario_cad->getPerfil());
+        $sess->set('tipo', $usuario_cad->getTipo());
         $sess->set('matricula', $user);
         $sess->set('pwd', '');
         return true;
@@ -145,6 +147,28 @@ class AutenticadorEmMemoria extends Autenticador {
 
         if ($this->logado()) {
             $usuario = $sess->get('matricula');
+            return $usuario;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getPerfil() {
+        $sess = new Sessao();
+
+        if ($this->logado()) {
+            $usuario = $sess->get('perfil');
+            return $usuario;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getUsuarioId() {
+        $sess = new Sessao();
+
+        if ($this->logado()) {
+            $usuario = $sess->get('id');
             return $usuario;
         } else {
             return false;

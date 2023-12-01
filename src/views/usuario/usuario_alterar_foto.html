@@ -1,0 +1,62 @@
+{% extends "dashboard.html" %}
+{% block conteudo %}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ base_url }}">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a href="{{ base_url }}/usuarios">
+                Usuários
+            </a>
+        </li>
+    </ol>
+</nav>
+
+
+<div class="card border-0 shadow-sm">    
+    <div class="card-body">
+        <div class="panel-heading"><h4>Alterar Foto</h4></div>
+        
+        
+        <form action="../../usuario/{{usuario.id}}/alterarFoto" method="post" enctype="multipart/form-data">     
+            
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" value="{{usuario.nome}}" name="nome" id="nome" class="form-control" disabled>
+                    </div>            
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="matricula" class="form-label">Matrícula</label>
+                        <input type="text" value="{{usuario.matricula}}" name="matricula" id="matricula" class="form-control" disabled>
+                    </div>
+                </div>
+            </div> 
+            
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="url_foto" class="form-label">Escolha a foto:</label>
+                    <input type="file" name="url_foto" id="url_foto" accept="image/*" class="form-control">
+                </div>
+            </div>
+            
+            
+            <button type="submit" class="btn btn-success">
+                <i class="fa-regular fa-floppy-disk"></i> Salvar
+            </button>
+            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
+        </form>
+    </div>    
+</div>
+    
+
+
+{% endblock %}

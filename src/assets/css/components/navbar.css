@@ -1,12 +1,23 @@
-.navbar-lewagon {
-  justify-content: space-between;
-  background: white;
-}
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
-}
 
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
-}
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        border-color: #6c757d; /* Cor cinza padrão do Bootstrap */
+        border-width: 2px;
+        border-bottom-color: transparent; /* Para remover a borda inferior extra */
+        color: #28a745; /* Cor verde padrão do Bootstrap */
+        font-weight: bold;
+    }
+
+    .nav-tabs .nav-item.show .nav-link::after, .nav-tabs .nav-link.active::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: #6c757d; /* Cor cinza padrão do Bootstrap */
+        border-bottom: 2px solid #6c757d; /* Adiciona a borda na parte inferior */
+    }
+    
+    .nav-tabs .nav-link {
+        color: #2f9e41;
+    }
+

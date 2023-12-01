@@ -4,16 +4,20 @@ $app->get('/', 'sigec\controllers\HomeController:home')->setName('home');
 $app->get('/buscar/{matricula}', 'sigec\controllers\EmprestimoController:buscar')->add($auth);
 $app->post('/pesquisar', 'sigec\controllers\EmprestimoController:pesquisar');
 $app->get('/detalhar_usuario/{userMatricula}', 'sigec\controllers\EmprestimoController:detalharUsuario')->add($auth);
-//$app->post('/detalhar_usuario', 'sigec\controllers\EmprestimoController:detalharUsuario');
 
 
 $app->get('/usuarios', 'sigec\controllers\UsuarioController:show')->setName('usuarios')->add($auth);
 $app->get('/usuario/novo', 'sigec\controllers\UsuarioController:novo')->setName('user_novo')->add($auth);
 $app->post('/usuario/novo', 'sigec\controllers\UsuarioController:create');
-$app->get('/usuario/{id}/editar', 'sigec\controllers\UsuarioController:editar')->setName('user_editar')->add($auth);
-$app->post('/usuario/update/{id}', 'sigec\controllers\UsuarioController:update');
+$app->get('/usuario/{id}/update', 'sigec\controllers\UsuarioController:editar')->setName('user_editar')->add($auth);
+$app->post('/usuario/{id}/update', 'sigec\controllers\UsuarioController:update')->setName('user_update');
+$app->get('/usuario/{id}/alterarSenha', 'sigec\controllers\UsuarioController:alterarSenha')->setName('user_alterar_senha')->add($auth);
+$app->get('/usuario/{id}/alterarFoto', 'sigec\controllers\UsuarioController:alterarFoto')->setName('alterar_foto_editar')->add($auth);
+$app->post('/usuario/{id}/alterarFoto', 'sigec\controllers\UsuarioController:uploadFoto')->setName('alterar_foto_update')->add($auth);
+
+$app->post('/usuario/update/{id}/senha', 'sigec\controllers\UsuarioController:updateSenha');
 $app->get('/usuario/{id}/excluir', 'sigec\controllers\UsuarioController:excluir')->setName('user_excluir')->add($auth);
-$app->get('/usuario/detalhar', 'sigec\controllers\UsuarioController:detalhar')->setName('user_detalhar')->add($auth);
+$app->get('/usuario/{id}/detalhar', 'sigec\controllers\UsuarioController:detalhar')->setName('user_detalhar')->add($auth);
 $app->get('/usuario/importar', 'sigec\controllers\UsuarioController:importar')->setName('user_importar')->add($auth);
 $app->get('/usuario/{id}/ativar', 'sigec\controllers\UsuarioController:ativar')->setName('user_ativar')->add($auth);
 $app->get('/usuario/{id}/desativar', 'sigec\controllers\UsuarioController:desativar')->setName('user_desativar')->add($auth);
@@ -52,11 +56,14 @@ $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar'
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar')->add($auth);
 
 $app->get('/chave/{id}/restringir', 'sigec\controllers\RestricaoChaveController:novo')->setName('chave_restringir')->add($auth);
+
 $app->post('/chave/{id_chave}/usuario/{mat_solic}/restringir', 'sigec\controllers\RestricaoChaveController:restringir')->setName('chave_restringir')->add($auth);
-$app->get('/chave/{id_chave}/usuario/{mat_solic}/reabilitar', 'sigec\controllers\RestricaoChaveController:reabilitar')->setName('chave_reabilitar_usuario')->add($auth);
+
+$app->get('/chave/{id_chave}/usuario/{mat_solic}/reabilitar/{data_inclusao}', 'sigec\controllers\RestricaoChaveController:reabilitar')->setName('chave_reabilitar_usuario')->add($auth);
 
 
 //$app->get('/emprestimos', 'sigec\controllers\EmprestimoController:show')->setName('emprestimos')->add($auth);
+$app->get('/emprestimos/my', 'sigec\controllers\EmprestimoController:meusEmprestimos')->setName('meus_emprestimos')->add($auth);
 $app->get('/emprestimos/ativos', 'sigec\controllers\EmprestimoController:ativos')->setName('emprestimos_ativos')->add($auth);
 $app->get('/emprestimos/encerrados', 'sigec\controllers\EmprestimoController:encerrados')->setName('emprestimos_encerrados')->add($auth);
 $app->get ('/emprestimo/novo', 'sigec\controllers\EmprestimoController:novo')->setName('emprestimo_novo')->add($auth);
@@ -67,3 +74,23 @@ $app->get ('/emprestimo/{id}/concluir', 'sigec\controllers\EmprestimoController:
 
 
 $app->get ('/emprestimo/{id}/chave/{id_chave}/devolver', 'sigec\controllers\ItemEmprestimoController:devolver')->setName('item_devolver')->add($auth);
+
+
+$app->get('/teste', function ($request, $response, $args) {
+
+    $destinatario = 'fabioarrudamagalhaes@gmail.com';
+        $assunto = 'Teste';
+        $corpo = 'Teste de envio de e-mail';
+        
+       $email = new \sigec\utils\EmailService;
+        
+        // Enviar e-mail
+        if ($email->enviarEmail($destinatario, $assunto, $corpo)) {
+            // E-mail enviado com sucesso
+            return $response->withJson(['mensagem' => 'E-mail enviado com sucesso']);
+        } else {
+            // Erro ao enviar o e-mail
+            return $response->withJson(['erro' => 'Erro ao enviar o e-mail'], 500);
+        }
+   
+});

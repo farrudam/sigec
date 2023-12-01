@@ -1,0 +1,102 @@
+{% extends "dashboard.html" %}
+{% block conteudo %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ base_url }}">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <a href="{{ base_url }}/emprestimos">
+                Empréstimos 
+            </a>
+        </li>
+    </ol>
+</nav>  
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+        <h3 class="card-title"><b>Meus Empréstimos</b></h3>
+        
+        {% if session.Perfil != "Solicitante" %}
+            <a href="{{ base_url }}/emprestimo/novo" class="btn btn-success">Novo Empréstimo</a>
+        {% endif %}
+    </div>
+    
+    <div style="text-indent: 10px; margin: 10px;"> 
+        <i class="fa-solid fa-circle-exclamation fa-lg" style="color: #cd191e;"></i> Empréstimo em Atraso
+        <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Ativo"></i> Chave Emprestada
+        <i class="fa-solid fa-circle text-secondary" tooltip="tooltip" title="Ativo"></i> Chave Devolvida
+    </div>
+    
+    <div class="card-body">            
+        <div class="table-responsive">
+            <table class="table table-hover" id="tabela">
+                <thead class="thead-light">
+                    <tr> 
+                        <th scope="col">Data/Horário</th>
+                        <th scope="col">Solicitante</th>
+                        <th scope="col">Chaves Solicitadas</th>
+                        <th scope="col">Responsável Entrega</th>                            
+                        <th scope="col" class="text-center">Detalhes</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emprestimo in emprestimos %}
+                        {% if emprestimo.solicitante.matricula == session.Matricula %}
+                            <tr>
+                                <td>{{emprestimo.dataAbertura |date("d/m/Y - H:i") }}                           
+                                
+                                    {% set dataEmprestimo = emprestimo.dataAbertura %}                                
+                                    {% set dataAtual = "now"|date("Y-m-d H:i:s") %}                                
+                                    {% set diff = date(dataAtual).diff(date(dataEmprestimo)) %}                                
+                                    {% if emprestimo.situacao == "Aberto" %}
+                                        {% if diff.days > 0 or diff.h > 24 %}
+                                            <i class="fa-solid fa-circle-exclamation" style="color: #cd191e;"></i>
+                                        {% endif %} 
+                                    {% endif %}
+                                </td>
+                                <td>{{emprestimo.solicitante.nome}}</td>
+                                
+                                <td>
+                                    {% for item in itens_emprestimos %}
+                                        {% if emprestimo.id == item.emprestimo.id %}
+                                            {% if emprestimo.situacao == "Aberto" %}
+                                                {% if item.DevolvidoEm is null %}                                    
+                                                    <span title="{{item.chave.descricao}}" class="badge bg-danger">{{item.chave.etiqueta}}</span>
+                                                {% else %}
+                                                    <span title="{{item.chave.descricao}}" class="badge bg-secondary">{{item.chave.etiqueta}}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span title="{{item.chave.descricao}}" class="badge bg-secondary">{{item.chave.etiqueta}}</span>    
+                                            {% endif %}
+                                        {% endif %}                                
+                                    {% endfor %}
+                                </td>
+                                
+                                <td>{{emprestimo.user_abertura.nome}}</td>
+                                
+                                <td class="text-center">
+                                    <a href="{{ base_url }}/emprestimo/{{emprestimo.id}}/detalhes" tooltip="tooltip" title="Detalhar">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                </td>  
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>     
+    </div>        
+   
+</div>
+
+{% endblock %}
+
+
+
+

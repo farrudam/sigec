@@ -16,3 +16,9 @@
     text-align:center;    
 }
 
+.chave-card.restrito {
+    opacity: 0.6; /* Reduz a opacidade para indicar que o card está desabilitado */
+    pointer-events: none; /* Impede eventos de clique nos cards desabilitados */
+    filter: grayscale(100%); /* Adicione escala de cinza para indicar que o card está desabilitado */
+    /* Outros estilos conforme necessário */
+}
