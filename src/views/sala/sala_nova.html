@@ -26,7 +26,7 @@
     </div>
     
     <div class="card-body">
-        <div class="panel-heading"><h4>Cadastrar Sala</h4></div>
+        <div class="panel-heading"><h4><b>Cadastrar Sala</b></h4></div>
         <form action="" method="post">
             <div class="mb-3">
                 <label for="titulo" class="form-label">Nome</label>
@@ -43,9 +43,15 @@
                 </select>
             </div>
             
-            <button  type="submit" class="btn btn-success">
-                <i class="fa-regular fa-floppy-disk"></i> Salvar
-            </button>
+            <div class="d-flex justify-content-end mt-3">
+                <div class="button-group">
+                    <button  type="submit" class="btn btn-success">
+                        <i class="fa-regular fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/salas';">Voltar</button>
+                </div>    
+            </div>
+        
         </form>
     </div>    
 </div>

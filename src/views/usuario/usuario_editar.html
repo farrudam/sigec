@@ -1,6 +1,4 @@
 {% extends "dashboard.html" %}
-{% import "funcoes.html" as msg %}
-
 {% block conteudo %}
 
 
@@ -22,7 +20,7 @@
 <div class="card border-0 shadow-sm">    
     
     <div class="card-body">
-        <div class="panel-heading"><h4>Editar Usuário</h4></div>
+        <div class="panel-heading"><h4><b>Editar Usuário</b></h4></div>
         <form action="../../usuario/{{usuario.id}}/update" method="post" enctype="multipart/form-data">
             
             <div class="mb-3">
@@ -80,26 +78,41 @@
                     </div>
                 </div>
                 
-                <div class="col-md-6">
-                    <div class="mb-3">                        
-                        <label for="perfil" class="form-label">Perfil</label>
-                        <select class="form-select" name="perfil" id="perfil">
-                            <option value="Administrador" {% if usuario.perfil == 'Administrador' %}selected{%endif%}>Administrador</option>
-                            <option value="Recepção" {% if usuario.perfil == 'Recepção' %}selected{%endif%}>Recepção</option>
-                            <option value="Solicitante" {% if usuario.perfil == 'Solicitante' %}selected{%endif%}>Solicitante</option>                            
-                        </select>
+                
+                {% if usuario.perfil == 'Administrador' %}
+                
+                    <div class="col-md-6">
+                        <div class="mb-3">                        
+                            <label for="perfil" class="form-label">Perfil</label>
+                            <select class="form-select" name="perfil" id="perfil">
+                                <option value="Administrador" {% if usuario.perfil == 'Administrador' %}selected{%endif%}>Administrador</option>
+                                <option value="Recepcao" {% if usuario.perfil == 'Recepcao' %}selected{%endif%}>Recepção</option>
+                                <option value="Solicitante" {% if usuario.perfil == 'Solicitante' %}selected{%endif%}>Solicitante</option>                            
+                            </select>
+                        </div> 
                     </div>
-                </div>
-
-                <!--{% set permissoes = ['Administrador', 'Portaria', 'Solicitante'] %}-->
-
+                
+                {% else %}
+                
+                    <div class="col-md-6">
+                        <div class="mb-3">                        
+                            <label for="perfil" class="form-label">Perfil</label>
+                            <input type="text" value="{{usuario.perfil}}" name="perfil" id="perfil" class="form-control" disabled>
+                        </div>
+                    </div>
+                
+                {% endif %}
                 
             </div>
             
-            <button  type="submit" class="btn btn-success">
-                <i class="fa-regular fa-floppy-disk"></i> Salvar
-            </button>
-            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
+            <div class="d-flex justify-content-end mt-3">
+                <div class="button-group">
+                    <button  type="submit" class="btn btn-success">
+                        <i class="fa-regular fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
+                </div>    
+            </div>
         </form>
     </div>    
 </div>

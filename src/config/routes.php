@@ -43,7 +43,7 @@ $app->post('/sala/update/{id}', 'sigec\controllers\SalaController:update');
 $app->get('/sala/{id}/excluir', 'sigec\controllers\SalaController:excluir')->setName('sala_excluir')->add($auth);
 $app->get('/sala/{id}/ativar', 'sigec\controllers\SalaController:ativar')->setName('sala_ativar')->add($auth);
 $app->get('/sala/{id}/desativar', 'sigec\controllers\SalaController:desativar')->setName('sala_desativar')->add($auth);
-$app->get('/sala/{id}/reparar', 'sigec\controllers\SalaController:reparar')->setName('sala_reparar')->add($auth);
+//$app->get('/sala/{id}/reparar', 'sigec\controllers\SalaController:reparar')->setName('sala_reparar')->add($auth);
 
 
 $app->get('/chaves', 'sigec\controllers\ChaveController:show')->setName('chaves')->add($auth);
@@ -54,8 +54,12 @@ $app->post('/chave/update/{id}', 'sigec\controllers\ChaveController:update');
 $app->get('/chave/{id}/excluir', 'sigec\controllers\ChaveController:excluir')->setName('chave_excluir')->add($auth);
 $app->get('/chave/{id}/habilitar', 'sigec\controllers\ChaveController:habilitar')->setName('chave_habilitar')->add($auth);
 $app->get('/chave/{id}/desabilitar', 'sigec\controllers\ChaveController:desabilitar')->setName('chave_desabilitar')->add($auth);
+$app->get('/chave/{id}/disponibilizar', 'sigec\controllers\ChaveController:disponibilizar')->setName('chave_disponibilizar')->add($auth);
+$app->get('/chave/{id}/indisponibilizar', 'sigec\controllers\ChaveController:indisponibilizar')->setName('chave_indisponibilizar')->add($auth);
 
 $app->get('/chave/{id}/restringir', 'sigec\controllers\RestricaoChaveController:novo')->setName('chave_restringir')->add($auth);
+$app->get('/chave/{id}/restringirTodos', 'sigec\controllers\RestricaoChaveController:restringirTodos')->setName('restringir_todos')->add($auth);
+$app->get('/chave/{id}/removeRestricoes', 'sigec\controllers\RestricaoChaveController:removeRestricoes')->setName('remove_restricoes')->add($auth);
 
 $app->post('/chave/{id_chave}/usuario/{mat_solic}/restringir', 'sigec\controllers\RestricaoChaveController:restringir')->setName('chave_restringir')->add($auth);
 
@@ -72,14 +76,61 @@ $app->get ('/emprestimos/relatorio', 'sigec\controllers\EmprestimoController:rel
 $app->get ('/emprestimo/{id}/detalhes', 'sigec\controllers\EmprestimoController:detalhes')->setName('detalhes_emprestimo')->add($auth);
 $app->get ('/emprestimo/{id}/concluir', 'sigec\controllers\EmprestimoController:concluir')->setName('concluir_emprestimo')->add($auth);
 
-
 $app->get ('/emprestimo/{id}/chave/{id_chave}/devolver', 'sigec\controllers\ItemEmprestimoController:devolver')->setName('item_devolver')->add($auth);
 
-use sigec\controllers\EmailController; 
 
-$app->get('/teste', function ($request, $response, $args) {
+//$app->get ('/teste', 'sigec\controllers\EmprestimoController:enviarEmail')->setName('teste'); 
 
-       //$this->container['mailer']->setTo('fabioarrudamagalhaes@gmail.com', 'Fábio')->sendMessage(new EmailController('Fulano'));
-        $this->mailer->setTo('ronaldo.ribeiro@ifce.edu.br', 'Ronaldo')->sendMessage(new EmailController('Fulano'));
-       echo 'enviou';
+use sigec\models\Usuario;
+use sigec\models\Chave;
+use sigec\controllers\EmailTesteController;
+//use sigec\controllers\EmailController; 
+
+$app->get('/checarEmprestimos', function ($request, $response, $args) {
+       
+       //$this->mailer->setTo('fabioarrudamagalhaes@gmail.com', 'Fábio')->sendMessage(new EmailController('Fulano'));
+       $usuarios = (new Usuario)->getAll();
+                
+        foreach ($usuarios as $usuario) {
+                        
+            $chavesPendentes = Chave::chavesEmprestimoAtivoByUser($usuario->getMatricula());
+                        
+            if (!empty($chavesPendentes)) {
+                // Enviar e-mail com detalhes sobre as chaves pendentes                
+                $emailController = new EmailTesteController($usuario, $chavesPendentes);
+                
+                // Enviar e-mail
+                $this->mailer->setTo($usuario->getEmail(), $usuario->getNome())
+                              ->sendMessage($emailController);
+            }            
+        }
+    
+        echo 'enviou';  
+});
+
+
+
+ 
+
+$app->get('/enviarEmail', function ($request, $response, $args) {
+        
+        $usuarios = (new Usuario)->getAll();
+                
+        foreach ($usuarios as $usuario) {
+                        
+            $chavesPendentes = Chave::chavesEmprestimoAtivoByUser($usuario->getMatricula());
+                        
+            if (!empty($chavesPendentes)) {
+                // Enviar e-mail com detalhes sobre as chaves pendentes                
+                $emailController = new EmailTesteController($usuario, $chavesPendentes);
+                
+                // Enviar e-mail
+                $this->mailer->setTo($usuario->getEmail(), $usuario->getNome())
+                              ->sendMessage($emailController);
+            }            
+        }
+        echo 'enviou'; 
+        
+       
+       
 });

@@ -59,6 +59,9 @@
                             </td>
                             {% if session.Perfil != "Solicitante" %}                                
                                 <td class="text-center">
+                                    <a href="{{ base_url }}/usuario/{{usuario.id}}/detalhar" tooltip="tooltip" title="Detalhes do Usuário">
+                                        <i class="fa-solid fa-eye fa-lg"></i>
+                                    </a>
                                     <a href="{{ base_url }}/usuario/{{usuario.id}}/update" tooltip="tooltip" title="Editar Usuário">
                                         <i class="fa-regular fa-pen-to-square fa-lg" style="color: #000000;"></i>
                                     </a>

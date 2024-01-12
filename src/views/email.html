@@ -1,2 +1,136 @@
 
-<h1>Olá  {{user}}</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendências de Chaves</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 70%;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            background-color: #2f9e41;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pendências de Chaves</h1>
+       
+        <p>Prezado {{user}},</p>
+        <p>Que esta mensagem lhe encontre bem. De acordo com nossos registros, há pendência na devolução da(s) seguinte(s) chave(s) solicitada(s) por você:  </p>
+        
+        
+        
+        <p>Solicitamos gentilmente que regularize esta situação o quanto antes, para garantir a disponibilidade desta(s) chave(s) para outros usuários.</p>
+        <p>Contamos com sua colaboração.</p>
+                  
+        <p>Dúvidas? Entre em contato com o <a href="mailto:infra.tiangua@ifce.edu.br">Setor responsável</a> por esta notificação.</p>
+        <p>https://sistemas.tiangua.ifce.edu.br/sigec</p>
+        
+    </div>
+</body>
+</html>
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendências de Chaves</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 70%;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+            background-color: #2f9e41;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pendências de Chaves</h1>
+       
+        <p>Prezado {{user.nome}},</p>
+        <p>Que esta mensagem lhe encontre bem. De acordo com nossos registros, há pendência na devolução da(s) seguinte(s) chave(s) solicitada(s) por você:</p>
+        
+        <ul>
+            {% for chave in chavesPendentes %}
+                <li>{{ chave.etiqueta }} - {{ chave.descricao }}</li>
+            {% endfor %}
+        </ul>
+        
+        <p>Solicitamos gentilmente que regularize esta situação o quanto antes, para garantir a disponibilidade desta(s) chave(s) para outros usuários.</p>
+        <p>Contamos com sua colaboração.</p>
+                  
+        <p>Dúvidas? Entre em contato com o <a href="mailto:infra.tiangua@ifce.edu.br">Setor responsável</a> por esta notificação.</p>
+        <p>https://sistemas.tiangua.ifce.edu.br/sigec</p>
+        
+    </div>
+</body>
+</html>-->

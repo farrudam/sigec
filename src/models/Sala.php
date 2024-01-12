@@ -32,7 +32,7 @@ class Sala{
     }
     
     public function getAll() {
-        $sql = "select * from sala order by id ";
+        $sql = "select * from sala order by nome ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -87,7 +87,7 @@ class Sala{
     }
 
     static function desativar($id) {
-        $sql = "UPDATE sala set situacao = 'inativa' WHERE id = ?";
+        $sql = "UPDATE sala set situacao = 'Inativa' WHERE id = ?";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($id));
         return $stmt->errorInfo();
@@ -98,6 +98,14 @@ class Sala{
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($id));
         return $stmt->errorInfo();
+    }
+    
+    public static function temChavesEmprestadas($id_sala) {
+        
+        // Verificar se há alguma chave vinculada a esta sala com situação igual a 'Emprestada'
+        $chaves = Chave::buscaChavesEmprestadas($id_sala);
+
+        return $chaves;
     }
 
     public function getId() {

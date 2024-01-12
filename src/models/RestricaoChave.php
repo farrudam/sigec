@@ -5,6 +5,7 @@ use sigec\database\DBSigec;
 use sigec\models\Chave;
 use sigec\models\Usuario;
 
+
 class RestricaoChave{
                 
     private $id_chave;
@@ -29,7 +30,6 @@ class RestricaoChave{
     }
     
     private function bundle ($row){  
-        //Instâncias dos objetos
              
         $chave =  (new Chave())->getById($row['id_chave']);        
         $usuario = (new Usuario())->getByMatricula($row['mat_solic']);       
@@ -70,6 +70,97 @@ class RestricaoChave{
         return $stmt->errorInfo(); 
         
     }
+    
+    static function adicionarRestricoesAutomaticas($matricula, $user_inclusao) {
+        
+        $sql = "INSERT INTO restricao_chave (id_chave, mat_solic, user_inclusao, motivo_inclusao, data_inclusao, ativa)
+                    SELECT
+                        c.id AS id_chave,
+                        :matricula AS mat_solic,
+                        :user_inclusao AS user_inclusao,
+                        'Restrição automática para Aluno' AS motivo_inclusao,
+                        NOW() AS data_inclusao,
+                        1 AS ativa
+                    FROM
+                        chave c
+                    WHERE
+                        NOT EXISTS (
+                            SELECT 1
+                            FROM restricao_chave rc
+                            WHERE rc.id_chave = c.id
+                              AND rc.mat_solic = :matricula
+                              AND rc.ativa = 1
+                        )";
+
+                $stmt = DBSigec::getKeys()->prepare($sql);
+
+                // Substitui os placeholders diretamente pelos valores
+                $stmt->execute(array(
+                    ':matricula' => $matricula,
+                    ':user_inclusao' => $user_inclusao,
+                ));
+
+                $rows = $stmt->fetchAll();
+
+                $result = array();
+
+                foreach ($rows as $row) {
+                    array_push($result, self::bundle($row));
+                }
+
+                return $result;
+        
+    }
+    
+    static function restringirTodos($params) {
+            $sql = "
+                INSERT INTO restricao_chave (id_chave, mat_solic, user_inclusao, motivo_inclusao, data_inclusao, ativa)
+                SELECT
+                    :id_chave AS id_chave,
+                    u.matricula AS mat_solic,
+                    :user_inclusao AS user_inclusao,
+                    :motivo_inclusao AS motivo_inclusao,
+                    NOW() AS data_inclusao,
+                    1 AS ativa
+                FROM
+                    usuario u
+                WHERE
+                    NOT EXISTS (
+                        SELECT 1
+                        FROM restricao_chave rc
+                        WHERE u.matricula = rc.mat_solic
+                        AND rc.id_chave = :id_chave
+                        AND rc.ativa = 1
+                    )";
+
+            $stmt = DBSigec::getKeys()->prepare($sql);
+
+            // Substitua os placeholders diretamente pelos valores
+            $stmt->execute(array(
+                ':id_chave' => $params['id_chave'],
+                ':user_inclusao' => $params['user_inclusao'],
+                ':motivo_inclusao' => $params['motivo_inclusao']
+            ));
+
+            $rows = $stmt->fetchAll();
+
+            $result = array();
+
+            foreach ($rows as $row) {
+                array_push($result, self::bundle($row));
+            }
+
+            return $result;
+    }
+    
+    static function removeRestricoes($params) {
+        
+        $sql = "UPDATE restricao_chave SET data_remocao = CURRENT_TIME(), user_remocao = ?, ativa = '0' WHERE id_chave = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute([$params['user_remocao'], $params['id_chave']]);
+
+        return $stmt->errorInfo();
+    } 
 
     static function delete($user_remocao, $id_chave, $mat_solic, $data_inclusao) {        
   

@@ -55,5 +55,47 @@ class RestricaoChaveController extends Controller{
         $this->container['flash']->addMessage('success', 'Restrição removida!');            
         return $response->withStatus(301)->withHeader('Location', '../../../restringir');  
     }
+    
+    
+    public function restringirTodos(Request $request, Response $response, $args){
+        
+        $params = $request->getParams();
+        
+        $params['id_chave'] = $args['id'];
+               
+        if(isset($params)){
+                                  
+            // Localiza o usuário operador do sistema
+            $params['user_inclusao'] = Autenticador::instanciar()->getMatricula();
+            
+            RestricaoChave::restringirTodos($params);
+            $this->container['flash']->addMessage('success', 'Restrições adicionadas!');
+            return $response->withStatus(301)->withHeader('Location', '../../chave/' .$args['id']. '/restringir');  
+            
+        }        
+                      
+    }
+    
+    public function removeRestricoes(Request $request, Response $response, $args){
+        
+        $params = $request->getParams();
+        
+        $params['id_chave'] = $args['id'];
+               
+        if(isset($params)){
+                                  
+            // Localiza o usuário operador do sistema
+            $params['user_remocao'] = Autenticador::instanciar()->getMatricula();
+            
+            RestricaoChave::removeRestricoes($params);
+            $this->container['flash']->addMessage('success', 'Restrições removidas!');
+            return $response->withStatus(301)->withHeader('Location', '../../chave/' .$args['id']. '/restringir');  
+            
+        }        
+                      
+    }
+    
+    
+    
 }
 

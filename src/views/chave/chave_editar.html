@@ -24,7 +24,7 @@
     </div>
         
     <div class="card-body">
-        <div class="panel-heading"><h4>Editar Chave</h4></div>
+    <div class="panel-heading"><h4><b>Editar Chave</b></h4></div>
         <form name="pesquisa" action="../../chave/update/{{chave.id}}" method="POST">
             <div class="mb-3">
                 <label for="descricao" class="form-label">Descricao</label>
@@ -35,10 +35,14 @@
                 <input type="text" name="etiqueta" value="{{chave.etiqueta}}" class="form-control" id="etiqueta" required>                
             </div>         
             
-            <button  type="submit" class="btn btn-success">
-                <i class="fa-regular fa-floppy-disk"></i> Salvar
-            </button>
-            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/chaves';">Voltar</button>
+            <div class="d-flex justify-content-end mt-3">
+                <div class="button-group">
+                    <button  type="submit" class="btn btn-success">
+                        <i class="fa-regular fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/chaves';">Voltar</button>
+                </div>    
+            </div> 
         </form>
     </div>    
 </div>

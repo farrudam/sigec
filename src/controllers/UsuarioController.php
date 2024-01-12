@@ -10,17 +10,8 @@ use sigec\models\Usuario;
 use sigec\models\Autenticador;
 
 
-class UsuarioController extends Controller{    
-    
-//    private $fileUploader;
-//
-//    public function __construct($container)
-//    {
-//        parent::__construct($container);
-//
-//        // Inicializar o FileUploader com o diretório de upload desejado
-//        $this->fileUploader = new FileUploader("../src/assets/img/usuarios");
-//    }
+class UsuarioController extends Controller{       
+
     
     public function login(Request $request, Response $response, $args)
     {
@@ -43,7 +34,7 @@ class UsuarioController extends Controller{
             $objeto = Autenticador::instanciar();
             
             if ($objeto->logar($postParam['matricula'], $postParam['senha'], $tp = 'LOCALHOST')){
-//              
+              
                 $perfil = Autenticador::instanciar()->getPerfil();
                 if ($perfil == "Solicitante"){
                     return $response->withStatus(301)->withHeader('Location', '/sigec/emprestimos/my');
@@ -92,6 +83,10 @@ class UsuarioController extends Controller{
             $postParam['senha'] = md5($postParam['senha']);
             //$postParam['senha'] = password_hash($postParam['senha'], PASSWORD_DEFAULT);
             
+            
+//            var_dump($postParam);
+//            die();
+            
             Usuario::create($postParam);
             $this->container['flash']->addMessage('success', 'Usuário adicionado!');
             return $response->withStatus(301)->withHeader('Location', '../usuarios'); 
@@ -114,8 +109,7 @@ class UsuarioController extends Controller{
     
     public function detalhar(Request $request, Response $response, $args){             
         $usuario = (new Usuario($args['id']))->getById();        
-//        var_dump($usuario);
-//        die();
+
         return $this->container['renderizar']->render($response, 'detalhar_usuario.html', [
             'usuario' => $usuario            
         ]);        
@@ -185,6 +179,9 @@ class UsuarioController extends Controller{
     
     public function uploadFoto(Request $request, Response $response, $args) {
         
+        var_dump($args);
+        die();
+        
         $usuarioId = $args['id'];
                 
         $directory = $this->container->get('upload_directory_imagem');
@@ -213,7 +210,7 @@ class UsuarioController extends Controller{
     function moveUploadedFile($directory, UploadedFile $uploadedFile)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-        $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+        $basename = bin2hex(random_bytes(8)); 
         $filename = sprintf('%s.%0.8s', $basename, $extension);
 
         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);

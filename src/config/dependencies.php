@@ -52,13 +52,13 @@ $container['mailer'] = function($container) {
     $mailer = new \Anddye\Mailer\Mailer($twig, [
         'host'      => 'smtp.gmail.com',  // SMTP Host
         'port'      => '465',  // SMTP Port
-        'username'  => 'nao-responda@ifce.edu.br',  // SMTP Username
-        'password'  => 'd0n0tr3ply!@',  // SMTP Password
+        'username'  => 'naoresponda@tiangua.ifce.edu.br',  // SMTP Username
+        'password'  => 'cPLYN2io8psQ/]4>',  // SMTP Password
         'protocol'  => 'SSL'   // SSL or TLS
     ]);
         
     // Set the details of the default sender
-    $mailer->setDefaultFrom('suporte@tiangua.ifce.edu.br', 'SIGEC');
+    $mailer->setDefaultFrom('suporte@tiangua.ifce.edu.br', 'nao-responda [SIGEC]');
     
     return $mailer;
 };

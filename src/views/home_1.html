@@ -1,0 +1,65 @@
+{% extends "base_new.html" %}
+
+{% block corpo %}
+
+    
+
+    <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://source.unsplash.com/1BFUutVb-pA);">
+      <div class="container">        
+        <h1><strong>SIGEC - Sistema de Gestão para Empréstimo de Chaves</strong></h1>
+        <p>Praticidade no registro e acompanhamento da movimentação de chaves </p>
+        <a class="btn btn-lg btn-success btn-block" href="{{ base_url }}/emprestimos/ativos">Acesse aqui</a>   
+        
+        <div class="logo-container text-center" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); z-index: 999; pointer-events: none;">
+            <img src="{{ base_url }}/src/assets/img/logo-vertical-branco.png" alt="Logo" style="max-width: 130px; height: auto;"/>
+        </div>
+        
+      </div> 
+    </div>    
+  
+<div class="row justify-content-center card-container" style="margin-top: 50px; position: relative; z-index: 2;">
+    <div class="col-lg-2 text-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1><i class="fa-solid fa-key"></i></h1>      
+                <h5 class="card-title">Chaves</h5>
+                <p class="card-text">Gerencie empréstimos</p>   
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 text-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1><i class="fa-solid fa-hotel"></i></h1>
+                <h5 class="card-title">Blocos e Salas</h5>
+                <p class="card-text">Gerencie ambientes</p>  
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 text-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1><i class="fa-solid fa-users"></i></h1>
+                <h5 class="card-title">Usuários</h5>
+                <p class="card-text">Gerencie permissões</p>  
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 text-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1><i class="fa-regular fa-file-lines"></i></h1>      
+                <h5 class="card-title">Relatórios</h5>
+                <p class="card-text">Informações detalhadas</p>  
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

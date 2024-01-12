@@ -24,7 +24,7 @@ class ChaveController extends Controller{
             }
             
             Chave::create($postParam);
-            $this->container['flash']->addMessage('success', 'Chave adicionada com sucesso!');
+            $this->container['flash']->addMessage('success', 'Chave adicionada!');
             return $response->withStatus(301)->withHeader('Location', '../chaves'); 
         }                
     }
@@ -64,9 +64,9 @@ class ChaveController extends Controller{
     }
     
     public function excluir(Request $request, Response $response, $args){
-//        var_dump($args);
-//        die();
+
         Chave::delete($args['id']);
+        $this->container['flash']->addMessage('success', 'Excluído com sucesso!');
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 
     }
@@ -74,6 +74,7 @@ class ChaveController extends Controller{
     public function habilitar(Request $request, Response $response, $args){
 
         Chave::habilitar($args['id']);
+        $this->container['flash']->addMessage('success', 'Chave ativa!');
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 
     }
@@ -81,6 +82,23 @@ class ChaveController extends Controller{
     public function desabilitar(Request $request, Response $response, $args){
 
         Chave::desabilitar($args['id']);
+        $this->container['flash']->addMessage('success', 'Chave desativada!');
+        return $response->withStatus(301)->withHeader('Location', '../../chaves');
+
+    } 
+    
+    public function disponibilizar(Request $request, Response $response, $args){
+
+        Chave::devolver($args['id']);
+        $this->container['flash']->addMessage('success', 'Chave disponível!');
+        return $response->withStatus(301)->withHeader('Location', '../../chaves');
+
+    }  
+    
+    public function indisponibilizar(Request $request, Response $response, $args){
+
+        Chave::indisponibilizar($args['id']);
+        $this->container['flash']->addMessage('success', 'Chave indisponível!');
         return $response->withStatus(301)->withHeader('Location', '../../chaves');
 
     }   

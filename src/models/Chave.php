@@ -45,7 +45,7 @@ class Chave{
     }
                    
     public function getAll() {
-        $sql = "select * from chave order by id ";
+        $sql = "select * from chave order by descricao ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -107,25 +107,12 @@ class Chave{
         return $stmt->errorInfo();
     }
     
-//    static function chavesVinculadasDisponiveis($idSala) {
-//        $sql = "
-//            chave.id AS id_chave,
-//            FROM chave c
-//            WHERE c.id_sala = :idSala
-//              AND c.situacao = 'Disponivel'
-//        ";
-//
-//        $stmt = DBSigec::getKeys()->prepare($sql);
-//        $stmt->execute([':idSala' => $idSala]);
-//        $rows = $stmt->fetchAll();
-//
-//        $result = array();
-//        foreach ($rows as $row) {
-//            array_push($result, Chave::bundle($row));
-//        }
-//
-//        return $result;
-//    }
+    static function indisponibilizar($id) {
+        $sql = "UPDATE chave set situacao = 'Indisponivel' WHERE id = ?";
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id));
+        return $stmt->errorInfo();
+    }
     
     static function emprestar($id) {
         $sql = "UPDATE chave SET situacao = 'Emprestada' WHERE id = ?";
@@ -228,4 +215,83 @@ class Chave{
         $this->sala = $sala;
     }
     
+    static function buscaChavesEmprestadas($id_sala) {
+        
+        $sql = "
+            SELECT c.id AS id_chave                   
+            FROM chave c
+            WHERE c.id_sala = ?
+              AND c.situacao = 'Emprestada' ";
+
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id_sala));
+        $rows = $stmt->fetchAll();
+
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, Chave::bundle($row));
+        }
+
+        return $result;
+
+    }
+    
+    static function chavesEmprestimoAtivoByUser($mat_solic) {
+        $sql = "
+            SELECT
+                c.*
+                
+            FROM
+                emprestimo e
+                JOIN item_emprestimo ie ON e.id = ie.id_emprestimo
+                JOIN chave c ON c.id = ie.id_chave
+            WHERE
+                e.mat_solic = ?
+                AND e.situacao = 'Aberto'
+                AND c.situacao = 'Emprestada' AND ie.devolvido_em IS NULL;
+             ";
+        
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($mat_solic));
+        $rows = $stmt->fetchAll();
+
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, self::bundle($row));
+        }
+
+        return $result;
+    }
+    
+    static function desabilitarChaves($id_sala) {
+        $sql = "UPDATE chave SET habilitada = 0 WHERE id_sala = ? ";
+
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id_sala));
+        $rows = $stmt->fetchAll();
+
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, Chave::bundle($row));
+        }
+
+        return $result;
+    }
+    
+    static function habilitarChaves($id_sala) {
+        $sql = "UPDATE chave SET habilitada = 1 WHERE id_sala = ? ";
+
+        $stmt = DBSigec::getKeys()->prepare($sql);
+        $stmt->execute(array($id_sala));
+        $rows = $stmt->fetchAll();
+
+        $result = array();
+        foreach ($rows as $row) {
+            array_push($result, Chave::bundle($row));
+        }
+
+        return $result;
+    }
+    
+          
 }

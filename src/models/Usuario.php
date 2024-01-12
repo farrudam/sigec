@@ -62,7 +62,7 @@ class Usuario{
     }
     
     public function getAll() {
-        $sql = "select * from usuario order by id ";
+        $sql = "select * from usuario order by nome ";
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array());
         $rows = $stmt->fetchAll();
@@ -87,8 +87,13 @@ class Usuario{
 
     static function create($params) { 
         
+//            var_dump($params);
+//            die();
+        
         $sql = "INSERT INTO usuario (matricula, nome, senha, cargo, url_foto, email, tipo, perfil) 
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        
 
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array(
@@ -100,11 +105,19 @@ class Usuario{
             $params['email'],
             $params['tipo'],
             $params['perfil']
-        ));        
+        ));
+        
+
+        if ($params['tipo'] === 'Aluno') {
+            $params['user_inclusao'] = Autenticador::instanciar()->getMatricula();
+            
+            RestricaoChave::adicionarRestricoesAutomaticas($params['matricula'], $params['user_inclusao']);
+        }
+        
         return $stmt->errorInfo(); 
         
     }
-
+        
     static function delete($id) {
         $sql = 'DELETE FROM usuario WHERE id = ?';
         $stmt = DBSigec::getKeys()->prepare($sql);
@@ -160,7 +173,7 @@ class Usuario{
     }
     
     static function buscar($busca) {
-        $sql = "SELECT * FROM usuario WHERE matricula LIKE '%$busca%' AND habilitado = 1"; 
+        $sql = "SELECT * FROM usuario WHERE matricula = ? AND habilitado = 1"; 
         $stmt = DBSigec::getKeys()->prepare($sql);
         $stmt->execute(array($busca));
         $rows = $stmt->fetchAll();

@@ -1,5 +1,4 @@
 {% extends "dashboard.html" %}
-
 {% block conteudo %}
     
     <nav aria-label="breadcrumb">
@@ -32,7 +31,7 @@
                 <table id="tabela" class="table table-hover">
                     <thead class="thead-light">
                         <tr>                            
-                            <th scope="col">Número</th>
+                            <!--<th scope="col">Número</th>-->
                             <th scope="col">Descrição</th>
                             <th scope="col">Etiqueta</th>
                             <th scope="col">Sala</th>
@@ -45,45 +44,57 @@
                     </thead>
                     <tbody>
                         {% for chave in chaves %}
-                        <tr>
-                            <td>{{chave.id}}</td>
-                            <td>{{chave.descricao}}</td>
-                            <td>{{chave.etiqueta}}</td>
-                            <td>{{chave.sala.nome}}</td>
-                            <td>{{chave.sala.bloco.nome}}</td>
-                            <td class="text-center">
-                                {% if chave.habilitada %}
-                                    <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
-                                {% else %}
-                                    <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
-                                {% endif %}
-                            </td>
-                            {% if session.Perfil == "Administrador" or session.Perfil == "Recepcao" %}
-                                <td class="text-center">
-                                    {% if session.Perfil == "Administrador" %}
-                                        <a href="{{ base_url }}/chave/{{chave.id}}/editar" tooltip="tooltip" title="Editar Chave">
-                                            <i class="fa-regular fa-pen-to-square fa-lg" style="color: #000000;"></i>
-                                        </a>
-                                    {% endif %}
-                                    <a href="{{ base_url }}/chave/{{chave.id}}/restringir" tooltip="tooltip" title="Restringir Chave">
-                                        <i class="fa-solid fa-person-circle-xmark fa-xl" style="color: #f18517;"></i>
-                                    </a>
-                                    {% if session.Perfil == "Administrador" %}
+                            {% if chave.sala.situacao == "Ativa" %}
+                                <tr>
+                                    <!--<td>{{chave.id}}</td>-->
+                                    <td>{{chave.descricao}}</td>
+                                    <td>{{chave.etiqueta}}</td>
+                                    <td>{{chave.sala.nome}}</td>
+                                    <td>{{chave.sala.bloco.nome}}</td>
+                                    <td class="text-center">
                                         {% if chave.habilitada %}
-                                            <a href="{{ base_url }}/chave/{{chave.id}}/desabilitar" onclick="confirmarDesativacao('{{chave.id}}','{{chave.descricao}}','{{chave.situacao}}')" tooltip="tooltip" title="Desativar Chave">
-                                                <!--<i class="fa-solid fa-ban fa-lg" style="color: #cd191e;"></i>-->
-                                                <i class="fa-solid fa-toggle-off fa-lg" style="color: #cd191e;"></i>
-                                            </a>
+                                            <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativo"></i>
                                         {% else %}
-                                            <a href="{{ base_url }}/chave/{{chave.id}}/habilitar" onclick="confirmarAtivacao('{{chave.id}}','{{chave.descricao}}')" tooltip="tooltip" title="Ativar Chave">
-                                                <!--<i class="fas fa-check-circle"></i>-->
-                                                <i class="fa-solid fa-toggle-on fa-lg" style="color: #2f9e41;"></i>
-                                            </a>
+                                            <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativo"></i>
                                         {% endif %}
+                                    </td>
+                                    {% if session.Perfil == "Administrador" or session.Perfil == "Recepcao" %}
+                                        <td class="text-center">
+                                            {% if session.Perfil == "Administrador" %}
+                                                <a href="{{ base_url }}/chave/{{chave.id}}/editar" tooltip="tooltip" title="Editar Chave">
+                                                    <i class="fa-regular fa-pen-to-square fa-lg" style="color: #000000;"></i>
+                                                </a>
+                                            {% endif %}
+                                            <a href="{{ base_url }}/chave/{{chave.id}}/restringir" tooltip="tooltip" title="Restringir Chave">
+                                                <i class="fa-solid fa-person-circle-xmark fa-xl" style="color: #cd191e;"></i>
+                                            </a>
+                                            {% if session.Perfil == "Administrador" %}
+                                                {% if chave.habilitada %}                                                    
+
+                                                    {% if chave.situacao != "Indisponivel" %}
+                                                        <a href="{{ base_url }}/chave/{{chave.id}}/indisponibilizar" onclick="confirmarIndisponibilizacao('{{chave.id}}', '{{chave.descricao}}')" tooltip="tooltip" title="Indisponibilizar">
+                                                            <i class="fa-solid fa-screwdriver-wrench fa-lg" style="color: #f18517;"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ base_url }}/chave/{{chave.id}}/disponibilizar" onclick="confirmarDisponibilizacao('{{chave.id}}', '{{chave.descricao}}')" tooltip="tooltip" title="Disponibilizar">
+                                                            <i class="fa-regular fa-circle-check fa-lg" style="color: #2f9e41;"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                    <a href="{{ base_url }}/chave/{{chave.id}}/desabilitar" onclick="confirmarDesativacao('{{chave.id}}','{{chave.descricao}}','{{chave.situacao}}')" tooltip="tooltip" title="Desativar Chave">                                                        
+                                                        <i class="fa-solid fa-toggle-off fa-lg" style="color: #cd191e;"></i>
+                                                    </a>
+
+                                                {% else %}
+                                                    <a href="{{ base_url }}/chave/{{chave.id}}/habilitar" onclick="confirmarAtivacao('{{chave.id}}','{{chave.descricao}}')" tooltip="tooltip" title="Ativar Chave">                                                
+                                                        <i class="fa-solid fa-toggle-on fa-lg" style="color: #2f9e41;"></i>
+                                                    </a>
+                                                {% endif %}
+                                                
+                                            {% endif %}
+                                        </td>
                                     {% endif %}
-                                </td>
+                                </tr>
                             {% endif %}
-                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -108,7 +119,7 @@
             // Exibe mensagem de confirmação do SweetAlert com o nome da chave
             Swal.fire({
                 title: 'Confirmação',
-                html: "Deseja realmente desativar a chave <b>" + descricaoChave + "</b>? Não será possível solicitá-la em novos empréstimos!",
+                html: "Deseja realmente desativar a chave <b>" + descricaoChave + "</b>? Ela não estará visível em novos empréstimos!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: "#2f9e41",
@@ -133,8 +144,8 @@
             html: "Deseja realmente ativar a chave <b>" + descricaoChave + "</b>? Após isso será possível solicitá-la em novos empréstimos!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
+            confirmButtonColor: "#2f9e41",
+            cancelButtonColor: "#cd191e",
             confirmButtonText: 'Sim, ativar!',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
@@ -144,6 +155,45 @@
             }
         });
     }
+    
+    function confirmarIndisponibilizacao(idChave, descricaoChave) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+        Swal.fire({
+            title: 'Tem certeza?',
+            html: 'Você deseja indisponibilizar a chave <b>' + descricaoChave + '</b>?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#2f9e41",
+            cancelButtonColor: "#cd191e",
+            confirmButtonText: 'Sim, indisponibilizar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aqui você pode redirecionar para a ação de indisponibilização
+                window.location.href = "{{ base_url }}/chave/" + idChave + "/indisponibilizar";
+            }
+        });
+    }
+    
+    function confirmarDisponibilizacao(idChave, descricaoChave) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+        Swal.fire({
+            title: 'Tem certeza?',
+            html: 'Você deseja disponibilizar a chave <b>' + descricaoChave + '</b>?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#2f9e41",
+            cancelButtonColor: "#cd191e",
+            confirmButtonText: 'Sim, disponibilizar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aqui você pode redirecionar para a ação de indisponibilização
+                window.location.href = "{{ base_url }}/chave/" + idChave + "/disponibilizar";
+            }
+        });
+    }
+    
         
 //    function confirmarExclusao(idChave, descricaoChave, situacao) {
 //        event.preventDefault(); // Impede o comportamento padrão do link
@@ -177,13 +227,6 @@
 //    }
     
 </script>
-
-
-
-
-
-
-
 
 {% endblock %}
 

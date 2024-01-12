@@ -31,7 +31,7 @@
                 <table id="tabela" class="table table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">#</th>
+                            <!--<th scope="col">#</th>-->
                             <th scope="col">Nome</th>
                             <th scope="col">Bloco</th>
                             <th scope="col" class="text-center">Situação</th>
@@ -43,17 +43,13 @@
                     <tbody>
                         {% for sala in salas %}
                         <tr>
-                            <th>{{sala.id}}</th>
+                            <!--<th>{{sala.id}}</th>-->
                             <td>{{sala.nome}}</td>
                             <td>{{sala.bloco.nome}}</td>
                             <td class="text-center">
                                 {% if sala.situacao == 'Ativa' %}
                                     <i class="fa-solid fa-circle text-success" tooltip="tooltip" title="Ativa"></i>
-                                {% endif %}
-                                {% if sala.situacao == 'Manutencao' %}                                    
-                                    <i class="fa-solid fa-circle text-warning" tooltip="tooltip" title="Em manutenção"></i>
-                                {% endif %}
-                                {% if sala.situacao == 'Inativa' %}                                    
+                                {% else %}
                                     <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Inativa"></i>                                    
                                 {% endif %}
                             </td>
@@ -62,23 +58,19 @@
                                     <a href="{{ base_url }}/sala/{{sala.id}}/editar" tooltip="tooltip" title="Editar">
                                         <i class="fa-regular fa-pen-to-square fa-lg" style="color: #000000;"></i>
                                     </a>
-                                    {% if sala.situacao == 'Ativa' %}
-                                         <a href="{{ base_url }}/sala/{{sala.id}}/reparar" tooltip="tooltip" title="Realizar Manutenção">
-                                            <i class="fa-solid fa-screwdriver-wrench fa-lg" style="color: #f18517;"></i>
-                                        </a>
-                                        <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
-                                            <i class="fa-solid fa-ban fa-lg" style="color: #cd191e;"></i>
-                                        </a>                                   
-                                    {% elseif sala.situacao == 'Manutencao' %}
-                                        <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Finalizar Manutenção">
-                                            <i class="fa-solid fa-school-circle-check fa-lg" style="color: #2f9e41;"></i>
-                                        </a>
-                                        <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
-                                            <i class="fas fa-ban fa-lg" style="color: #cd191e;"></i>
-                                        </a>                                    
+                                    {% if sala.situacao == 'Ativa' %}                                        
+<!--                                        <a href="{{ base_url }}/sala/{{sala.id}}/desativar" tooltip="tooltip" title="Desativar Sala">
+                                            <i class="fa-solid fa-house-lock fa-lg" style="color: #cd191e;"></i>
+                                        </a>-->
+                                        <a href="{{ base_url }}/sala/{{sala.id}}/desativar" onclick="confirmarDesativacao('{{sala.id}}','{{sala.nome}}')" tooltip="tooltip" title="Desativar Sala">
+                                            <i class="fa-solid fa-house-lock fa-lg" style="color: #cd191e;"></i>
+                                        </a> 
                                     {% else %}
-                                        <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Ativar Sala">
-                                            <i class="fa-regular fa-circle-check fa-lg" style="color: #2f9e41;"></i>
+<!--                                        <a href="{{ base_url }}/sala/{{sala.id}}/ativar" tooltip="tooltip" title="Ativar Sala">
+                                            <i class="fa-solid fa-house-circle-check fa-lg" style="color: #2f9e41;"></i>
+                                        </a>-->
+                                        <a href="{{ base_url }}/sala/{{sala.id}}/ativar" onclick="confirmarAtivacao('{{sala.id}}','{{sala.nome}}')" tooltip="tooltip" title="Ativar Sala">
+                                            <i class="fa-solid fa-house-circle-check fa-lg" style="color: #2f9e41;"></i>
                                         </a>
                                     {% endif %}
                             {% endif %}            
@@ -97,6 +89,49 @@
         </div>        
        
     </div>
+
+
+<script>
+    function confirmarDesativacao(id, nome) {
+        event.preventDefault();  // Impede a ação padrão do link
+        Swal.fire({
+            title: 'Tem certeza?',
+            html: 'Você deseja desativar a sala <b>' + nome + '</b>? Todas as chaves associadas a esta sala também serão desabilitadas!',
+            icon: 'warning',
+            iconColor: '#cd191e',
+            showCancelButton: true,
+            confirmButtonColor: "#2f9e41",
+            cancelButtonColor: "#cd191e",
+            confirmButtonText: 'Sim, desativar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aqui você pode redirecionar para a ação desativar
+                window.location.href = "{{ base_url }}/sala/" + id + "/desativar";
+            }
+        });
+    }
+
+    function confirmarAtivacao(id, nome) {
+        event.preventDefault();  // Impede a ação padrão do link
+        Swal.fire({
+            title: 'Tem certeza?',
+            html: 'Você deseja ativar a sala <b>' + nome + '</b>? Todas as chaves associadas a esta sala também serão habilitadas!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#2f9e41",
+            cancelButtonColor: "#cd191e",
+            confirmButtonText: 'Sim, ativar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aqui você pode redirecionar para a ação ativar
+                window.location.href = "{{ base_url }}/sala/" + id + "/ativar";
+            }
+        });
+    }
+</script>
+
     
 {% endblock %}
 

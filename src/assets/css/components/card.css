@@ -22,3 +22,34 @@
     filter: grayscale(100%); /* Adicione escala de cinza para indicar que o card está desabilitado */
     /* Outros estilos conforme necessário */
 }
+
+/*    .card-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .col-lg-2 {
+        flex: 0 0 16.66667%;  16.66667% is equivalent to col-lg-2 
+        max-width: 16.66667%;
+    }
+
+    .cards {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cards:hover {
+        transform: scale(1.1);  Aumenta a escala durante o hover 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);  Adiciona uma sombra mais evidente 
+    }
+
+    .cards-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .cards-text {
+        font-size: 1rem;
+        color: #555;
+    }*/

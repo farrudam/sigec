@@ -17,7 +17,7 @@ CREATE TABLE `sala` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_bloco` INT NOT NULL,
   `nome` VARCHAR(80) NOT NULL,
-  `situacao` ENUM('Ativa', 'Inativa', 'Manutencao') DEFAULT 'Ativa',
+  `situacao` ENUM('Ativa', 'Inativa') DEFAULT 'Ativa',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -26,7 +26,7 @@ CREATE TABLE `chave`(
     `id_sala` INT NOT NULL,
     `etiqueta` VARCHAR(30) UNIQUE NOT NULL,
     `descricao` VARCHAR(80) NOT NULL,    
-    `situacao` ENUM('Disponivel', 'Indisponivel', 'Extraviada', 'Emprestada') DEFAULT 'Disponivel',
+    `situacao` ENUM('Disponivel', 'Indisponivel', 'Emprestada') DEFAULT 'Disponivel',
     `habilitada` TINYINT(1) DEFAULT '1',    
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `chave`(
 
 CREATE TABLE `usuario` (  
   `id` INT NOT NULL AUTO_INCREMENT,
-  `matricula` INT NOT NULL UNIQUE,
+  `matricula` VARCHAR(20) NOT NULL UNIQUE,
   `nome` VARCHAR(255) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
   `celular` VARCHAR(50) DEFAULT NULL,
@@ -44,19 +44,19 @@ CREATE TABLE `usuario` (
   `habilitado` TINYINT(1) DEFAULT '1',
   `doc_autorizacao` VARCHAR(255) DEFAULT NULL,
   `tipo` enum('Aluno','Servidor', 'Colaborador') NOT NULL,
-  `perfil` enum('Administrador', 'Recepção', 'Solicitante') NOT NULL,
+  `perfil` enum('Administrador', 'Recepcao', 'Solicitante') NOT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 CREATE TABLE `restricao_chave` (
   `id_chave` INT NOT NULL,
-  `mat_solic` INT NOT NULL,
+  `mat_solic` VARCHAR(20) NOT NULL,
   `data_inclusao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_inclusao` INT NOT NULL,
+  `user_inclusao` VARCHAR(20) NOT NULL,
   `motivo_inclusao` VARCHAR(255) DEFAULT NULL,
-  `data_remocao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `user_remocao` INT NULL,
+  `data_remocao` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+  `user_remocao` VARCHAR(20) NULL,
   `ativa` TINYINT(1) DEFAULT '1',
   
   PRIMARY KEY (`id_chave`, `mat_solic`, `data_inclusao`)
@@ -65,11 +65,11 @@ CREATE TABLE `restricao_chave` (
 
 CREATE TABLE `emprestimo` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `mat_solic` INT NOT NULL,
-  `mat_user_abertura` INT NOT NULL,
-  `mat_user_devolucao` INT NULL,  
+  `mat_solic` VARCHAR(20) NOT NULL,
+  `mat_user_abertura` VARCHAR(20) NOT NULL,
+  `mat_user_devolucao` VARCHAR(20) NULL,  
   `data_abertura` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `data_devolucao` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `data_devolucao` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   `observacao` VARCHAR(255) DEFAULT NULL,
   `situacao` enum('Aberto','Devolvido') NOT NULL DEFAULT 'Aberto',
     PRIMARY KEY (`id`)    
@@ -79,8 +79,8 @@ CREATE TABLE `emprestimo` (
 CREATE TABLE `item_emprestimo` (    
   `id_emprestimo` INT NOT NULL,
   `id_chave` INT NOT NULL,  
-  `devolvido_em` TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `mat_user` INT NULL,
+  `devolvido_em` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+  `mat_user` VARCHAR(20) NULL,
     PRIMARY KEY (`id_emprestimo`, `id_chave`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

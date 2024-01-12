@@ -11,7 +11,7 @@
         </li>
         <li class="breadcrumb-item active" aria-current="page">
             <a href="{{ base_url }}/blocos">
-                Blocos
+                Blocos.
             </a>
         </li>
     </ol>
@@ -20,17 +20,24 @@
 <div class="card border-0 shadow-sm">    
             
     <div class="card-body">
-        <div class="panel-heading"><h4>Editar Bloco</h4></div>
+        <div class="panel-heading"><h4><b>Editar Bloco</b></h4></div>
+
         <form name="pesquisa" action="../../bloco/update/{{bloco.id}}" method="POST">
             <div class="mb-3">
                 <label for="bloco" class="form-label">Nome</label>
                 <input type="text" name="nome" value="{{bloco.nome}}" class="form-control" id="bloco" required>
             </div>            
             
-            <button  type="submit" class="btn btn-success">
-                <i class="fa-regular fa-floppy-disk"></i> Salvar
-            </button>
-            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/blocos';">Voltar</button>
+            
+            <div class="d-flex justify-content-end mt-3">
+                <div class="button-group">
+                    <button  type="submit" class="btn btn-success">
+                        <i class="fa-regular fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/blocos';">Voltar</button>
+                </div>    
+            </div>  
+          
         </form>
     </div>    
 </div>

@@ -15,6 +15,8 @@ use sigec\models\Chave;
 use sigec\database\DBSigec;
 use sigec\models\Autenticador;
 
+use sigec\controllers\EmailTesteController;
+
 
 class EmprestimoController extends Controller{
     
@@ -76,9 +78,6 @@ class EmprestimoController extends Controller{
                 Chave::emprestar($idChave);
             }
             
-//            var_dump($postParam);
-//            die();
-
             // Commit da transação
             $db->commit();
             
@@ -208,8 +207,8 @@ class EmprestimoController extends Controller{
             $db->rollback();
             // Lidar com o erro de alguma maneira apropriada. Mensagem Flash
         }
-    }
-         
+    }    
+             
     public function buscar(Request $request, Response $response, $args)
     {
         
@@ -237,6 +236,13 @@ class EmprestimoController extends Controller{
             header('Content-Type: application/json');
             echo json_encode($dadosUsuario);
         }        
-    } 
+    }
+    
+    public function enviarEmail(Request $request, Response $response, $args){        
+        
+        return $this->container['renderizar']->render($response, 'email2.html');
+    }
+    
+    
 }
 

@@ -72,14 +72,13 @@
                 <input type="hidden" name="senha" id="senha" value="">
                 
                 <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-                    <h3 class="card-title"><b>Chaves por Bloco</b></h3>                    
+                    <h3 class="card-title text-secondary"><b>Chaves por Bloco</b></h3>                    
                     <button id="criar-emprestimo" class="btn btn-success" type="submit" >Criar Empréstimo</button>
                 </div>
 
         </div>
         
-        <br>
-        
+                
         <div class="card border-0 shadow-sm mx-auto">        
             <ul class="nav nav-tabs border-2 mb-3" id="myTab" role="tablist">
                 {% for bloco in blocos %} 
@@ -113,11 +112,16 @@
                                                             {% endfor %}                                                    
                                                     <!--</span>-->
                                                 {% endif %}
+                                                {% if chave.situacao == 'Indisponivel' %}
+                                                    <div class="position-absolute top-0 start-0 m-2">
+                                                        <i class="fa-solid fa-screwdriver-wrench fa-xl" style="color: #f18517;" tooltip="tooltip" title="Manutenção"></i>                                                        
+                                                    </div>
+                                                {% endif %}                                                
                                                 <div class="card-body shadow-sm">
                                                     {% if chave.situacao == 'Disponivel' %}
                                                         <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
                                                     {% elseif chave.situacao == 'Indisponivel' %}
-                                                        <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key-off.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
+                                                        <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
                                                     {% elseif chave.situacao == 'Emprestada' %}
                                                         <img class="card-img-top" src="{{ base_url() }}/src/assets/img/key-x.svg" width="30" height="70" alt="chave" style="padding: 2px 16px;" >                                
                                                     {% endif %}    
@@ -127,7 +131,7 @@
                                                             {% if chave.situacao == 'Disponivel' %}
                                                                 <span class="badge text-bg-success">{{ chave.situacao }}</span>
                                                             {% elseif chave.situacao == 'Indisponivel' %}
-                                                                <span class="badge text-bg-secondary">{{ chave.situacao }}</span>    
+                                                                <span class="badge text-bg-warning">{{ chave.situacao }}</span>    
                                                             {% elseif chave.situacao == 'Emprestada' %}
                                                                 <span class="badge text-bg-danger">{{ chave.situacao }}</span>
                                                             {% elseif chave.situacao == 'Extraviada' %} 
@@ -152,7 +156,16 @@
     
     
 <script>
+    
+    
+    document.addEventListener("DOMContentLoaded", function () {
+            // Obtém a referência do campo de input
+            var searchFormInput = document.getElementById("matricula");
 
+            // Foca no campo de input
+            searchFormInput.focus();
+        });
+        
     // Obtém o campo de entrada
     var matriculaInput = document.getElementById("matricula");
     
@@ -220,7 +233,7 @@
                         const renderedTemplate = Twig.twig({ data: template }).render({ usuario: usuario });
                         detalhesUsuarioDiv.innerHTML = renderedTemplate;
                         
-                        
+                        console.log("Chaves restritas:", usuario.chavesRestritas);
                         // Atualize os cards das chaves após receber os dados do usuário
                         atualizarCardsChaves(usuario.chavesRestritas);
                         
@@ -246,10 +259,13 @@
             cardsChaves.forEach(card => {
                 const idChave = card.getAttribute("data-id");
 
-                // Verifique se a chave está restrita
+                // Verifica se a chave está restrita para o usuário atual
                 if (chavesRestritas.includes(idChave)) {
                     // Adicione uma classe para desabilitar visualmente o card
                     card.classList.add("restrito");
+                } else {
+                    // Remova a classe "restrito" se a chave não estiver restrita
+                    card.classList.remove("restrito");
                 }
             });
         }
@@ -326,12 +342,7 @@
         } else {
             console.error("Elemento com [data-id-usuario] não encontrado.");
         }
-        
-        ////////////////////////////
-        
-        
-        ////////////////////////////
-        
+                        
         // Coleta os valores dos itens do empréstimo
         const itensEmprestimo = document.querySelectorAll(".chave-card.selecionado");
 
@@ -399,7 +410,7 @@
         }
     });
 });
-    
+     
     
     </script>
  

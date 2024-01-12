@@ -25,8 +25,7 @@ class SalaController extends Controller{
             }
             
             Sala::create($postParam);
-            $this->container['flash']->addMessage('success', 'Sala criada com sucesso!');
-            //$this->flash->addMessage('success', 'Sala adicionada com sucesso.');
+            $this->container['flash']->addMessage('success', 'Sala adicionada!');            
             return $response->withStatus(301)->withHeader('Location', '../salas'); 
         }                
     }
@@ -69,6 +68,7 @@ class SalaController extends Controller{
     public function excluir(Request $request, Response $response, $args){
 
         Sala::delete($args['id']);
+        $this->container['flash']->addMessage('success', 'Sala excluída!');
         return $response->withStatus(301)->withHeader('Location', '../../salas');
 
     }
@@ -76,40 +76,54 @@ class SalaController extends Controller{
     public function ativar(Request $request, Response $response, $args){
 
         Sala::ativar($args['id']);
+        Chave::habilitarChaves($args['id']);
+        $this->container['flash']->addMessage('success', 'Sala ativa!');
         return $response->withStatus(301)->withHeader('Location', '../../salas');
 
     }
 
-    public function desativar(Request $request, Response $response, $args){
-
-        Sala::desativar($args['id']);
-        return $response->withStatus(301)->withHeader('Location', '../../salas');
-        
-        
-//        $idSala = $args['id'];
+//    public function desativar(Request $request, Response $response, $args){
 //
-//        // Verificar se há chaves vinculadas disponíveis
-//        $chavesDisponiveis = Chave::chavesVinculadasDisponiveis($idSala);
 //
-//        if (!empty($chavesDisponiveis)) {
+//        // Verificar se há alguma chave vinculada a esta sala com situação igual a disponivel
+//        $chaves = Chave::buscaChavesEmprestadas($args['id_sala']);
+//
+//        if (!empty($chaves)) {
 //            // Desativar a sala apenas se houver chaves disponíveis
-//            Sala::desativar($idSala);
+//            Sala::desativar($args['id_sala']);
 //            $this->container['flash']->addMessage('success', 'Sala desativada com sucesso!');
 //        } else {
 //            // Lógica para quando não há chaves disponíveis
-//            $this->container['flash']->addMessage('error', 'Não é possível desativar a sala. Existem chaves vinculadas em uso.');
+//            $this->container['flash']->addMessage('error', 'Não é possível desativar a sala. Existe(m) chave(s) emprestada(s).');
 //        }
 //
 //        return $response->withStatus(301)->withHeader('Location', '../../salas');
+//
+//    }
+    
+        
+    public function desativar(Request $request, Response $response, $args){
+                        
+        // Verificar se há alguma chave vinculada a esta sala com situação igual a 'Emprestada'
+        if (Sala::temChavesEmprestadas($args['id'])) {
+//            var_dump($args); 
+//            echo 'entrou no if';
+//            die();
+            // Lógica para quando não há chaves disponíveis
+            $this->container['flash']->addMessage('error', 'Não é possível desativar a sala. Uma ou mais de suas chaves estão emprestadas.');
+        } else {
+//            var_dump($args);
+//            echo 'entrou no else';
+//            die();
+            // Desativar a sala apenas se não houver chaves emprestadas
+            Sala::desativar($args['id']);
+            Chave::desabilitarChaves($args['id']);
+            $this->container['flash']->addMessage('success', 'Sala desativada!');
+        }
 
-    }
-
-    public function reparar(Request $request, Response $response, $args){
-
-        Sala::reparar($args['id']);
         return $response->withStatus(301)->withHeader('Location', '../../salas');
-
     }
+
 
 }
 

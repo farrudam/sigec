@@ -72,7 +72,8 @@
                             <th scope="col">Usuário</th>                            
                             <th scope="col">Tipo</th>   
                             <th scope="col">Data</th>
-                            <th scope="col">Registrado por</th>
+                            <th scope="col">Motivo</th>
+                            <th scope="col">Registrado por</th>                            
                             <th scope="col" class="text-center">Opções</th>
                         </tr>
                     </thead>
@@ -83,13 +84,14 @@
                                     <td>{{restricao.usuario.nome}}</td>
                                     <td>{{restricao.usuario.tipo}}</td> 
                                     <td>{{restricao.dataInclusao |date("d/m/Y - H:i") }}</td>
+                                    <td>{{restricao.Motivo}}</td>                                     
                                     <td>{{restricao.UserInclusao.nome}}</td>                                     
                                     {% if chave.id == restricao.chave.id %}
                                         <td class="text-center">
 <!--                                            <a href="{{ base_url }}/chave/{{chave.id}}/usuario/{{restricao.usuario.matricula}}/reabilitar/{{restricao.DataInclusao}}" tooltip="tooltip" title="Excluir Restrição">
                                                 <i class="fa-solid fa-circle-minus" style="color: #cd191e;"></i>
                                             </a>-->
-                                            <a href="#" onclick="confirmarReabilitacao('{{ base_url }}/chave/{{chave.id}}/usuario/{{restricao.usuario.matricula}}/reabilitar/{{restricao.DataInclusao}}','{{restricao.usuario.nome}}')" tooltip="tooltip" title="Excluir Restrição">
+                                            <a href="#" onclick="confirmarReabilitacao('{{ base_url }}/chave/{{chave.id}}/usuario/{{restricao.usuario.matricula}}/reabilitar/{{restricao.DataInclusao}}','{{restricao.usuario.nome}}')" tooltip="tooltip" title="Remover Restrição">
                                                 <i class="fa-solid fa-circle-minus fa-lg" style="color: #cd191e;"></i>
                                             </a>
                                         </td> 
@@ -100,7 +102,12 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-end mt-3">
-                    <div class="button-group">                        
+                    <div class="button-group">
+                        <!--<button id="btn_remover_selecionados" type="button" class="btn btn-success" onclick="removerSelecionados()">Remover Selecionados</button>-->
+                        <!--<button id="btn_remover_todas" type="button" class="btn btn-success" onclick="removerTodas()">Remover Todas</button>-->                        
+                        <a href="{{ base_url }}/chave/{{chave.id}}/removeRestricoes" onclick="removeRestricoes('{{chave.id}}','{{chave.descricao}}')" class="btn btn-success ml-2" tooltip="tooltip">
+                            Remover Todas 
+                        </a>
                         <button id="btn_voltar" type="button" class="btn btn-success ml-2" onclick="history.back()">Voltar</button>
                     </div>
                 </div>
@@ -157,10 +164,14 @@
                             {% endfor %}
 
                         </tbody>
-                    </table>  
+                    </table> 
                     <div class="d-flex justify-content-end mt-3">
                         <div class="button-group">
-                            <button id="btn_adicionar_todos" type="button" class="btn btn-success" onclick="adicionarParaTodos()">Adicionar para Todos</button>
+                            <!--<button id="btn_adicionar_selecionados" type="button" class="btn btn-success" onclick="adicionarSelecionados()">Adicionar Selecionados</button>-->
+                            <!--<button id="btn_restringir_todos" type="button" class="btn btn-success" onclick="restringirTodos()">Restringir Todos</button>-->
+                            <a href="{{ base_url }}/chave/{{chave.id}}/restringirTodos" onclick="restringirTodos('{{chave.id}}','{{chave.descricao}}')" class="btn btn-success ml-2" tooltip="tooltip">
+                                Restringir Todos
+                            </a>
                             <button id="btn_voltar" type="button" class="btn btn-success ml-2" onclick="history.back()">Voltar</button>
                         </div>
                     </div>
@@ -170,30 +181,6 @@
     </form>
     
     <script>
-        
-        function adicionarParaTodos() {
-            Swal.fire({
-                title: 'Tem certeza?',
-                html: 'Deseja adicionar uma restrição para todos os usuários?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#2f9e41',
-                cancelButtonColor: '#cd191e',
-                confirmButtonText: 'Sim, adicionar para todos!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Lógica para adicionar restrição para todos
-                    // Pode ser uma chamada a uma função no back-end ou outra lógica necessária
-                    // ...
-
-                    // Atualizar a tabela (recarregar os dados)
-                    // Exemplo:
-                    // location.reload(); // Recarrega a página
-                }
-            });
-        }
-        
         
         function confirmarReabilitacao(url, nome) {
             Swal.fire({
@@ -258,6 +245,70 @@
             form.action = `../../chave/{{chave.id}}/usuario/${matricula}/restringir`;
             form.submit();
         }
+        
+        function restringirTodos(idChave, descricaoChave) {
+            event.preventDefault(); // Impede o comportamento padrão do link
+
+            Swal.fire({
+                title: 'Tem certeza?',
+                html: 'Esta ação irá restringir o acesso de todos os usuários a chave <b>' + descricaoChave+ '</b>!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#2f9e41',
+                cancelButtonColor: '#cd191e',
+                confirmButtonText: 'Sim, restringir todos!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, exiba a caixa de texto para informar o motivo
+                    exibirCaixaTextoParaTodos(idChave);
+                    
+                }
+            });
+        }
+        
+        function exibirCaixaTextoParaTodos(idChave) {
+            Swal.fire({
+                input: 'textarea',
+                inputLabel: 'Motivo',
+                inputPlaceholder: 'Justificativa para restringir a chave para todos os usuários',
+                inputAttributes: {
+                    'aria-label': 'Digite sua justificativa'
+                },
+                showCancelButton: true,
+                cancelButtonColor: "#cd191e",
+                customClass: {
+                    confirmButton: 'btn-custom-class' // Classe CSS personalizada para o botão Confirmar
+                },
+                preConfirm: (motivo_inclusao) => {
+                    if (motivo_inclusao) { 
+                        // Enviar a justificativa para a URL definida no link
+                        window.location.href = `{{ base_url }}/chave/${idChave}/restringirTodos?motivo_inclusao=${encodeURIComponent(motivo_inclusao)}`;
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            });
+        }
+        
+        function removeRestricoes(idChave, descricaoChave) {
+            event.preventDefault(); // Impede o comportamento padrão do link
+            Swal.fire({
+                title: 'Tem certeza?',
+                html: 'Esta ação irá remover todas as restrições da chave <b>' + descricaoChave+ '</b>!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#2f9e41',
+                cancelButtonColor: '#cd191e',
+                confirmButtonText: 'Sim, remover todas!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, redirecione para a URL definida no link
+                    window.location.href = '{{ base_url }}/chave/' + idChave + '/removeRestricoes';
+                }
+            });
+        }
+        
 </script>
     
 {% endblock %}

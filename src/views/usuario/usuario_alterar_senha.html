@@ -22,7 +22,7 @@
 
 <div class="card border-0 shadow-sm">    
     <div class="card-body">
-        <div class="panel-heading"><h4>Alterar Senha</h4></div>
+        <div class="panel-heading"><h4><b>Alterar Senha</b></h4></div>
         <form action="../../usuario/update/{{usuario.id}}/senha" method="post">            
             <div class="row">
                 <div class="col-md-6">
@@ -43,7 +43,7 @@
                     <div class="mb-3">
                         <label for="nova_senha" class="form-label">Nova Senha</label>
                         <div class="input-group">
-                            <input type="password" name="nova_senha" id="nova_senha" class="form-control" aria-label="Nova senha">
+                            <input type="password" name="nova_senha" id="nova_senha" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" aria-label="Nova senha">
                             <button class="btn btn-outline-secondary" type="button" id="toggleNovaSenha">
                                 <i id="eyeIconNovaSenha" class="bi bi-eye-slash"></i>
                             </button>
@@ -54,7 +54,7 @@
                     <div class="mb-3">
                         <label for="confirmar_senha" class="form-label">Confirmar Senha</label>
                         <div class="input-group">
-                            <input type="password" name="confirmar_senha" id="confirmar_senha" class="form-control" aria-label="Confirmar senha">
+                            <input type="password" name="confirmar_senha" id="confirmar_senha" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" aria-label="Confirmar senha">
                             <button class="btn btn-outline-secondary" type="button" id="toggleConfirmarSenha">
                                 <i id="eyeIconConfirmarSenha" class="bi bi-eye-slash"></i>
                             </button>
@@ -62,10 +62,16 @@
                     </div> 
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">
-                <i class="fa-regular fa-floppy-disk"></i> Salvar
-            </button>
-            <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
+            
+            <div class="d-flex justify-content-end mt-3">
+                <div class="button-group">
+                    <button  type="submit" class="btn btn-success">
+                        <i class="fa-regular fa-floppy-disk"></i> Salvar
+                    </button>
+                    <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/usuarios';">Voltar</button>
+                </div>    
+            </div>
+        
         </form>
     </div>    
 </div>

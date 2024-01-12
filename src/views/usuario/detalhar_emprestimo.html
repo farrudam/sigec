@@ -1,0 +1,117 @@
+{% extends "dashboard.html" %}
+
+{% block conteudo %}
+
+
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ base_url }}">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="{{ base_url }}/emprestimos">
+                    Empréstimos
+                </a>
+            </li>
+        </ol>
+    </nav>  
+
+    <div class="card border-0 shadow-sm">
+        
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><b>Detalhes do Empréstimo</b></h3>
+        </div>
+        
+         <div style="text-indent: 10px; margin: 10px;">                
+            <div style="text-indent: 10px; margin: 10px;">             
+            <i class="fa-solid fa-circle text-danger" tooltip="tooltip" title="Ativo"></i> Chave Emprestada
+            <i class="fa-solid fa-circle text-secondary" tooltip="tooltip" title="Ativo"></i> Chave Devolvida            
+            
+        </div>            
+        </div>  
+        
+        <div class="card-body">
+            <strong>Código:</strong> &nbsp; {{emprestimo.id}}
+            <br><br>
+            <strong>Abertura</strong>: &nbsp; {{emprestimo.dataAbertura |date("d/m/Y - H:i") }}
+            <br><strong>Solicitante</strong>: &nbsp; {{emprestimo.solicitante.nome}}
+            <br><strong>Responsável pela Entrega</strong>: &nbsp; {{emprestimo.user_abertura.nome}}
+            <br><strong>Situação</strong>: &nbsp; {{emprestimo.situacao}}
+            
+            <br><br>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>                            
+                            <th scope="col">Chave</th>
+                            {% if session.Perfil != "Solicitante" %}
+                                <th scope="col" class="text-center">Devolver</th>                            
+                            {% endif %}
+                            <th scope="col">Data Recebimento</th>                                                     
+                            <th scope="col">Responsável Recebimento</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        {% for item in itens_emprestimo %}
+                        <tr>
+                            {% if item.DevolvidoEm is null %}
+                                <td>
+                                    <span title="{{item.chave.descricao}}" class="badge text-bg-danger">{{item.chave.etiqueta}}</span>
+                                </td>
+                                {% if session.Perfil != "Solicitante" %}
+                                    <td class="text-center">
+                                        <a href="#" onclick="confirmarDevolucao('{{emprestimo.id}}','{{item.chave.id}}','{{item.chave.descricao}}')" tooltip="tooltip" title="Devolver Chave">
+                                            <i class="fa-solid fa-rotate-left"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}    
+                                <td>  </td>
+                                <td>  </td>
+
+                            {% else %}
+                                <td title="{{item.chave.descricao}}"><span class="badge bg-secondary">{{item.chave.etiqueta}}</span> </td>
+                                {% if session.Perfil != "Solicitante" %}
+                                    <td>  </td>
+                                {% endif %}
+                                <td>{{item.DevolvidoEm |date('d/m/Y H:i')}}</td>
+                                <td>{{item.usuario.nome}}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+                <button id="btn_voltar" type="button" class="btn btn-success" onclick="window.location.href = '{{ base_url }}/emprestimos/ativos';">Voltar</button>
+            </div>     
+
+
+        </div>        
+       
+    </div>
+    
+    <script>
+        function confirmarDevolucao(idEmprestimo, idChave, descricaoChave) {
+            Swal.fire({
+                title: 'Tem certeza?',
+                html: "Deseja realmente devolver a chave <b>" + descricaoChave + "</b>?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#2f9e41',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário confirmar, redirecione para o link 
+                    window.location.href = "{{ base_url }}/emprestimo/" + idEmprestimo + "/chave/" + idChave + "/devolver";
+                }
+            });
+        }
+</script>
+    
+{% endblock %}
+
+
+

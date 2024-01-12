@@ -1,23 +1,24 @@
 $(document).ready(function () {
     
-    $.extend( $.fn.dataTable.defaults, {
+    $.extend( $.fn.dataTable.defaults, {        
         language: {
             url: '//cdn.datatables.net/plug-ins/1.13.3/i18n/pt-BR.json'
-        },        
+        },
+        
         searching: true,
         ordering:  false
     } );
     
     
-    $('#tabela').DataTable({
+    $('#tabela').DataTable({    
         columnDefs: [
             {
                 targets: [0]
             }
         ]
-    });
+    }); 
     
-    $('#tabela2').DataTable({
+    $('#tabela2').DataTable({        
         columnDefs: [
             {
                 targets: [0]
@@ -25,6 +26,7 @@ $(document).ready(function () {
         ]
         
     });
+    
 });
 
 
